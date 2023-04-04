@@ -188,21 +188,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_dskhachhang" FunctionName="BakeryStoreDBModel.Store.sp_dskhachhang">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_dskhachhang_Result">
-          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-          <ScalarProperty Name="TenKH" ColumnName="TenKH" />
-          <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
-          <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
-          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-          <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
-          <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
-          <ScalarProperty Name="QuyenQuanTri" ColumnName="QuyenQuanTri" />
-          <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_DSSP" FunctionName="BakeryStoreDBModel.Store.sp_DSSP">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_DSSP_Result">
@@ -221,6 +206,23 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_khachdangnhap" FunctionName="BakeryStoreDBModel.Store.sp_khachdangnhap" />
+    <FunctionImportMapping FunctionImportName="sp_quenmatkhau" FunctionName="BakeryStoreDBModel.Store.sp_quenmatkhau" />
+    <FunctionImportMapping FunctionImportName="sp_SuaSP" FunctionName="BakeryStoreDBModel.Store.sp_SuaSP" />
+    <FunctionImportMapping FunctionImportName="sp_them_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_them_loaisp" />
+    <FunctionImportMapping FunctionImportName="sp_ThemSP" FunctionName="BakeryStoreDBModel.Store.sp_ThemSP" />
+    <FunctionImportMapping FunctionImportName="sp_update_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_update_loaisp" />
+    <FunctionImportMapping FunctionImportName="sp_update_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_update_nguyenlieu" />
+    <FunctionImportMapping FunctionImportName="sp_dskhachhang" FunctionName="BakeryStoreDBModel.Store.sp_dskhachhang">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_dskhachhang_Result">
+          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+          <ScalarProperty Name="TenKH" ColumnName="TenKH" />
+          <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+          <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_profilekhachhang" FunctionName="BakeryStoreDBModel.Store.sp_profilekhachhang">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_profilekhachhang_Result">
@@ -229,17 +231,10 @@
           <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
           <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
           <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-          <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
           <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_quenmatkhau" FunctionName="BakeryStoreDBModel.Store.sp_quenmatkhau" />
-    <FunctionImportMapping FunctionImportName="sp_SuaSP" FunctionName="BakeryStoreDBModel.Store.sp_SuaSP" />
-    <FunctionImportMapping FunctionImportName="sp_them_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_them_loaisp" />
-    <FunctionImportMapping FunctionImportName="sp_ThemSP" FunctionName="BakeryStoreDBModel.Store.sp_ThemSP" />
-    <FunctionImportMapping FunctionImportName="sp_update_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_update_loaisp" />
-    <FunctionImportMapping FunctionImportName="sp_update_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_update_nguyenlieu" />
     <FunctionImportMapping FunctionImportName="sp_updatekhachhang" FunctionName="BakeryStoreDBModel.Store.sp_updatekhachhang" />
   </EntityContainerMapping>
 </Mapping>

@@ -338,16 +338,12 @@
       <Parameter Name="id" Mode="In" Type="Int32" />
       <Parameter Name="ngay" Mode="In" Type="DateTime" />
     </FunctionImport>
-    <FunctionImport Name="sp_dskhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_dskhachhang_Result)" />
     <FunctionImport Name="sp_DSSP" ReturnType="Collection(BakeryStoreDBModel.sp_DSSP_Result)">
       <Parameter Name="tinhtrang" Mode="In" Type="Boolean" />
     </FunctionImport>
     <FunctionImport Name="sp_khachdangnhap" ReturnType="Collection(Boolean)">
       <Parameter Name="user" Mode="In" Type="String" />
       <Parameter Name="pass" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_profilekhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_profilekhachhang_Result)">
-      <Parameter Name="id" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_quenmatkhau" ReturnType="Collection(String)">
       <Parameter Name="sdt" Mode="In" Type="String" />
@@ -385,13 +381,22 @@
       <Parameter Name="id" Mode="In" Type="Int32" />
       <Parameter Name="donvi" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="sp_dskhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_dskhachhang_Result)">
+      <Parameter Name="isActive" Mode="In" Type="Boolean" />
+      <Parameter Name="keyword" Mode="In" Type="String" />
+      <Parameter Name="page" Mode="In" Type="Int32" />
+      <Parameter Name="pageLength" Mode="In" Type="Int32" />
+      <Parameter Name="pageCount" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_profilekhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_profilekhachhang_Result)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="sp_updatekhachhang">
       <Parameter Name="id" Mode="In" Type="Int32" />
       <Parameter Name="ten" Mode="In" Type="String" />
       <Parameter Name="gioi" Mode="In" Type="Int32" />
       <Parameter Name="sdt" Mode="In" Type="String" />
       <Parameter Name="ngaysinh" Mode="In" Type="DateTime" />
-      <Parameter Name="tk" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_ChiTietSP_Result">
@@ -431,17 +436,6 @@
     <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
     <Property Type="Int32" Name="MaKH" Nullable="true" />
   </ComplexType>
-  <ComplexType Name="sp_dskhachhang_Result">
-    <Property Type="Int32" Name="MaKH" Nullable="false" />
-    <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="GioiTinh" Nullable="true" />
-    <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="15" />
-    <Property Type="DateTime" Name="NgaySinh" Nullable="true" />
-    <Property Type="String" Name="TaiKhoan" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="MatKhau" Nullable="true" MaxLength="50" />
-    <Property Type="Boolean" Name="QuyenQuanTri" Nullable="true" />
-    <Property Type="Int32" Name="tinhTrang" Nullable="true" />
-  </ComplexType>
   <ComplexType Name="sp_DSSP_Result">
     <Property Type="Int32" Name="MaSP" Nullable="false" />
     <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
@@ -455,13 +449,19 @@
     <Property Type="DateTime" Name="NgayKT" Nullable="true" />
     <Property Type="Double" Name="TiLeKM" Nullable="true" />
   </ComplexType>
+  <ComplexType Name="sp_dskhachhang_Result">
+    <Property Type="Int32" Name="MaKH" Nullable="false" />
+    <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="GioiTinh" Nullable="false" MaxLength="4" />
+    <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="NgaySinh" Nullable="true" />
+  </ComplexType>
   <ComplexType Name="sp_profilekhachhang_Result">
     <Property Type="Int32" Name="MaKH" Nullable="false" />
     <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="GioiTinh" Nullable="true" />
+    <Property Type="String" Name="GioiTinh" Nullable="false" MaxLength="4" />
     <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="15" />
     <Property Type="DateTime" Name="NgaySinh" Nullable="true" />
-    <Property Type="String" Name="TaiKhoan" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="tinhTrang" Nullable="true" />
   </ComplexType>
 </Schema>

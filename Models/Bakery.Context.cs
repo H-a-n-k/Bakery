@@ -209,11 +209,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dshoadon_Result>("sp_dshoadon", idParameter, ngayParameter);
         }
     
-        public virtual ObjectResult<sp_dskhachhang_Result> sp_dskhachhang()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dskhachhang_Result>("sp_dskhachhang");
-        }
-    
         public virtual ObjectResult<sp_DSSP_Result> sp_DSSP(Nullable<bool> tinhtrang)
         {
             var tinhtrangParameter = tinhtrang.HasValue ?
@@ -234,15 +229,6 @@ namespace Bakery.Models
                 new ObjectParameter("pass", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_khachdangnhap", userParameter, passParameter);
-        }
-    
-        public virtual ObjectResult<sp_profilekhachhang_Result> sp_profilekhachhang(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_profilekhachhang_Result>("sp_profilekhachhang", idParameter);
         }
     
         public virtual ObjectResult<string> sp_quenmatkhau(string sdt)
@@ -371,7 +357,37 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_update_nguyenlieu", tenParameter, slParameter, idParameter, donviParameter);
         }
     
-        public virtual int sp_updatekhachhang(Nullable<int> id, string ten, Nullable<int> gioi, string sdt, Nullable<System.DateTime> ngaysinh, string tk)
+        public virtual ObjectResult<sp_dskhachhang_Result> sp_dskhachhang(Nullable<bool> isActive, string keyword, Nullable<int> page, Nullable<int> pageLength, ObjectParameter pageCount)
+        {
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("isActive", isActive) :
+                new ObjectParameter("isActive", typeof(bool));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("keyword", keyword) :
+                new ObjectParameter("keyword", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("page", page) :
+                new ObjectParameter("page", typeof(int));
+    
+            var pageLengthParameter = pageLength.HasValue ?
+                new ObjectParameter("pageLength", pageLength) :
+                new ObjectParameter("pageLength", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dskhachhang_Result>("sp_dskhachhang", isActiveParameter, keywordParameter, pageParameter, pageLengthParameter, pageCount);
+        }
+    
+        public virtual ObjectResult<sp_profilekhachhang_Result> sp_profilekhachhang(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_profilekhachhang_Result>("sp_profilekhachhang", idParameter);
+        }
+    
+        public virtual int sp_updatekhachhang(Nullable<int> id, string ten, Nullable<int> gioi, string sdt, Nullable<System.DateTime> ngaysinh)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("id", id) :
@@ -393,11 +409,7 @@ namespace Bakery.Models
                 new ObjectParameter("ngaysinh", ngaysinh) :
                 new ObjectParameter("ngaysinh", typeof(System.DateTime));
     
-            var tkParameter = tk != null ?
-                new ObjectParameter("tk", tk) :
-                new ObjectParameter("tk", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_updatekhachhang", idParameter, tenParameter, gioiParameter, sdtParameter, ngaysinhParameter, tkParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_updatekhachhang", idParameter, tenParameter, gioiParameter, sdtParameter, ngaysinhParameter);
         }
     }
 }
