@@ -13,16 +13,18 @@ namespace Bakery.Controllers
 			return View();
 		}
 
+		[Authorize]
 		public ActionResult About()
 		{
-			ViewBag.Message = "Your application description page.";
+			ViewBag.Message = "Đăng nhập mới vào được";
 
 			return View();
 		}
 
+		[Authorize(Roles = "Admin")]
 		public ActionResult Contact()
 		{
-			ViewBag.Message = "Your contact page.";
+			ViewBag.Message = "admin mới vào được";
 
 			return View();
 		}

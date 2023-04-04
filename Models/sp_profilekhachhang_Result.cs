@@ -15,10 +15,9 @@ namespace Bakery.Models
     {
         public int MaKH { get; set; }
         public string TenKH { get; set; }
-        public Nullable<int> GioiTinh { get; set; }
+        public string GioiTinh { get; set; }
         public string SoDienThoai { get; set; }
         public Nullable<System.DateTime> NgaySinh { get; set; }
-        public string TaiKhoan { get; set; }
         public Nullable<int> tinhTrang { get; set; }
     }
 }

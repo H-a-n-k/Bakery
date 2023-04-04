@@ -272,7 +272,13 @@
     <Parameter Name="id" Type="int" Mode="In" />
     <Parameter Name="ngay" Type="date" Mode="In" />
   </Function>
-  <Function Name="sp_dskhachhang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_dskhachhang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="isActive" Type="bit" Mode="In" />
+    <Parameter Name="keyword" Type="nvarchar" Mode="In" />
+    <Parameter Name="page" Type="int" Mode="In" />
+    <Parameter Name="pageLength" Type="int" Mode="In" />
+    <Parameter Name="pageCount" Type="int" Mode="InOut" />
+  </Function>
   <Function Name="sp_DSSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="tinhtrang" Type="bit" Mode="In" />
   </Function>
@@ -325,7 +331,6 @@
     <Parameter Name="gioi" Type="int" Mode="In" />
     <Parameter Name="sdt" Type="varchar" Mode="In" />
     <Parameter Name="ngaysinh" Type="date" Mode="In" />
-    <Parameter Name="tk" Type="nvarchar" Mode="In" />
   </Function>
   <EntityContainer Name="BakeryStoreDBModelStoreContainer">
     <EntitySet Name="CTHD" EntityType="Self.CTHD" Schema="dbo" store:Type="Tables" />

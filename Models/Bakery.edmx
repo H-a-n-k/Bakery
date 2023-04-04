@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BakeryStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BakeryStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CTHD">
           <Key>
             <PropertyRef Name="MaSP" />
@@ -277,7 +277,13 @@
           <Parameter Name="id" Type="int" Mode="In" />
           <Parameter Name="ngay" Type="date" Mode="In" />
         </Function>
-        <Function Name="sp_dskhachhang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_dskhachhang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="isActive" Type="bit" Mode="In" />
+          <Parameter Name="keyword" Type="nvarchar" Mode="In" />
+          <Parameter Name="page" Type="int" Mode="In" />
+          <Parameter Name="pageLength" Type="int" Mode="In" />
+          <Parameter Name="pageCount" Type="int" Mode="InOut" />
+        </Function>
         <Function Name="sp_DSSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="tinhtrang" Type="bit" Mode="In" />
         </Function>
@@ -330,7 +336,6 @@
           <Parameter Name="gioi" Type="int" Mode="In" />
           <Parameter Name="sdt" Type="varchar" Mode="In" />
           <Parameter Name="ngaysinh" Type="date" Mode="In" />
-          <Parameter Name="tk" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="BakeryStoreDBModelStoreContainer">
           <EntitySet Name="CTHD" EntityType="Self.CTHD" Schema="dbo" store:Type="Tables" />
@@ -381,8 +386,7 @@
             <End Role="GioHang" EntitySet="GioHang" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BakeryStoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -679,10 +683,10 @@
             <Parameter Name="sl" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_AnHienSP">
-            <Parameter Name="masp" Mode="In" Type="Int32" />
+          <Parameter Name="masp" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_ChiTietSP" ReturnType="Collection(BakeryStoreDBModel.sp_ChiTietSP_Result)">
-            <Parameter Name="masp" Mode="In" Type="Int32" />
+          <Parameter Name="masp" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_create_nguyenlieu">
             <Parameter Name="ten" Mode="In" Type="String" />
@@ -699,16 +703,16 @@
             <Parameter Name="danhgia" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_delete_loaisp">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_delete_nguyenlieu">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_deletekhachhang">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_detailhoadon" ReturnType="Collection(BakeryStoreDBModel.sp_detailhoadon_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_dkytaikhoan">
             <Parameter Name="ten" Mode="In" Type="String" />
@@ -724,19 +728,15 @@
             <Parameter Name="id" Mode="In" Type="Int32" />
             <Parameter Name="ngay" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="sp_dskhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_dskhachhang_Result)" />
           <FunctionImport Name="sp_DSSP" ReturnType="Collection(BakeryStoreDBModel.sp_DSSP_Result)">
-            <Parameter Name="tinhtrang" Mode="In" Type="Boolean" />
+          <Parameter Name="tinhtrang" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="sp_khachdangnhap" ReturnType="Collection(Boolean)">
             <Parameter Name="user" Mode="In" Type="String" />
             <Parameter Name="pass" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_profilekhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_profilekhachhang_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="sp_quenmatkhau" ReturnType="Collection(String)">
-            <Parameter Name="sdt" Mode="In" Type="String" />
+          <Parameter Name="sdt" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_SuaSP">
             <Parameter Name="maSP" Mode="In" Type="Int32" />
@@ -751,7 +751,7 @@
             <Parameter Name="maKM" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_them_loaisp">
-            <Parameter Name="name" Mode="In" Type="String" />
+          <Parameter Name="name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_ThemSP">
             <Parameter Name="tenSP" Mode="In" Type="String" />
@@ -771,13 +771,22 @@
             <Parameter Name="id" Mode="In" Type="Int32" />
             <Parameter Name="donvi" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_dskhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_dskhachhang_Result)">
+            <Parameter Name="isActive" Mode="In" Type="Boolean" />
+            <Parameter Name="keyword" Mode="In" Type="String" />
+            <Parameter Name="page" Mode="In" Type="Int32" />
+            <Parameter Name="pageLength" Mode="In" Type="Int32" />
+            <Parameter Name="pageCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_profilekhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_profilekhachhang_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="sp_updatekhachhang">
             <Parameter Name="id" Mode="In" Type="Int32" />
             <Parameter Name="ten" Mode="In" Type="String" />
             <Parameter Name="gioi" Mode="In" Type="Int32" />
             <Parameter Name="sdt" Mode="In" Type="String" />
             <Parameter Name="ngaysinh" Mode="In" Type="DateTime" />
-            <Parameter Name="tk" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_ChiTietSP_Result">
@@ -817,17 +826,6 @@
           <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="MaKH" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_dskhachhang_Result">
-          <Property Type="Int32" Name="MaKH" Nullable="false" />
-          <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="GioiTinh" Nullable="true" />
-          <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="15" />
-          <Property Type="DateTime" Name="NgaySinh" Nullable="true" />
-          <Property Type="String" Name="TaiKhoan" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="MatKhau" Nullable="true" MaxLength="50" />
-          <Property Type="Boolean" Name="QuyenQuanTri" Nullable="true" />
-          <Property Type="Int32" Name="tinhTrang" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="sp_DSSP_Result">
           <Property Type="Int32" Name="MaSP" Nullable="false" />
           <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
@@ -841,13 +839,19 @@
           <Property Type="DateTime" Name="NgayKT" Nullable="true" />
           <Property Type="Double" Name="TiLeKM" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="sp_dskhachhang_Result">
+          <Property Type="Int32" Name="MaKH" Nullable="false" />
+          <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="GioiTinh" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="NgaySinh" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="sp_profilekhachhang_Result">
           <Property Type="Int32" Name="MaKH" Nullable="false" />
           <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="GioiTinh" Nullable="true" />
+          <Property Type="String" Name="GioiTinh" Nullable="false" MaxLength="4" />
           <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="15" />
           <Property Type="DateTime" Name="NgaySinh" Nullable="true" />
-          <Property Type="String" Name="TaiKhoan" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="tinhTrang" Nullable="true" />
         </ComplexType>
       </Schema>
@@ -1043,21 +1047,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_dskhachhang" FunctionName="BakeryStoreDBModel.Store.sp_dskhachhang">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_dskhachhang_Result">
-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-                <ScalarProperty Name="TenKH" ColumnName="TenKH" />
-                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
-                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
-                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-                <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
-                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
-                <ScalarProperty Name="QuyenQuanTri" ColumnName="QuyenQuanTri" />
-                <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_DSSP" FunctionName="BakeryStoreDBModel.Store.sp_DSSP">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_DSSP_Result">
@@ -1076,6 +1065,23 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_khachdangnhap" FunctionName="BakeryStoreDBModel.Store.sp_khachdangnhap" />
+          <FunctionImportMapping FunctionImportName="sp_quenmatkhau" FunctionName="BakeryStoreDBModel.Store.sp_quenmatkhau" />
+          <FunctionImportMapping FunctionImportName="sp_SuaSP" FunctionName="BakeryStoreDBModel.Store.sp_SuaSP" />
+          <FunctionImportMapping FunctionImportName="sp_them_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_them_loaisp" />
+          <FunctionImportMapping FunctionImportName="sp_ThemSP" FunctionName="BakeryStoreDBModel.Store.sp_ThemSP" />
+          <FunctionImportMapping FunctionImportName="sp_update_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_update_loaisp" />
+          <FunctionImportMapping FunctionImportName="sp_update_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_update_nguyenlieu" />
+          <FunctionImportMapping FunctionImportName="sp_dskhachhang" FunctionName="BakeryStoreDBModel.Store.sp_dskhachhang">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_dskhachhang_Result">
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="TenKH" ColumnName="TenKH" />
+                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_profilekhachhang" FunctionName="BakeryStoreDBModel.Store.sp_profilekhachhang">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_profilekhachhang_Result">
@@ -1084,17 +1090,10 @@
                 <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
                 <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
                 <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-                <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
                 <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_quenmatkhau" FunctionName="BakeryStoreDBModel.Store.sp_quenmatkhau" />
-          <FunctionImportMapping FunctionImportName="sp_SuaSP" FunctionName="BakeryStoreDBModel.Store.sp_SuaSP" />
-          <FunctionImportMapping FunctionImportName="sp_them_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_them_loaisp" />
-          <FunctionImportMapping FunctionImportName="sp_ThemSP" FunctionName="BakeryStoreDBModel.Store.sp_ThemSP" />
-          <FunctionImportMapping FunctionImportName="sp_update_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_update_loaisp" />
-          <FunctionImportMapping FunctionImportName="sp_update_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_update_nguyenlieu" />
           <FunctionImportMapping FunctionImportName="sp_updatekhachhang" FunctionName="BakeryStoreDBModel.Store.sp_updatekhachhang" />
         </EntityContainerMapping>
       </Mapping>
