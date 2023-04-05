@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -15,10 +16,12 @@ namespace Bakery.Controllers
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 
         // GET: SanPhams
-        public ActionResult Index()
+        public ActionResult Index(bool? tinhtrang, string keyword, int? maloai , int? page, int? pagelength)
         {
-            var danhsach = db.sp_DSSP(true);
-            return View(danhsach.ToList());
+			ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
+            var danhsach = db.sp_DSSP(tinhtrang, keyword, maloai, page, pagelength, count).ToList();
+            ViewBag.PageCount = Convert.ToInt32(count.Value);
+			return View(danhsach.ToList());
         }
 
         // GET: SanPhams/Details/5
@@ -28,7 +31,7 @@ namespace Bakery.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var sanPham= db.sp_ChiTietSP(id);
+            var sanPham= db.sp_ChiTietSP(id).SingleOrDefault();
             if (sanPham == null)
             {
                 return HttpNotFound();
@@ -39,8 +42,7 @@ namespace Bakery.Controllers
         // GET: SanPhams/Create
         public ActionResult Create()
         {
-            ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM");
-            ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai");
+            ViewBag.maLoai = new SelectList(db.sp_ds_loaisp(), "MaLoai", "TenLoai");
             return View();
         }
 
@@ -49,18 +51,16 @@ namespace Bakery.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaSP,TenSP,GiaSP,MotaSP,img,Sao,SoLuotDanhGia,SoluongSP,maLoai,MaKM,TinhTrang")] SanPham sanPham)
+        public ActionResult Create([Bind(Include = "MaSP,TenSP,GiaSP,MotaSP,img,SoluongSP,maLoai")] SanPham sanPham)
         {
             if (ModelState.IsValid)
             {
-                db.SanPhams.Add(sanPham);
-                db.SaveChanges();
+                db.sp_ThemSP(sanPham.TenSP, sanPham.GiaSP, sanPham.MotaSP, sanPham.img, sanPham.maLoai, sanPham.SoluongSP);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sanPham.MaKM);
-            ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sanPham.maLoai);
-            return View(sanPham);
+			ViewBag.maLoai = new SelectList(db.sp_ds_loaisp(), "MaLoai", "TenLoai");
+			return View(sanPham);
         }
 
         // GET: SanPhams/Edit/5
@@ -85,17 +85,16 @@ namespace Bakery.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaSP,TenSP,GiaSP,MotaSP,img,Sao,SoLuotDanhGia,SoluongSP,maLoai,MaKM,TinhTrang")] SanPham sanPham)
+        public ActionResult Edit([Bind(Include = "MaSP,TenSP,GiaSP,MotaSP,img,Sao,SoLuotDanhGia,SoluongSP,maLoai,MaKM")] SanPham sp)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(sanPham).State = EntityState.Modified;
-                db.SaveChanges();
+                db.sp_SuaSP(sp.MaSP, sp.TenSP, sp.GiaSP, sp.MotaSP, sp.img, sp.Sao, sp.SoLuotDanhGia, sp.maLoai, sp.SoluongSP, sp.MaKM);
                 return RedirectToAction("Index");
             }
-            ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sanPham.MaKM);
-            ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sanPham.maLoai);
-            return View(sanPham);
+            ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sp.MaKM);
+            ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sp.maLoai);
+            return View(sp);
         }
 
         // GET: SanPhams/Delete/5
@@ -118,9 +117,7 @@ namespace Bakery.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SanPham sanPham = db.SanPhams.Find(id);
-            db.SanPhams.Remove(sanPham);
-            db.SaveChanges();
+            db.sp_AnHienSP(id);
             return RedirectToAction("Index");
         }
 

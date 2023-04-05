@@ -65,15 +65,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_AnHienSP", maspParameter);
         }
     
-        public virtual ObjectResult<sp_ChiTietSP_Result> sp_ChiTietSP(Nullable<int> masp)
-        {
-            var maspParameter = masp.HasValue ?
-                new ObjectParameter("masp", masp) :
-                new ObjectParameter("masp", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ChiTietSP_Result>("sp_ChiTietSP", maspParameter);
-        }
-    
         public virtual int sp_create_nguyenlieu(string ten, string donvi)
         {
             var tenParameter = ten != null ?
@@ -207,15 +198,6 @@ namespace Bakery.Models
                 new ObjectParameter("ngay", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dshoadon_Result>("sp_dshoadon", idParameter, ngayParameter);
-        }
-    
-        public virtual ObjectResult<sp_DSSP_Result> sp_DSSP(Nullable<bool> tinhtrang)
-        {
-            var tinhtrangParameter = tinhtrang.HasValue ?
-                new ObjectParameter("tinhtrang", tinhtrang) :
-                new ObjectParameter("tinhtrang", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DSSP_Result>("sp_DSSP", tinhtrangParameter);
         }
     
         public virtual ObjectResult<Nullable<bool>> sp_khachdangnhap(string user, string pass)
@@ -410,6 +392,40 @@ namespace Bakery.Models
                 new ObjectParameter("ngaysinh", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_updatekhachhang", idParameter, tenParameter, gioiParameter, sdtParameter, ngaysinhParameter);
+        }
+    
+        public virtual ObjectResult<sp_ChiTietSP_Result> sp_ChiTietSP(Nullable<int> masp)
+        {
+            var maspParameter = masp.HasValue ?
+                new ObjectParameter("masp", masp) :
+                new ObjectParameter("masp", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ChiTietSP_Result>("sp_ChiTietSP", maspParameter);
+        }
+    
+        public virtual ObjectResult<sp_DSSP_Result> sp_DSSP(Nullable<bool> tinhtrang, string keyword, Nullable<int> maloai, Nullable<int> page, Nullable<int> pagelength, ObjectParameter totalPage)
+        {
+            var tinhtrangParameter = tinhtrang.HasValue ?
+                new ObjectParameter("tinhtrang", tinhtrang) :
+                new ObjectParameter("tinhtrang", typeof(bool));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("keyword", keyword) :
+                new ObjectParameter("keyword", typeof(string));
+    
+            var maloaiParameter = maloai.HasValue ?
+                new ObjectParameter("maloai", maloai) :
+                new ObjectParameter("maloai", typeof(int));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("page", page) :
+                new ObjectParameter("page", typeof(int));
+    
+            var pagelengthParameter = pagelength.HasValue ?
+                new ObjectParameter("pagelength", pagelength) :
+                new ObjectParameter("pagelength", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DSSP_Result>("sp_DSSP", tinhtrangParameter, keywordParameter, maloaiParameter, pageParameter, pagelengthParameter, totalPage);
         }
     }
 }
