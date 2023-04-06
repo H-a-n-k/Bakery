@@ -177,11 +177,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dkytaikhoan", tenParameter, gioiParameter, sdtParameter, ngaysinhParameter, tkParameter, mkParameter);
         }
     
-        public virtual ObjectResult<sp_ds_loaisp_Result> sp_ds_loaisp()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_loaisp_Result>("sp_ds_loaisp");
-        }
-    
         public virtual ObjectResult<sp_ds_nguyenlieu_Result> sp_ds_nguyenlieu()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_nguyenlieu_Result>("sp_ds_nguyenlieu");
@@ -267,15 +262,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_SuaSP", maSPParameter, tenSPParameter, giaSPParameter, motaSPParameter, imgParameter, saoParameter, luotdgParameter, maloaiParameter, slParameter, maKMParameter);
         }
     
-        public virtual int sp_them_loaisp(string name)
-        {
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_them_loaisp", nameParameter);
-        }
-    
         public virtual int sp_ThemSP(string tenSP, Nullable<int> giaSP, string motaSP, string img, Nullable<int> maloai, Nullable<int> sl)
         {
             var tenSPParameter = tenSP != null ?
@@ -339,27 +325,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_update_nguyenlieu", tenParameter, slParameter, idParameter, donviParameter);
         }
     
-        public virtual ObjectResult<sp_dskhachhang_Result> sp_dskhachhang(Nullable<bool> isActive, string keyword, Nullable<int> page, Nullable<int> pageLength, ObjectParameter pageCount)
-        {
-            var isActiveParameter = isActive.HasValue ?
-                new ObjectParameter("isActive", isActive) :
-                new ObjectParameter("isActive", typeof(bool));
-    
-            var keywordParameter = keyword != null ?
-                new ObjectParameter("keyword", keyword) :
-                new ObjectParameter("keyword", typeof(string));
-    
-            var pageParameter = page.HasValue ?
-                new ObjectParameter("page", page) :
-                new ObjectParameter("page", typeof(int));
-    
-            var pageLengthParameter = pageLength.HasValue ?
-                new ObjectParameter("pageLength", pageLength) :
-                new ObjectParameter("pageLength", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dskhachhang_Result>("sp_dskhachhang", isActiveParameter, keywordParameter, pageParameter, pageLengthParameter, pageCount);
-        }
-    
         public virtual ObjectResult<sp_profilekhachhang_Result> sp_profilekhachhang(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
@@ -403,7 +368,46 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ChiTietSP_Result>("sp_ChiTietSP", maspParameter);
         }
     
-        public virtual ObjectResult<sp_DSSP_Result> sp_DSSP(Nullable<bool> tinhtrang, string keyword, Nullable<int> maloai, Nullable<int> page, Nullable<int> pagelength, ObjectParameter totalPage)
+        public virtual ObjectResult<sp_ds_loaisp_Result> sp_ds_loaisp()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_loaisp_Result>("sp_ds_loaisp");
+        }
+    
+        public virtual int sp_them_loaisp(string name, string img)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var imgParameter = img != null ?
+                new ObjectParameter("img", img) :
+                new ObjectParameter("img", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_them_loaisp", nameParameter, imgParameter);
+        }
+    
+        public virtual ObjectResult<sp_dskhachhang_Result> sp_dskhachhang(ObjectParameter pageCount, Nullable<bool> isActive, string keyword, Nullable<int> page, Nullable<int> pageLength)
+        {
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("isActive", isActive) :
+                new ObjectParameter("isActive", typeof(bool));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("keyword", keyword) :
+                new ObjectParameter("keyword", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("page", page) :
+                new ObjectParameter("page", typeof(int));
+    
+            var pageLengthParameter = pageLength.HasValue ?
+                new ObjectParameter("pageLength", pageLength) :
+                new ObjectParameter("pageLength", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dskhachhang_Result>("sp_dskhachhang", pageCount, isActiveParameter, keywordParameter, pageParameter, pageLengthParameter);
+        }
+    
+        public virtual ObjectResult<sp_DSSP_Result> sp_DSSP(ObjectParameter totalPage, Nullable<bool> tinhtrang, string keyword, Nullable<int> maloai, Nullable<int> orderOpt, Nullable<int> page, Nullable<int> pagelength)
         {
             var tinhtrangParameter = tinhtrang.HasValue ?
                 new ObjectParameter("tinhtrang", tinhtrang) :
@@ -417,6 +421,10 @@ namespace Bakery.Models
                 new ObjectParameter("maloai", maloai) :
                 new ObjectParameter("maloai", typeof(int));
     
+            var orderOptParameter = orderOpt.HasValue ?
+                new ObjectParameter("orderOpt", orderOpt) :
+                new ObjectParameter("orderOpt", typeof(int));
+    
             var pageParameter = page.HasValue ?
                 new ObjectParameter("page", page) :
                 new ObjectParameter("page", typeof(int));
@@ -425,7 +433,7 @@ namespace Bakery.Models
                 new ObjectParameter("pagelength", pagelength) :
                 new ObjectParameter("pagelength", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DSSP_Result>("sp_DSSP", tinhtrangParameter, keywordParameter, maloaiParameter, pageParameter, pagelengthParameter, totalPage);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DSSP_Result>("sp_DSSP", totalPage, tinhtrangParameter, keywordParameter, maloaiParameter, orderOptParameter, pageParameter, pagelengthParameter);
         }
     }
 }

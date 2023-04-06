@@ -100,6 +100,7 @@
     <Property Name="MaLoai" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TenLoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="SanPhams" Relationship="Self.FK__SanPham__maLoai__3F466844" FromRole="LoaiSanPham" ToRole="SanPham" />
+    <Property Name="cate_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="NguyenLieu">
     <Key>
@@ -130,6 +131,7 @@
     <NavigationProperty Name="GioHangs" Relationship="Self.FK_GioHang_SanPham" FromRole="SanPham" ToRole="GioHang" />
     <NavigationProperty Name="KhuyenMai" Relationship="Self.FK__SanPham__MaKM__3E52440B" FromRole="SanPham" ToRole="KhuyenMai" />
     <NavigationProperty Name="LoaiSanPham" Relationship="Self.FK__SanPham__maLoai__3F466844" FromRole="SanPham" ToRole="LoaiSanPham" />
+    <Property Name="tinhTrang" Type="Int32" />
   </EntityType>
   <Association Name="FK__CTHD__MaSP__37A5467C">
     <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
@@ -329,7 +331,6 @@
       <Parameter Name="tk" Mode="In" Type="String" />
       <Parameter Name="mk" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_ds_loaisp" ReturnType="Collection(BakeryStoreDBModel.sp_ds_loaisp_Result)" />
     <FunctionImport Name="sp_ds_nguyenlieu" ReturnType="Collection(BakeryStoreDBModel.sp_ds_nguyenlieu_Result)" />
     <FunctionImport Name="sp_dshoadon" ReturnType="Collection(BakeryStoreDBModel.sp_dshoadon_Result)">
       <Parameter Name="id" Mode="In" Type="Int32" />
@@ -354,9 +355,6 @@
       <Parameter Name="sl" Mode="In" Type="Int32" />
       <Parameter Name="maKM" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_them_loaisp">
-      <Parameter Name="name" Mode="In" Type="String" />
-    </FunctionImport>
     <FunctionImport Name="sp_ThemSP">
       <Parameter Name="tenSP" Mode="In" Type="String" />
       <Parameter Name="giaSP" Mode="In" Type="Int32" />
@@ -375,13 +373,6 @@
       <Parameter Name="id" Mode="In" Type="Int32" />
       <Parameter Name="donvi" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_dskhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_dskhachhang_Result)">
-      <Parameter Name="isActive" Mode="In" Type="Boolean" />
-      <Parameter Name="keyword" Mode="In" Type="String" />
-      <Parameter Name="page" Mode="In" Type="Int32" />
-      <Parameter Name="pageLength" Mode="In" Type="Int32" />
-      <Parameter Name="pageCount" Mode="InOut" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="sp_profilekhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_profilekhachhang_Result)">
       <Parameter Name="id" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -395,13 +386,26 @@
     <FunctionImport Name="sp_ChiTietSP" ReturnType="Collection(BakeryStoreDBModel.sp_ChiTietSP_Result)">
       <Parameter Name="masp" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_ds_loaisp" ReturnType="Collection(BakeryStoreDBModel.sp_ds_loaisp_Result)" />
+    <FunctionImport Name="sp_them_loaisp">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="img" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dskhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_dskhachhang_Result)">
+      <Parameter Name="pageCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="isActive" Mode="In" Type="Boolean" />
+      <Parameter Name="keyword" Mode="In" Type="String" />
+      <Parameter Name="page" Mode="In" Type="Int32" />
+      <Parameter Name="pageLength" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="sp_DSSP" ReturnType="Collection(BakeryStoreDBModel.sp_DSSP_Result)">
+      <Parameter Name="totalPage" Mode="InOut" Type="Int32" />
       <Parameter Name="tinhtrang" Mode="In" Type="Boolean" />
       <Parameter Name="keyword" Mode="In" Type="String" />
       <Parameter Name="maloai" Mode="In" Type="Int32" />
+      <Parameter Name="orderOpt" Mode="In" Type="Int32" />
       <Parameter Name="page" Mode="In" Type="Int32" />
       <Parameter Name="pagelength" Mode="In" Type="Int32" />
-      <Parameter Name="totalPage" Mode="InOut" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_detailhoadon_Result">
@@ -410,10 +414,6 @@
     <Property Type="Boolean" Name="TinhTrangGiao" Nullable="true" />
     <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
     <Property Type="Int32" Name="MaKH" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_ds_loaisp_Result">
-    <Property Type="Int32" Name="MaLoai" Nullable="false" />
-    <Property Type="String" Name="TenLoai" Nullable="true" MaxLength="50" />
   </ComplexType>
   <ComplexType Name="sp_ds_nguyenlieu_Result">
     <Property Type="String" Name="TenNguyenLieu" Nullable="true" MaxLength="50" />
@@ -427,13 +427,6 @@
     <Property Type="Boolean" Name="TinhTrangGiao" Nullable="true" />
     <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
     <Property Type="Int32" Name="MaKH" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_dskhachhang_Result">
-    <Property Type="Int32" Name="MaKH" Nullable="false" />
-    <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="GioiTinh" Nullable="false" MaxLength="4" />
-    <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="15" />
-    <Property Type="DateTime" Name="NgaySinh" Nullable="true" />
   </ComplexType>
   <ComplexType Name="sp_profilekhachhang_Result">
     <Property Type="Int32" Name="MaKH" Nullable="false" />
@@ -456,6 +449,18 @@
     <Property Type="DateTime" Name="NgayBD" Nullable="true" />
     <Property Type="DateTime" Name="NgayKT" Nullable="true" />
     <Property Type="Double" Name="TiLeKM" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_ds_loaisp_Result">
+    <Property Type="Int32" Name="MaLoai" Nullable="false" />
+    <Property Type="String" Name="TenLoai" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="cate_img" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_dskhachhang_Result">
+    <Property Type="Int32" Name="MaKH" Nullable="false" />
+    <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="GioiTinh" Nullable="false" MaxLength="4" />
+    <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="NgaySinh" Nullable="true" />
   </ComplexType>
   <ComplexType Name="sp_DSSP_Result">
     <Property Type="Int32" Name="MaSP" Nullable="false" />

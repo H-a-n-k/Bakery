@@ -32,6 +32,7 @@ namespace Bakery.Models
         public Nullable<int> maLoai { get; set; }
         public Nullable<int> MaKM { get; set; }
         public Nullable<bool> TinhTrang { get; set; }
+        public Nullable<int> tinhTrang { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTHD> CTHDs { get; set; }

@@ -33,11 +33,11 @@ namespace Bakery.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaLoai,TenLoai")] LoaiSanPham loaiSanPham)
+        public ActionResult Create([Bind(Include = "MaLoai,TenLoai,cate_img")] LoaiSanPham loaiSanPham)
         {
             if (ModelState.IsValid)
             {
-                db.sp_them_loaisp(loaiSanPham.TenLoai);
+                db.sp_them_loaisp(loaiSanPham.TenLoai, loaiSanPham.cate_img);
                 return RedirectToAction("Index");
             }
 

@@ -15,5 +15,6 @@ namespace Bakery.Models
     {
         public int MaLoai { get; set; }
         public string TenLoai { get; set; }
+        public string cate_img { get; set; }
     }
 }

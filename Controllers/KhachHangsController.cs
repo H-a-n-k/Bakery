@@ -26,7 +26,7 @@ namespace Bakery.Controllers
         public ActionResult Index(bool? isActive, string keyword, int? page, int? pageLength)
         {
             ObjectParameter count = new ObjectParameter("pageCount", typeof(Int32));
-            var list = db.sp_dskhachhang(isActive, keyword, page, pageLength, count).ToList();
+            var list = db.sp_dskhachhang(count, isActive, keyword, page, pageLength).ToList();
 			ViewBag.TotalPage = Convert.ToInt32(count.Value);
             return View(list);
         }

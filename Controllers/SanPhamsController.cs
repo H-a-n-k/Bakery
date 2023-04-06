@@ -16,12 +16,12 @@ namespace Bakery.Controllers
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 
         // GET: SanPhams
-        public ActionResult Index(bool? tinhtrang, string keyword, int? maloai , int? page, int? pagelength)
+        public ActionResult Index(bool? tinhtrang, string keyword, int? maloai , int? page, int? pagelength, int? orderOpt)
         {
 			ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
-            var danhsach = db.sp_DSSP(tinhtrang, keyword, maloai, page, pagelength, count).ToList();
+            var danhsach = db.sp_DSSP(count, tinhtrang, keyword, maloai, orderOpt, page, pagelength).ToList();
             ViewBag.PageCount = Convert.ToInt32(count.Value);
-			return View(danhsach.ToList());
+			return View(danhsach);
         }
 
         // GET: SanPhams/Details/5

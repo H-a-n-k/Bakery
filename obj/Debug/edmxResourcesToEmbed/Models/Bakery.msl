@@ -90,6 +90,7 @@
     <EntitySetMapping Name="LoaiSanPhams">
       <EntityTypeMapping TypeName="BakeryStoreDBModel.LoaiSanPham">
         <MappingFragment StoreEntitySet="LoaiSanPham">
+          <ScalarProperty Name="cate_img" ColumnName="cate_img" />
           <ScalarProperty Name="MaLoai" ColumnName="MaLoai" />
           <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
         </MappingFragment>
@@ -108,6 +109,7 @@
     <EntitySetMapping Name="SanPhams">
       <EntityTypeMapping TypeName="BakeryStoreDBModel.SanPham">
         <MappingFragment StoreEntitySet="SanPham">
+          <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
           <ScalarProperty Name="MaSP" ColumnName="MaSP" />
           <ScalarProperty Name="TenSP" ColumnName="TenSP" />
           <ScalarProperty Name="GiaSP" ColumnName="GiaSP" />
@@ -118,7 +120,6 @@
           <ScalarProperty Name="SoluongSP" ColumnName="SoluongSP" />
           <ScalarProperty Name="maLoai" ColumnName="maLoai" />
           <ScalarProperty Name="MaKM" ColumnName="MaKM" />
-          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -142,14 +143,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_dkytaikhoan" FunctionName="BakeryStoreDBModel.Store.sp_dkytaikhoan" />
-    <FunctionImportMapping FunctionImportName="sp_ds_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_ds_loaisp">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ds_loaisp_Result">
-          <ScalarProperty Name="MaLoai" ColumnName="MaLoai" />
-          <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_ds_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_ds_nguyenlieu">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ds_nguyenlieu_Result">
@@ -174,21 +167,9 @@
     <FunctionImportMapping FunctionImportName="sp_khachdangnhap" FunctionName="BakeryStoreDBModel.Store.sp_khachdangnhap" />
     <FunctionImportMapping FunctionImportName="sp_quenmatkhau" FunctionName="BakeryStoreDBModel.Store.sp_quenmatkhau" />
     <FunctionImportMapping FunctionImportName="sp_SuaSP" FunctionName="BakeryStoreDBModel.Store.sp_SuaSP" />
-    <FunctionImportMapping FunctionImportName="sp_them_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_them_loaisp" />
     <FunctionImportMapping FunctionImportName="sp_ThemSP" FunctionName="BakeryStoreDBModel.Store.sp_ThemSP" />
     <FunctionImportMapping FunctionImportName="sp_update_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_update_loaisp" />
     <FunctionImportMapping FunctionImportName="sp_update_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_update_nguyenlieu" />
-    <FunctionImportMapping FunctionImportName="sp_dskhachhang" FunctionName="BakeryStoreDBModel.Store.sp_dskhachhang">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_dskhachhang_Result">
-          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-          <ScalarProperty Name="TenKH" ColumnName="TenKH" />
-          <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
-          <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
-          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_profilekhachhang" FunctionName="BakeryStoreDBModel.Store.sp_profilekhachhang">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_profilekhachhang_Result">
@@ -217,6 +198,27 @@
           <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
           <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
           <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_ds_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_ds_loaisp">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ds_loaisp_Result">
+          <ScalarProperty Name="MaLoai" ColumnName="MaLoai" />
+          <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
+          <ScalarProperty Name="cate_img" ColumnName="cate_img" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_them_loaisp" FunctionName="BakeryStoreDBModel.Store.sp_them_loaisp" />
+    <FunctionImportMapping FunctionImportName="sp_dskhachhang" FunctionName="BakeryStoreDBModel.Store.sp_dskhachhang">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_dskhachhang_Result">
+          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+          <ScalarProperty Name="TenKH" ColumnName="TenKH" />
+          <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+          <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

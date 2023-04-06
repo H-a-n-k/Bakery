@@ -87,6 +87,7 @@
     </Key>
     <Property Name="MaLoai" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TenLoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="cate_img" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="NguyenLieu">
     <Key>
@@ -111,7 +112,7 @@
     <Property Name="SoluongSP" Type="int" Nullable="false" />
     <Property Name="maLoai" Type="int" />
     <Property Name="MaKM" Type="int" />
-    <Property Name="TinhTrang" Type="bit" />
+    <Property Name="tinhTrang" Type="int" />
   </EntityType>
   <Association Name="FK__CTHD__MaSP__37A5467C">
     <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
@@ -273,19 +274,20 @@
     <Parameter Name="ngay" Type="date" Mode="In" />
   </Function>
   <Function Name="sp_dskhachhang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="pageCount" Type="int" Mode="InOut" />
     <Parameter Name="isActive" Type="bit" Mode="In" />
     <Parameter Name="keyword" Type="nvarchar" Mode="In" />
     <Parameter Name="page" Type="int" Mode="In" />
     <Parameter Name="pageLength" Type="int" Mode="In" />
-    <Parameter Name="pageCount" Type="int" Mode="InOut" />
   </Function>
   <Function Name="sp_DSSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="totalPage" Type="int" Mode="InOut" />
     <Parameter Name="tinhtrang" Type="bit" Mode="In" />
     <Parameter Name="keyword" Type="nvarchar" Mode="In" />
     <Parameter Name="maloai" Type="int" Mode="In" />
+    <Parameter Name="orderOpt" Type="int" Mode="In" />
     <Parameter Name="page" Type="int" Mode="In" />
     <Parameter Name="pagelength" Type="int" Mode="In" />
-    <Parameter Name="totalPage" Type="int" Mode="InOut" />
   </Function>
   <Function Name="sp_khachdangnhap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="user" Type="varchar" Mode="In" />
@@ -311,6 +313,7 @@
   </Function>
   <Function Name="sp_them_loaisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="name" Type="nvarchar" Mode="In" />
+    <Parameter Name="img" Type="varchar(max)" Mode="In" />
   </Function>
   <Function Name="sp_ThemSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="tenSP" Type="nvarchar" Mode="In" />
