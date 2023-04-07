@@ -208,7 +208,12 @@
     <Compile Include="Models\sp_profilekhachhang_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_XemDanhGiaSP_Result.cs">
+      <DependentUpon>Bakery.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserRoleProvider.cs" />
+    <Compile Include="Models\ViewModels\CTSanPhamVM.cs" />
+    <Compile Include="Models\ViewModels\SignUpVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

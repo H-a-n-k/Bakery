@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bakery.Models;
+using Bakery.Models.ViewModels;
 
 namespace Bakery.Controllers
 {
@@ -19,8 +20,16 @@ namespace Bakery.Controllers
         public ActionResult Index(bool? tinhtrang, string keyword, int? maloai , int? page, int? pagelength, int? orderOpt)
         {
 			ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
-            var danhsach = db.sp_DSSP(count, tinhtrang, keyword, maloai, orderOpt, page, pagelength).ToList();
+            var danhsach = db.sp_DSSP(count, tinhtrang, keyword, maloai, orderOpt, page, 5).ToList();
+
             ViewBag.PageCount = Convert.ToInt32(count.Value);
+            var SelectOrderOptions = new SelectList(new[] {
+				new Tuple<string, int>("Dang gia tot nhat", 4),
+				new Tuple<string, int>("Gia thap nhat", 1),
+                new Tuple<string, int>("Gia cao nhat", 2)
+            }, "Item2", "Item1");
+            ViewBag.orderOpt = SelectOrderOptions;
+            ViewBag.maLoai = new SelectList(db.sp_ds_loaisp(), "MaLoai", "TenLoai");
 			return View(danhsach);
         }
 
@@ -36,7 +45,13 @@ namespace Bakery.Controllers
             {
                 return HttpNotFound();
             }
-            return View(sanPham);
+
+			var danhgia = db.sp_XemDanhGiaSP(id).ToList();
+			CTSanPhamVM cTSanPhamVM = new CTSanPhamVM();
+			cTSanPhamVM.CTSP = sanPham;
+			cTSanPhamVM.DanhGia = danhgia;
+
+            return View(cTSanPhamVM);
         }
 
         // GET: SanPhams/Create

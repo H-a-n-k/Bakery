@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bakery.Models;
+using Bakery.Models.ViewModels;
 
 /* Go to Model browser
 1st place- Under Complex Types-> as MyStoreProc_result
@@ -58,7 +59,7 @@ namespace Bakery.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TenKH,GioiTinh,SoDienThoai,NgaySinh,TaiKhoan,MatKhau")] KhachHang kh)
+        public ActionResult Create(SignUpVM kh)
         {
             if (ModelState.IsValid)
             {
@@ -115,8 +116,8 @@ namespace Bakery.Controllers
             return View(khachHang);
         }
 
-        // POST: KhachHangs/Delete/5
-        [HttpPost, ActionName("Delete")]
+		// POST: KhachHangs/Delete/5
+		[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -133,9 +134,10 @@ namespace Bakery.Controllers
         [HttpPost]
         public ActionResult SignIn(string user, string pass)
 		{
-            bool? role = db.sp_khachdangnhap(user, pass).SingleOrDefault();
-            if (role.HasValue) {
+            bool? isAdmin = db.sp_khachdangnhap(user, pass).SingleOrDefault();
+            if (isAdmin.HasValue) {
 				FormsAuthentication.SetAuthCookie(user, false);
+                Session["Role"] = isAdmin.Value ? "Admin" : "Customer";
 				return RedirectToAction("Index", "Home");
 			}
 			return View();
@@ -144,6 +146,7 @@ namespace Bakery.Controllers
 		public ActionResult SignOut()
 		{
             FormsAuthentication.SignOut();
+            Session["Role"] = null;
             return RedirectToAction("SignIn");
 		}
 

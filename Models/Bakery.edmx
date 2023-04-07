@@ -72,7 +72,7 @@
           <Property Name="SoDienThoai" Type="varchar" MaxLength="15" />
           <Property Name="NgaySinh" Type="date" />
           <Property Name="TaiKhoan" Type="varchar" MaxLength="50" />
-          <Property Name="MatKhau" Type="varchar" MaxLength="50" />
+          <Property Name="MatKhau" Type="varbinary" MaxLength="500" />
           <Property Name="QuyenQuanTri" Type="bit" />
           <Property Name="tinhTrang" Type="int" />
         </EntityType>
@@ -345,6 +345,9 @@
           <Parameter Name="sdt" Type="varchar" Mode="In" />
           <Parameter Name="ngaysinh" Type="date" Mode="In" />
         </Function>
+        <Function Name="sp_XemDanhGiaSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="masp" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="BakeryStoreDBModelStoreContainer">
           <EntitySet Name="CTHD" EntityType="Self.CTHD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CTHDNhap" EntityType="Self.CTHDNhap" Schema="dbo" store:Type="Tables" />
@@ -398,295 +401,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BakeryStoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="CTHD">
-          <Key>
-            <PropertyRef Name="MaSP" />
-            <PropertyRef Name="MaHD" />
-          </Key>
-          <Property Name="MaSP" Type="Int32" Nullable="false" />
-          <Property Name="MaHD" Type="Int32" Nullable="false" />
-          <Property Name="SoLuong" Type="Int32" />
-          <Property Name="DonGia" Type="Int32" />
-          <Property Name="SoSaoDanhGia" Type="Int32" />
-          <Property Name="NoiDungDanhGia" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="GiamGia" Type="Int32" />
-          <NavigationProperty Name="SanPham" Relationship="Self.FK__CTHD__MaSP__37A5467C" FromRole="CTHD" ToRole="SanPham" />
-          <NavigationProperty Name="HoaDon" Relationship="Self.FK_CTHD_HoaDon" FromRole="CTHD" ToRole="HoaDon" />
-        </EntityType>
-        <EntityType Name="CTHDNhap">
-          <Key>
-            <PropertyRef Name="MaHDN" />
-            <PropertyRef Name="MaNguyenLieu" />
-          </Key>
-          <Property Name="MaHDN" Type="Int32" Nullable="false" />
-          <Property Name="MaNguyenLieu" Type="Int32" Nullable="false" />
-          <Property Name="SoLuong" Type="Double" />
-          <Property Name="donGia" Type="Int32" />
-          <NavigationProperty Name="HoaDonNhap" Relationship="Self.FK_CTHDN_HDN" FromRole="CTHDNhap" ToRole="HoaDonNhap" />
-          <NavigationProperty Name="NguyenLieu" Relationship="Self.FK_CTHDNhap_NguyenLieu" FromRole="CTHDNhap" ToRole="NguyenLieu" />
-        </EntityType>
-        <EntityType Name="DoanhThu">
-          <Key>
-            <PropertyRef Name="Ngay" />
-          </Key>
-          <Property Name="TienChi" Type="Int32" />
-          <Property Name="TienThu" Type="Int32" />
-          <Property Name="Ngay" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
-        <EntityType Name="GioHang">
-          <Key>
-            <PropertyRef Name="MaKH" />
-            <PropertyRef Name="MaSP" />
-          </Key>
-          <Property Name="MaKH" Type="Int32" Nullable="false" />
-          <Property Name="MaSP" Type="Int32" Nullable="false" />
-          <Property Name="SoLuong" Type="Int32" />
-          <NavigationProperty Name="KhachHang" Relationship="Self.fk_giohang_khachhang" FromRole="GioHang" ToRole="KhachHang" />
-          <NavigationProperty Name="SanPham" Relationship="Self.FK_GioHang_SanPham" FromRole="GioHang" ToRole="SanPham" />
-        </EntityType>
-        <EntityType Name="HoaDon">
-          <Key>
-            <PropertyRef Name="MaHD" />
-          </Key>
-          <Property Name="MaHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NgayHD" Type="DateTime" Precision="0" />
-          <Property Name="TinhTrangGiao" Type="Boolean" />
-          <Property Name="DiaChiGiao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MaKH" Type="Int32" />
-          <NavigationProperty Name="CTHDs" Relationship="Self.FK_CTHD_HoaDon" FromRole="HoaDon" ToRole="CTHD" />
-          <NavigationProperty Name="KhachHang" Relationship="Self.FK__HoaDon__MaKH__3D5E1FD2" FromRole="HoaDon" ToRole="KhachHang" />
-        </EntityType>
-        <EntityType Name="HoaDonNhap">
-          <Key>
-            <PropertyRef Name="MaHDN" />
-          </Key>
-          <Property Name="MaHDN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NgayNhap" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="CTHDNhaps" Relationship="Self.FK_CTHDN_HDN" FromRole="HoaDonNhap" ToRole="CTHDNhap" />
-        </EntityType>
-        <EntityType Name="KhachHang">
-          <Key>
-            <PropertyRef Name="MaKH" />
-          </Key>
-          <Property Name="MaKH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GioiTinh" Type="Int32" />
-          <Property Name="SoDienThoai" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="NgaySinh" Type="DateTime" Precision="0" />
-          <Property Name="TaiKhoan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MatKhau" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="QuyenQuanTri" Type="Boolean" />
-          <Property Name="tinhTrang" Type="Int32" />
-          <NavigationProperty Name="GioHangs" Relationship="Self.fk_giohang_khachhang" FromRole="KhachHang" ToRole="GioHang" />
-          <NavigationProperty Name="HoaDons" Relationship="Self.FK__HoaDon__MaKH__3D5E1FD2" FromRole="KhachHang" ToRole="HoaDon" />
-        </EntityType>
-        <EntityType Name="KhuyenMai">
-          <Key>
-            <PropertyRef Name="MaKM" />
-          </Key>
-          <Property Name="MaKM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TenKM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TiLeKM" Type="Double" />
-          <Property Name="NgayBD" Type="DateTime" Precision="0" />
-          <Property Name="NgayKT" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="SanPhams" Relationship="Self.FK__SanPham__MaKM__3E52440B" FromRole="KhuyenMai" ToRole="SanPham" />
-        </EntityType>
-        <EntityType Name="LoaiSanPham">
-          <Key>
-            <PropertyRef Name="MaLoai" />
-          </Key>
-          <Property Name="MaLoai" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TenLoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SanPhams" Relationship="Self.FK__SanPham__maLoai__3F466844" FromRole="LoaiSanPham" ToRole="SanPham" />
-          <Property Name="cate_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="NguyenLieu">
-          <Key>
-            <PropertyRef Name="MaNguyenLieu" />
-          </Key>
-          <Property Name="TenNguyenLieu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SoLuong" Type="Double" />
-          <Property Name="MaNguyenLieu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DVT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CTHDNhaps" Relationship="Self.FK_CTHDNhap_NguyenLieu" FromRole="NguyenLieu" ToRole="CTHDNhap" />
-        </EntityType>
-        <EntityType Name="SanPham">
-          <Key>
-            <PropertyRef Name="MaSP" />
-          </Key>
-          <Property Name="MaSP" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GiaSP" Type="Int32" Nullable="false" />
-          <Property Name="MotaSP" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Sao" Type="Double" Nullable="false" />
-          <Property Name="SoLuotDanhGia" Type="Int32" Nullable="false" />
-          <Property Name="SoluongSP" Type="Int32" Nullable="false" />
-          <Property Name="maLoai" Type="Int32" />
-          <Property Name="MaKM" Type="Int32" />
-          <Property Name="TinhTrang" Type="Boolean" />
-          <NavigationProperty Name="CTHDs" Relationship="Self.FK__CTHD__MaSP__37A5467C" FromRole="SanPham" ToRole="CTHD" />
-          <NavigationProperty Name="GioHangs" Relationship="Self.FK_GioHang_SanPham" FromRole="SanPham" ToRole="GioHang" />
-          <NavigationProperty Name="KhuyenMai" Relationship="Self.FK__SanPham__MaKM__3E52440B" FromRole="SanPham" ToRole="KhuyenMai" />
-          <NavigationProperty Name="LoaiSanPham" Relationship="Self.FK__SanPham__maLoai__3F466844" FromRole="SanPham" ToRole="LoaiSanPham" />
-          <Property Name="tinhTrang" Type="Int32" />
-        </EntityType>
-        <Association Name="FK__CTHD__MaSP__37A5467C">
-          <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
-          <End Role="CTHD" Type="Self.CTHD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SanPham">
-              <PropertyRef Name="MaSP" />
-            </Principal>
-            <Dependent Role="CTHD">
-              <PropertyRef Name="MaSP" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CTHD_HoaDon">
-          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="1" />
-          <End Role="CTHD" Type="Self.CTHD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HoaDon">
-              <PropertyRef Name="MaHD" />
-            </Principal>
-            <Dependent Role="CTHD">
-              <PropertyRef Name="MaHD" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CTHDN_HDN">
-          <End Role="HoaDonNhap" Type="Self.HoaDonNhap" Multiplicity="1" />
-          <End Role="CTHDNhap" Type="Self.CTHDNhap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HoaDonNhap">
-              <PropertyRef Name="MaHDN" />
-            </Principal>
-            <Dependent Role="CTHDNhap">
-              <PropertyRef Name="MaHDN" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CTHDNhap_NguyenLieu">
-          <End Role="NguyenLieu" Type="Self.NguyenLieu" Multiplicity="1" />
-          <End Role="CTHDNhap" Type="Self.CTHDNhap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NguyenLieu">
-              <PropertyRef Name="MaNguyenLieu" />
-            </Principal>
-            <Dependent Role="CTHDNhap">
-              <PropertyRef Name="MaNguyenLieu" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_giohang_khachhang">
-          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />
-          <End Role="GioHang" Type="Self.GioHang" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KhachHang">
-              <PropertyRef Name="MaKH" />
-            </Principal>
-            <Dependent Role="GioHang">
-              <PropertyRef Name="MaKH" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GioHang_SanPham">
-          <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
-          <End Role="GioHang" Type="Self.GioHang" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SanPham">
-              <PropertyRef Name="MaSP" />
-            </Principal>
-            <Dependent Role="GioHang">
-              <PropertyRef Name="MaSP" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__HoaDon__MaKH__3D5E1FD2">
-          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="0..1" />
-          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KhachHang">
-              <PropertyRef Name="MaKH" />
-            </Principal>
-            <Dependent Role="HoaDon">
-              <PropertyRef Name="MaKH" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SanPham__MaKM__3E52440B">
-          <End Role="KhuyenMai" Type="Self.KhuyenMai" Multiplicity="0..1" />
-          <End Role="SanPham" Type="Self.SanPham" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KhuyenMai">
-              <PropertyRef Name="MaKM" />
-            </Principal>
-            <Dependent Role="SanPham">
-              <PropertyRef Name="MaKM" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SanPham__maLoai__3F466844">
-          <End Role="LoaiSanPham" Type="Self.LoaiSanPham" Multiplicity="0..1" />
-          <End Role="SanPham" Type="Self.SanPham" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LoaiSanPham">
-              <PropertyRef Name="MaLoai" />
-            </Principal>
-            <Dependent Role="SanPham">
-              <PropertyRef Name="maLoai" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="BakeryStoreDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CTHDs" EntityType="Self.CTHD" />
-          <EntitySet Name="CTHDNhaps" EntityType="Self.CTHDNhap" />
-          <EntitySet Name="DoanhThus" EntityType="Self.DoanhThu" />
-          <EntitySet Name="GioHangs" EntityType="Self.GioHang" />
-          <EntitySet Name="HoaDons" EntityType="Self.HoaDon" />
-          <EntitySet Name="HoaDonNhaps" EntityType="Self.HoaDonNhap" />
-          <EntitySet Name="KhachHangs" EntityType="Self.KhachHang" />
-          <EntitySet Name="KhuyenMais" EntityType="Self.KhuyenMai" />
-          <EntitySet Name="LoaiSanPhams" EntityType="Self.LoaiSanPham" />
-          <EntitySet Name="NguyenLieux" EntityType="Self.NguyenLieu" />
-          <EntitySet Name="SanPhams" EntityType="Self.SanPham" />
-          <AssociationSet Name="FK__CTHD__MaSP__37A5467C" Association="Self.FK__CTHD__MaSP__37A5467C">
-            <End Role="SanPham" EntitySet="SanPhams" />
-            <End Role="CTHD" EntitySet="CTHDs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CTHD_HoaDon" Association="Self.FK_CTHD_HoaDon">
-            <End Role="HoaDon" EntitySet="HoaDons" />
-            <End Role="CTHD" EntitySet="CTHDs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CTHDN_HDN" Association="Self.FK_CTHDN_HDN">
-            <End Role="HoaDonNhap" EntitySet="HoaDonNhaps" />
-            <End Role="CTHDNhap" EntitySet="CTHDNhaps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CTHDNhap_NguyenLieu" Association="Self.FK_CTHDNhap_NguyenLieu">
-            <End Role="NguyenLieu" EntitySet="NguyenLieux" />
-            <End Role="CTHDNhap" EntitySet="CTHDNhaps" />
-          </AssociationSet>
-          <AssociationSet Name="fk_giohang_khachhang" Association="Self.fk_giohang_khachhang">
-            <End Role="KhachHang" EntitySet="KhachHangs" />
-            <End Role="GioHang" EntitySet="GioHangs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GioHang_SanPham" Association="Self.FK_GioHang_SanPham">
-            <End Role="SanPham" EntitySet="SanPhams" />
-            <End Role="GioHang" EntitySet="GioHangs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__HoaDon__MaKH__3D5E1FD2" Association="Self.FK__HoaDon__MaKH__3D5E1FD2">
-            <End Role="KhachHang" EntitySet="KhachHangs" />
-            <End Role="HoaDon" EntitySet="HoaDons" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SanPham__MaKM__3E52440B" Association="Self.FK__SanPham__MaKM__3E52440B">
-            <End Role="KhuyenMai" EntitySet="KhuyenMais" />
-            <End Role="SanPham" EntitySet="SanPhams" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SanPham__maLoai__3F466844" Association="Self.FK__SanPham__maLoai__3F466844">
-            <End Role="LoaiSanPham" EntitySet="LoaiSanPhams" />
-            <End Role="SanPham" EntitySet="SanPhams" />
-          </AssociationSet>
           <FunctionImport Name="sp_add_CTHD" ReturnType="Collection(Double)">
             <Parameter Name="mahd" Mode="In" Type="Int32" />
             <Parameter Name="masp" Mode="In" Type="Int32" />
@@ -721,22 +436,10 @@
           <FunctionImport Name="sp_detailhoadon" ReturnType="Collection(BakeryStoreDBModel.sp_detailhoadon_Result)">
           <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_dkytaikhoan">
-            <Parameter Name="ten" Mode="In" Type="String" />
-            <Parameter Name="gioi" Mode="In" Type="Int32" />
-            <Parameter Name="sdt" Mode="In" Type="String" />
-            <Parameter Name="ngaysinh" Mode="In" Type="DateTime" />
-            <Parameter Name="tk" Mode="In" Type="String" />
-            <Parameter Name="mk" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_ds_nguyenlieu" ReturnType="Collection(BakeryStoreDBModel.sp_ds_nguyenlieu_Result)" />
           <FunctionImport Name="sp_dshoadon" ReturnType="Collection(BakeryStoreDBModel.sp_dshoadon_Result)">
             <Parameter Name="id" Mode="In" Type="Int32" />
             <Parameter Name="ngay" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="sp_khachdangnhap" ReturnType="Collection(Boolean)">
-            <Parameter Name="user" Mode="In" Type="String" />
-            <Parameter Name="pass" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_quenmatkhau" ReturnType="Collection(String)">
           <Parameter Name="sdt" Mode="In" Type="String" />
@@ -805,6 +508,68 @@
             <Parameter Name="page" Mode="In" Type="Int32" />
             <Parameter Name="pagelength" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_XemDanhGiaSP" ReturnType="Collection(BakeryStoreDBModel.sp_XemDanhGiaSP_Result)">
+          <Parameter Name="masp" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dkytaikhoan">
+            <Parameter Name="ten" Mode="In" Type="String" />
+            <Parameter Name="gioi" Mode="In" Type="Int32" />
+            <Parameter Name="sdt" Mode="In" Type="String" />
+            <Parameter Name="ngaysinh" Mode="In" Type="DateTime" />
+            <Parameter Name="tk" Mode="In" Type="String" />
+            <Parameter Name="mk" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_khachdangnhap" ReturnType="Collection(Boolean)">
+            <Parameter Name="user" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="CTHDs" EntityType="BakeryStoreDBModel.CTHD" />
+          <EntitySet Name="CTHDNhaps" EntityType="BakeryStoreDBModel.CTHDNhap" />
+          <EntitySet Name="DoanhThus" EntityType="BakeryStoreDBModel.DoanhThu" />
+          <EntitySet Name="GioHangs" EntityType="BakeryStoreDBModel.GioHang" />
+          <EntitySet Name="HoaDons" EntityType="BakeryStoreDBModel.HoaDon" />
+          <EntitySet Name="HoaDonNhaps" EntityType="BakeryStoreDBModel.HoaDonNhap" />
+          <EntitySet Name="KhachHangs" EntityType="BakeryStoreDBModel.KhachHang" />
+          <EntitySet Name="KhuyenMais" EntityType="BakeryStoreDBModel.KhuyenMai" />
+          <EntitySet Name="LoaiSanPhams" EntityType="BakeryStoreDBModel.LoaiSanPham" />
+          <EntitySet Name="NguyenLieux" EntityType="BakeryStoreDBModel.NguyenLieu" />
+          <EntitySet Name="SanPhams" EntityType="BakeryStoreDBModel.SanPham" />
+          <AssociationSet Name="FK__CTHD__MaSP__37A5467C" Association="BakeryStoreDBModel.FK__CTHD__MaSP__37A5467C">
+            <End Role="SanPham" EntitySet="SanPhams" />
+            <End Role="CTHD" EntitySet="CTHDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTHD_HoaDon" Association="BakeryStoreDBModel.FK_CTHD_HoaDon">
+            <End Role="HoaDon" EntitySet="HoaDons" />
+            <End Role="CTHD" EntitySet="CTHDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTHDN_HDN" Association="BakeryStoreDBModel.FK_CTHDN_HDN">
+            <End Role="HoaDonNhap" EntitySet="HoaDonNhaps" />
+            <End Role="CTHDNhap" EntitySet="CTHDNhaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTHDNhap_NguyenLieu" Association="BakeryStoreDBModel.FK_CTHDNhap_NguyenLieu">
+            <End Role="NguyenLieu" EntitySet="NguyenLieux" />
+            <End Role="CTHDNhap" EntitySet="CTHDNhaps" />
+          </AssociationSet>
+          <AssociationSet Name="fk_giohang_khachhang" Association="BakeryStoreDBModel.fk_giohang_khachhang">
+            <End Role="KhachHang" EntitySet="KhachHangs" />
+            <End Role="GioHang" EntitySet="GioHangs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GioHang_SanPham" Association="BakeryStoreDBModel.FK_GioHang_SanPham">
+            <End Role="SanPham" EntitySet="SanPhams" />
+            <End Role="GioHang" EntitySet="GioHangs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HoaDon__MaKH__3D5E1FD2" Association="BakeryStoreDBModel.FK__HoaDon__MaKH__3D5E1FD2">
+            <End Role="KhachHang" EntitySet="KhachHangs" />
+            <End Role="HoaDon" EntitySet="HoaDons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SanPham__MaKM__3E52440B" Association="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B">
+            <End Role="KhuyenMai" EntitySet="KhuyenMais" />
+            <End Role="SanPham" EntitySet="SanPhams" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SanPham__maLoai__3F466844" Association="BakeryStoreDBModel.FK__SanPham__maLoai__3F466844">
+            <End Role="LoaiSanPham" EntitySet="LoaiSanPhams" />
+            <End Role="SanPham" EntitySet="SanPhams" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_detailhoadon_Result">
           <Property Type="Int32" Name="MaHD" Nullable="false" />
@@ -874,134 +639,257 @@
           <Property Type="DateTime" Name="NgayKT" Nullable="true" />
           <Property Type="Double" Name="TiLeKM" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="sp_XemDanhGiaSP_Result">
+          <Property Type="Int32" Name="SoSaoDanhGia" Nullable="true" />
+          <Property Type="String" Name="NoiDungDanhGia" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TaiKhoan" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="CTHD">
+          <Key>
+            <PropertyRef Name="MaSP" />
+            <PropertyRef Name="MaHD" />
+          </Key>
+          <Property Name="MaSP" Type="Int32" Nullable="false" />
+          <Property Name="MaHD" Type="Int32" Nullable="false" />
+          <Property Name="SoLuong" Type="Int32" />
+          <Property Name="DonGia" Type="Int32" />
+          <Property Name="SoSaoDanhGia" Type="Int32" />
+          <Property Name="NoiDungDanhGia" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GiamGia" Type="Int32" />
+          <NavigationProperty Name="SanPham" Relationship="BakeryStoreDBModel.FK__CTHD__MaSP__37A5467C" FromRole="CTHD" ToRole="SanPham" />
+          <NavigationProperty Name="HoaDon" Relationship="BakeryStoreDBModel.FK_CTHD_HoaDon" FromRole="CTHD" ToRole="HoaDon" />
+        </EntityType>
+        <EntityType Name="CTHDNhap">
+          <Key>
+            <PropertyRef Name="MaHDN" />
+            <PropertyRef Name="MaNguyenLieu" />
+          </Key>
+          <Property Name="MaHDN" Type="Int32" Nullable="false" />
+          <Property Name="MaNguyenLieu" Type="Int32" Nullable="false" />
+          <Property Name="SoLuong" Type="Double" />
+          <Property Name="donGia" Type="Int32" />
+          <NavigationProperty Name="HoaDonNhap" Relationship="BakeryStoreDBModel.FK_CTHDN_HDN" FromRole="CTHDNhap" ToRole="HoaDonNhap" />
+          <NavigationProperty Name="NguyenLieu" Relationship="BakeryStoreDBModel.FK_CTHDNhap_NguyenLieu" FromRole="CTHDNhap" ToRole="NguyenLieu" />
+        </EntityType>
+        <EntityType Name="DoanhThu">
+          <Key>
+            <PropertyRef Name="Ngay" />
+          </Key>
+          <Property Name="TienChi" Type="Int32" />
+          <Property Name="TienThu" Type="Int32" />
+          <Property Name="Ngay" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="GioHang">
+          <Key>
+            <PropertyRef Name="MaKH" />
+            <PropertyRef Name="MaSP" />
+          </Key>
+          <Property Name="MaKH" Type="Int32" Nullable="false" />
+          <Property Name="MaSP" Type="Int32" Nullable="false" />
+          <Property Name="SoLuong" Type="Int32" />
+          <NavigationProperty Name="KhachHang" Relationship="BakeryStoreDBModel.fk_giohang_khachhang" FromRole="GioHang" ToRole="KhachHang" />
+          <NavigationProperty Name="SanPham" Relationship="BakeryStoreDBModel.FK_GioHang_SanPham" FromRole="GioHang" ToRole="SanPham" />
+        </EntityType>
+        <EntityType Name="HoaDon">
+          <Key>
+            <PropertyRef Name="MaHD" />
+          </Key>
+          <Property Name="MaHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NgayHD" Type="DateTime" Precision="0" />
+          <Property Name="TinhTrangGiao" Type="Boolean" />
+          <Property Name="DiaChiGiao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MaKH" Type="Int32" />
+          <NavigationProperty Name="CTHDs" Relationship="BakeryStoreDBModel.FK_CTHD_HoaDon" FromRole="HoaDon" ToRole="CTHD" />
+          <NavigationProperty Name="KhachHang" Relationship="BakeryStoreDBModel.FK__HoaDon__MaKH__3D5E1FD2" FromRole="HoaDon" ToRole="KhachHang" />
+        </EntityType>
+        <EntityType Name="HoaDonNhap">
+          <Key>
+            <PropertyRef Name="MaHDN" />
+          </Key>
+          <Property Name="MaHDN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NgayNhap" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="CTHDNhaps" Relationship="BakeryStoreDBModel.FK_CTHDN_HDN" FromRole="HoaDonNhap" ToRole="CTHDNhap" />
+        </EntityType>
+        <EntityType Name="KhachHang">
+          <Key>
+            <PropertyRef Name="MaKH" />
+          </Key>
+          <Property Name="MaKH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GioiTinh" Type="Int32" />
+          <Property Name="SoDienThoai" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="NgaySinh" Type="DateTime" Precision="0" />
+          <Property Name="TaiKhoan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MatKhau" Type="Binary" MaxLength="500" FixedLength="false" />
+          <Property Name="QuyenQuanTri" Type="Boolean" />
+          <Property Name="tinhTrang" Type="Int32" />
+          <NavigationProperty Name="GioHangs" Relationship="BakeryStoreDBModel.fk_giohang_khachhang" FromRole="KhachHang" ToRole="GioHang" />
+          <NavigationProperty Name="HoaDons" Relationship="BakeryStoreDBModel.FK__HoaDon__MaKH__3D5E1FD2" FromRole="KhachHang" ToRole="HoaDon" />
+        </EntityType>
+        <EntityType Name="KhuyenMai">
+          <Key>
+            <PropertyRef Name="MaKM" />
+          </Key>
+          <Property Name="MaKM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenKM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TiLeKM" Type="Double" />
+          <Property Name="NgayBD" Type="DateTime" Precision="0" />
+          <Property Name="NgayKT" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="SanPhams" Relationship="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B" FromRole="KhuyenMai" ToRole="SanPham" />
+        </EntityType>
+        <EntityType Name="LoaiSanPham">
+          <Key>
+            <PropertyRef Name="MaLoai" />
+          </Key>
+          <Property Name="MaLoai" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenLoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cate_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SanPhams" Relationship="BakeryStoreDBModel.FK__SanPham__maLoai__3F466844" FromRole="LoaiSanPham" ToRole="SanPham" />
+        </EntityType>
+        <EntityType Name="NguyenLieu">
+          <Key>
+            <PropertyRef Name="MaNguyenLieu" />
+          </Key>
+          <Property Name="TenNguyenLieu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SoLuong" Type="Double" />
+          <Property Name="MaNguyenLieu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DVT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CTHDNhaps" Relationship="BakeryStoreDBModel.FK_CTHDNhap_NguyenLieu" FromRole="NguyenLieu" ToRole="CTHDNhap" />
+        </EntityType>
+        <EntityType Name="SanPham">
+          <Key>
+            <PropertyRef Name="MaSP" />
+          </Key>
+          <Property Name="MaSP" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GiaSP" Type="Int32" Nullable="false" />
+          <Property Name="MotaSP" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Sao" Type="Double" Nullable="false" />
+          <Property Name="SoLuotDanhGia" Type="Int32" Nullable="false" />
+          <Property Name="SoluongSP" Type="Int32" Nullable="false" />
+          <Property Name="maLoai" Type="Int32" />
+          <Property Name="MaKM" Type="Int32" />
+          <Property Name="tinhTrang" Type="Int32" />
+          <NavigationProperty Name="CTHDs" Relationship="BakeryStoreDBModel.FK__CTHD__MaSP__37A5467C" FromRole="SanPham" ToRole="CTHD" />
+          <NavigationProperty Name="GioHangs" Relationship="BakeryStoreDBModel.FK_GioHang_SanPham" FromRole="SanPham" ToRole="GioHang" />
+          <NavigationProperty Name="KhuyenMai" Relationship="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B" FromRole="SanPham" ToRole="KhuyenMai" />
+          <NavigationProperty Name="LoaiSanPham" Relationship="BakeryStoreDBModel.FK__SanPham__maLoai__3F466844" FromRole="SanPham" ToRole="LoaiSanPham" />
+        </EntityType>
+        <Association Name="FK__CTHD__MaSP__37A5467C">
+          <End Type="BakeryStoreDBModel.SanPham" Role="SanPham" Multiplicity="1" />
+          <End Type="BakeryStoreDBModel.CTHD" Role="CTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SanPham">
+              <PropertyRef Name="MaSP" />
+            </Principal>
+            <Dependent Role="CTHD">
+              <PropertyRef Name="MaSP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTHD_HoaDon">
+          <End Type="BakeryStoreDBModel.HoaDon" Role="HoaDon" Multiplicity="1" />
+          <End Type="BakeryStoreDBModel.CTHD" Role="CTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HoaDon">
+              <PropertyRef Name="MaHD" />
+            </Principal>
+            <Dependent Role="CTHD">
+              <PropertyRef Name="MaHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTHDN_HDN">
+          <End Type="BakeryStoreDBModel.HoaDonNhap" Role="HoaDonNhap" Multiplicity="1" />
+          <End Type="BakeryStoreDBModel.CTHDNhap" Role="CTHDNhap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HoaDonNhap">
+              <PropertyRef Name="MaHDN" />
+            </Principal>
+            <Dependent Role="CTHDNhap">
+              <PropertyRef Name="MaHDN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTHDNhap_NguyenLieu">
+          <End Type="BakeryStoreDBModel.NguyenLieu" Role="NguyenLieu" Multiplicity="1" />
+          <End Type="BakeryStoreDBModel.CTHDNhap" Role="CTHDNhap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NguyenLieu">
+              <PropertyRef Name="MaNguyenLieu" />
+            </Principal>
+            <Dependent Role="CTHDNhap">
+              <PropertyRef Name="MaNguyenLieu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_giohang_khachhang">
+          <End Type="BakeryStoreDBModel.KhachHang" Role="KhachHang" Multiplicity="1" />
+          <End Type="BakeryStoreDBModel.GioHang" Role="GioHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="MaKH" />
+            </Principal>
+            <Dependent Role="GioHang">
+              <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GioHang_SanPham">
+          <End Type="BakeryStoreDBModel.SanPham" Role="SanPham" Multiplicity="1" />
+          <End Type="BakeryStoreDBModel.GioHang" Role="GioHang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SanPham">
+              <PropertyRef Name="MaSP" />
+            </Principal>
+            <Dependent Role="GioHang">
+              <PropertyRef Name="MaSP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HoaDon__MaKH__3D5E1FD2">
+          <End Type="BakeryStoreDBModel.KhachHang" Role="KhachHang" Multiplicity="0..1" />
+          <End Type="BakeryStoreDBModel.HoaDon" Role="HoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="MaKH" />
+            </Principal>
+            <Dependent Role="HoaDon">
+              <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SanPham__MaKM__3E52440B">
+          <End Type="BakeryStoreDBModel.KhuyenMai" Role="KhuyenMai" Multiplicity="0..1" />
+          <End Type="BakeryStoreDBModel.SanPham" Role="SanPham" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhuyenMai">
+              <PropertyRef Name="MaKM" />
+            </Principal>
+            <Dependent Role="SanPham">
+              <PropertyRef Name="MaKM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SanPham__maLoai__3F466844">
+          <End Type="BakeryStoreDBModel.LoaiSanPham" Role="LoaiSanPham" Multiplicity="0..1" />
+          <End Type="BakeryStoreDBModel.SanPham" Role="SanPham" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoaiSanPham">
+              <PropertyRef Name="MaLoai" />
+            </Principal>
+            <Dependent Role="SanPham">
+              <PropertyRef Name="maLoai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="BakeryStoreDBModelStoreContainer" CdmEntityContainer="BakeryStoreDBEntities">
-          <EntitySetMapping Name="CTHDs">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.CTHD">
-              <MappingFragment StoreEntitySet="CTHD">
-                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
-                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
-                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-                <ScalarProperty Name="DonGia" ColumnName="DonGia" />
-                <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
-                <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
-                <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CTHDNhaps">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.CTHDNhap">
-              <MappingFragment StoreEntitySet="CTHDNhap">
-                <ScalarProperty Name="MaHDN" ColumnName="MaHDN" />
-                <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
-                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-                <ScalarProperty Name="donGia" ColumnName="donGia" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DoanhThus">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.DoanhThu">
-              <MappingFragment StoreEntitySet="DoanhThu">
-                <ScalarProperty Name="TienChi" ColumnName="TienChi" />
-                <ScalarProperty Name="TienThu" ColumnName="TienThu" />
-                <ScalarProperty Name="Ngay" ColumnName="Ngay" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GioHangs">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.GioHang">
-              <MappingFragment StoreEntitySet="GioHang">
-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
-                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HoaDons">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDon">
-              <MappingFragment StoreEntitySet="HoaDon">
-                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
-                <ScalarProperty Name="NgayHD" ColumnName="NgayHD" />
-                <ScalarProperty Name="TinhTrangGiao" ColumnName="TinhTrangGiao" />
-                <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HoaDonNhaps">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDonNhap">
-              <MappingFragment StoreEntitySet="HoaDonNhap">
-                <ScalarProperty Name="MaHDN" ColumnName="MaHDN" />
-                <ScalarProperty Name="NgayNhap" ColumnName="NgayNhap" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="KhachHangs">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.KhachHang">
-              <MappingFragment StoreEntitySet="KhachHang">
-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-                <ScalarProperty Name="TenKH" ColumnName="TenKH" />
-                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
-                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
-                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-                <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
-                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
-                <ScalarProperty Name="QuyenQuanTri" ColumnName="QuyenQuanTri" />
-                <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="KhuyenMais">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.KhuyenMai">
-              <MappingFragment StoreEntitySet="KhuyenMai">
-                <ScalarProperty Name="MaKM" ColumnName="MaKM" />
-                <ScalarProperty Name="TenKM" ColumnName="TenKM" />
-                <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
-                <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
-                <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LoaiSanPhams">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.LoaiSanPham">
-              <MappingFragment StoreEntitySet="LoaiSanPham">
-                <ScalarProperty Name="cate_img" ColumnName="cate_img" />
-                <ScalarProperty Name="MaLoai" ColumnName="MaLoai" />
-                <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NguyenLieux">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.NguyenLieu">
-              <MappingFragment StoreEntitySet="NguyenLieu">
-                <ScalarProperty Name="TenNguyenLieu" ColumnName="TenNguyenLieu" />
-                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-                <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
-                <ScalarProperty Name="DVT" ColumnName="DVT" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SanPhams">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.SanPham">
-              <MappingFragment StoreEntitySet="SanPham">
-                <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
-                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
-                <ScalarProperty Name="TenSP" ColumnName="TenSP" />
-                <ScalarProperty Name="GiaSP" ColumnName="GiaSP" />
-                <ScalarProperty Name="MotaSP" ColumnName="MotaSP" />
-                <ScalarProperty Name="img" ColumnName="img" />
-                <ScalarProperty Name="Sao" ColumnName="Sao" />
-                <ScalarProperty Name="SoLuotDanhGia" ColumnName="SoLuotDanhGia" />
-                <ScalarProperty Name="SoluongSP" ColumnName="SoluongSP" />
-                <ScalarProperty Name="maLoai" ColumnName="maLoai" />
-                <ScalarProperty Name="MaKM" ColumnName="MaKM" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_add_CTHD" FunctionName="BakeryStoreDBModel.Store.sp_add_CTHD" />
           <FunctionImportMapping FunctionImportName="sp_AnHienSP" FunctionName="BakeryStoreDBModel.Store.sp_AnHienSP" />
           <FunctionImportMapping FunctionImportName="sp_create_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_create_nguyenlieu" />
@@ -1021,7 +909,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_dkytaikhoan" FunctionName="BakeryStoreDBModel.Store.sp_dkytaikhoan" />
           <FunctionImportMapping FunctionImportName="sp_ds_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_ds_nguyenlieu">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ds_nguyenlieu_Result">
@@ -1043,7 +930,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_khachdangnhap" FunctionName="BakeryStoreDBModel.Store.sp_khachdangnhap" />
           <FunctionImportMapping FunctionImportName="sp_quenmatkhau" FunctionName="BakeryStoreDBModel.Store.sp_quenmatkhau" />
           <FunctionImportMapping FunctionImportName="sp_SuaSP" FunctionName="BakeryStoreDBModel.Store.sp_SuaSP" />
           <FunctionImportMapping FunctionImportName="sp_ThemSP" FunctionName="BakeryStoreDBModel.Store.sp_ThemSP" />
@@ -1119,6 +1005,139 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_XemDanhGiaSP" FunctionName="BakeryStoreDBModel.Store.sp_XemDanhGiaSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_XemDanhGiaSP_Result">
+                <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
+                <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
+                <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_dkytaikhoan" FunctionName="BakeryStoreDBModel.Store.sp_dkytaikhoan" />
+          <FunctionImportMapping FunctionImportName="sp_khachdangnhap" FunctionName="BakeryStoreDBModel.Store.sp_khachdangnhap" />
+          <EntitySetMapping Name="CTHDs">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.CTHD">
+              <MappingFragment StoreEntitySet="CTHD">
+                <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />
+                <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
+                <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
+                <ScalarProperty Name="DonGia" ColumnName="DonGia" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTHDNhaps">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.CTHDNhap">
+              <MappingFragment StoreEntitySet="CTHDNhap">
+                <ScalarProperty Name="donGia" ColumnName="donGia" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
+                <ScalarProperty Name="MaHDN" ColumnName="MaHDN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoanhThus">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.DoanhThu">
+              <MappingFragment StoreEntitySet="DoanhThu">
+                <ScalarProperty Name="Ngay" ColumnName="Ngay" />
+                <ScalarProperty Name="TienThu" ColumnName="TienThu" />
+                <ScalarProperty Name="TienChi" ColumnName="TienChi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GioHangs">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.GioHang">
+              <MappingFragment StoreEntitySet="GioHang">
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HoaDons">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDon">
+              <MappingFragment StoreEntitySet="HoaDon">
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
+                <ScalarProperty Name="TinhTrangGiao" ColumnName="TinhTrangGiao" />
+                <ScalarProperty Name="NgayHD" ColumnName="NgayHD" />
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HoaDonNhaps">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDonNhap">
+              <MappingFragment StoreEntitySet="HoaDonNhap">
+                <ScalarProperty Name="NgayNhap" ColumnName="NgayNhap" />
+                <ScalarProperty Name="MaHDN" ColumnName="MaHDN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KhachHangs">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.KhachHang">
+              <MappingFragment StoreEntitySet="KhachHang">
+                <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
+                <ScalarProperty Name="QuyenQuanTri" ColumnName="QuyenQuanTri" />
+                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+                <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
+                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+                <ScalarProperty Name="TenKH" ColumnName="TenKH" />
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KhuyenMais">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.KhuyenMai">
+              <MappingFragment StoreEntitySet="KhuyenMai">
+                <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
+                <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
+                <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
+                <ScalarProperty Name="TenKM" ColumnName="TenKM" />
+                <ScalarProperty Name="MaKM" ColumnName="MaKM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoaiSanPhams">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.LoaiSanPham">
+              <MappingFragment StoreEntitySet="LoaiSanPham">
+                <ScalarProperty Name="cate_img" ColumnName="cate_img" />
+                <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
+                <ScalarProperty Name="MaLoai" ColumnName="MaLoai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NguyenLieux">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.NguyenLieu">
+              <MappingFragment StoreEntitySet="NguyenLieu">
+                <ScalarProperty Name="DVT" ColumnName="DVT" />
+                <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="TenNguyenLieu" ColumnName="TenNguyenLieu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SanPhams">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.SanPham">
+              <MappingFragment StoreEntitySet="SanPham">
+                <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
+                <ScalarProperty Name="MaKM" ColumnName="MaKM" />
+                <ScalarProperty Name="maLoai" ColumnName="maLoai" />
+                <ScalarProperty Name="SoluongSP" ColumnName="SoluongSP" />
+                <ScalarProperty Name="SoLuotDanhGia" ColumnName="SoLuotDanhGia" />
+                <ScalarProperty Name="Sao" ColumnName="Sao" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="MotaSP" ColumnName="MotaSP" />
+                <ScalarProperty Name="GiaSP" ColumnName="GiaSP" />
+                <ScalarProperty Name="TenSP" ColumnName="TenSP" />
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

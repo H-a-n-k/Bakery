@@ -148,35 +148,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_detailhoadon_Result>("sp_detailhoadon", idParameter);
         }
     
-        public virtual int sp_dkytaikhoan(string ten, Nullable<int> gioi, string sdt, Nullable<System.DateTime> ngaysinh, string tk, string mk)
-        {
-            var tenParameter = ten != null ?
-                new ObjectParameter("ten", ten) :
-                new ObjectParameter("ten", typeof(string));
-    
-            var gioiParameter = gioi.HasValue ?
-                new ObjectParameter("gioi", gioi) :
-                new ObjectParameter("gioi", typeof(int));
-    
-            var sdtParameter = sdt != null ?
-                new ObjectParameter("sdt", sdt) :
-                new ObjectParameter("sdt", typeof(string));
-    
-            var ngaysinhParameter = ngaysinh.HasValue ?
-                new ObjectParameter("ngaysinh", ngaysinh) :
-                new ObjectParameter("ngaysinh", typeof(System.DateTime));
-    
-            var tkParameter = tk != null ?
-                new ObjectParameter("tk", tk) :
-                new ObjectParameter("tk", typeof(string));
-    
-            var mkParameter = mk != null ?
-                new ObjectParameter("mk", mk) :
-                new ObjectParameter("mk", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dkytaikhoan", tenParameter, gioiParameter, sdtParameter, ngaysinhParameter, tkParameter, mkParameter);
-        }
-    
         public virtual ObjectResult<sp_ds_nguyenlieu_Result> sp_ds_nguyenlieu()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_nguyenlieu_Result>("sp_ds_nguyenlieu");
@@ -193,19 +164,6 @@ namespace Bakery.Models
                 new ObjectParameter("ngay", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dshoadon_Result>("sp_dshoadon", idParameter, ngayParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<bool>> sp_khachdangnhap(string user, string pass)
-        {
-            var userParameter = user != null ?
-                new ObjectParameter("user", user) :
-                new ObjectParameter("user", typeof(string));
-    
-            var passParameter = pass != null ?
-                new ObjectParameter("pass", pass) :
-                new ObjectParameter("pass", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_khachdangnhap", userParameter, passParameter);
         }
     
         public virtual ObjectResult<string> sp_quenmatkhau(string sdt)
@@ -434,6 +392,57 @@ namespace Bakery.Models
                 new ObjectParameter("pagelength", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DSSP_Result>("sp_DSSP", totalPage, tinhtrangParameter, keywordParameter, maloaiParameter, orderOptParameter, pageParameter, pagelengthParameter);
+        }
+    
+        public virtual ObjectResult<sp_XemDanhGiaSP_Result> sp_XemDanhGiaSP(Nullable<int> masp)
+        {
+            var maspParameter = masp.HasValue ?
+                new ObjectParameter("masp", masp) :
+                new ObjectParameter("masp", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_XemDanhGiaSP_Result>("sp_XemDanhGiaSP", maspParameter);
+        }
+    
+        public virtual int sp_dkytaikhoan(string ten, Nullable<int> gioi, string sdt, Nullable<System.DateTime> ngaysinh, string tk, string mk)
+        {
+            var tenParameter = ten != null ?
+                new ObjectParameter("ten", ten) :
+                new ObjectParameter("ten", typeof(string));
+    
+            var gioiParameter = gioi.HasValue ?
+                new ObjectParameter("gioi", gioi) :
+                new ObjectParameter("gioi", typeof(int));
+    
+            var sdtParameter = sdt != null ?
+                new ObjectParameter("sdt", sdt) :
+                new ObjectParameter("sdt", typeof(string));
+    
+            var ngaysinhParameter = ngaysinh.HasValue ?
+                new ObjectParameter("ngaysinh", ngaysinh) :
+                new ObjectParameter("ngaysinh", typeof(System.DateTime));
+    
+            var tkParameter = tk != null ?
+                new ObjectParameter("tk", tk) :
+                new ObjectParameter("tk", typeof(string));
+    
+            var mkParameter = mk != null ?
+                new ObjectParameter("mk", mk) :
+                new ObjectParameter("mk", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dkytaikhoan", tenParameter, gioiParameter, sdtParameter, ngaysinhParameter, tkParameter, mkParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<bool>> sp_khachdangnhap(string user, string pass)
+        {
+            var userParameter = user != null ?
+                new ObjectParameter("user", user) :
+                new ObjectParameter("user", typeof(string));
+    
+            var passParameter = pass != null ?
+                new ObjectParameter("pass", pass) :
+                new ObjectParameter("pass", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_khachdangnhap", userParameter, passParameter);
         }
     }
 }

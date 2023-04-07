@@ -1,68 +1,82 @@
-﻿@model Bakery.Models.sp_ChiTietSP_Result
+﻿@model Bakery.Models.ViewModels.CTSanPhamVM
 
 <div>
     <h4>SanPham</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.TenSP)
+            @Html.DisplayNameFor(model => model.CTSP.TenSP)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TenSP)
+            @Html.DisplayFor(model => model.CTSP.TenSP)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.GiaSP)
+            @Html.DisplayNameFor(model => model.CTSP.GiaSP)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.GiaSP)
+            @Html.DisplayFor(model => model.CTSP.GiaSP)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MotaSP)
+            @Html.DisplayNameFor(model => model.CTSP.MotaSP)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MotaSP)
+            @Html.DisplayFor(model => model.CTSP.MotaSP)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.img)
+            @Html.DisplayNameFor(model => model.CTSP.img)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.img)
+            @Html.DisplayFor(model => model.CTSP.img)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Sao)
+            @Html.DisplayNameFor(model => model.CTSP.Sao)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Sao)
+            @Html.DisplayFor(model => model.CTSP.Sao)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SoLuotDanhGia)
+            @Html.DisplayNameFor(model => model.CTSP.SoLuotDanhGia)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SoLuotDanhGia)
+            @Html.DisplayFor(model => model.CTSP.SoLuotDanhGia)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SoluongSP)
+            @Html.DisplayNameFor(model => model.CTSP.SoluongSP)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SoluongSP)
+            @Html.DisplayFor(model => model.CTSP.SoluongSP)
         </dd>
 
     </dl>
+
+	<form action="/" method="post">
+		<input type="submit" value="Them vao gio hang" />
+    </form>
+	<hr />
+	<div>Cac Danh Gia:</div>
+    @foreach (var x in Model.DanhGia) { 
+        <div>
+			<h3>@x.TaiKhoan</h3>
+			<div>@x.SoSaoDanhGia</div>
+			<p>@x.NoiDungDanhGia</p>
+			<hr />
+        </div>
+    }
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MaSP }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CTSP.MaSP }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

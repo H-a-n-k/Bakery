@@ -10,6 +10,7 @@ using Bakery.Models;
 
 namespace Bakery.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class LoaiSanPhamsController : Controller
     {
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();

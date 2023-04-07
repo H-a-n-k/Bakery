@@ -67,7 +67,7 @@
     <Property Name="SoDienThoai" Type="varchar" MaxLength="15" />
     <Property Name="NgaySinh" Type="date" />
     <Property Name="TaiKhoan" Type="varchar" MaxLength="50" />
-    <Property Name="MatKhau" Type="varchar" MaxLength="50" />
+    <Property Name="MatKhau" Type="varbinary" MaxLength="500" />
     <Property Name="QuyenQuanTri" Type="bit" />
     <Property Name="tinhTrang" Type="int" />
   </EntityType>
@@ -339,6 +339,9 @@
     <Parameter Name="gioi" Type="int" Mode="In" />
     <Parameter Name="sdt" Type="varchar" Mode="In" />
     <Parameter Name="ngaysinh" Type="date" Mode="In" />
+  </Function>
+  <Function Name="sp_XemDanhGiaSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="masp" Type="int" Mode="In" />
   </Function>
   <EntityContainer Name="BakeryStoreDBModelStoreContainer">
     <EntitySet Name="CTHD" EntityType="Self.CTHD" Schema="dbo" store:Type="Tables" />

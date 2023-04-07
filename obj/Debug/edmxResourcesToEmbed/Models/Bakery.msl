@@ -1,128 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="BakeryStoreDBModelStoreContainer" CdmEntityContainer="BakeryStoreDBEntities">
-    <EntitySetMapping Name="CTHDs">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.CTHD">
-        <MappingFragment StoreEntitySet="CTHD">
-          <ScalarProperty Name="MaSP" ColumnName="MaSP" />
-          <ScalarProperty Name="MaHD" ColumnName="MaHD" />
-          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-          <ScalarProperty Name="DonGia" ColumnName="DonGia" />
-          <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
-          <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
-          <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CTHDNhaps">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.CTHDNhap">
-        <MappingFragment StoreEntitySet="CTHDNhap">
-          <ScalarProperty Name="MaHDN" ColumnName="MaHDN" />
-          <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
-          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-          <ScalarProperty Name="donGia" ColumnName="donGia" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="DoanhThus">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.DoanhThu">
-        <MappingFragment StoreEntitySet="DoanhThu">
-          <ScalarProperty Name="TienChi" ColumnName="TienChi" />
-          <ScalarProperty Name="TienThu" ColumnName="TienThu" />
-          <ScalarProperty Name="Ngay" ColumnName="Ngay" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="GioHangs">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.GioHang">
-        <MappingFragment StoreEntitySet="GioHang">
-          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-          <ScalarProperty Name="MaSP" ColumnName="MaSP" />
-          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="HoaDons">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDon">
-        <MappingFragment StoreEntitySet="HoaDon">
-          <ScalarProperty Name="MaHD" ColumnName="MaHD" />
-          <ScalarProperty Name="NgayHD" ColumnName="NgayHD" />
-          <ScalarProperty Name="TinhTrangGiao" ColumnName="TinhTrangGiao" />
-          <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
-          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="HoaDonNhaps">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDonNhap">
-        <MappingFragment StoreEntitySet="HoaDonNhap">
-          <ScalarProperty Name="MaHDN" ColumnName="MaHDN" />
-          <ScalarProperty Name="NgayNhap" ColumnName="NgayNhap" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="KhachHangs">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.KhachHang">
-        <MappingFragment StoreEntitySet="KhachHang">
-          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-          <ScalarProperty Name="TenKH" ColumnName="TenKH" />
-          <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
-          <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
-          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-          <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
-          <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
-          <ScalarProperty Name="QuyenQuanTri" ColumnName="QuyenQuanTri" />
-          <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="KhuyenMais">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.KhuyenMai">
-        <MappingFragment StoreEntitySet="KhuyenMai">
-          <ScalarProperty Name="MaKM" ColumnName="MaKM" />
-          <ScalarProperty Name="TenKM" ColumnName="TenKM" />
-          <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
-          <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
-          <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LoaiSanPhams">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.LoaiSanPham">
-        <MappingFragment StoreEntitySet="LoaiSanPham">
-          <ScalarProperty Name="cate_img" ColumnName="cate_img" />
-          <ScalarProperty Name="MaLoai" ColumnName="MaLoai" />
-          <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="NguyenLieux">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.NguyenLieu">
-        <MappingFragment StoreEntitySet="NguyenLieu">
-          <ScalarProperty Name="TenNguyenLieu" ColumnName="TenNguyenLieu" />
-          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-          <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
-          <ScalarProperty Name="DVT" ColumnName="DVT" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SanPhams">
-      <EntityTypeMapping TypeName="BakeryStoreDBModel.SanPham">
-        <MappingFragment StoreEntitySet="SanPham">
-          <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
-          <ScalarProperty Name="MaSP" ColumnName="MaSP" />
-          <ScalarProperty Name="TenSP" ColumnName="TenSP" />
-          <ScalarProperty Name="GiaSP" ColumnName="GiaSP" />
-          <ScalarProperty Name="MotaSP" ColumnName="MotaSP" />
-          <ScalarProperty Name="img" ColumnName="img" />
-          <ScalarProperty Name="Sao" ColumnName="Sao" />
-          <ScalarProperty Name="SoLuotDanhGia" ColumnName="SoLuotDanhGia" />
-          <ScalarProperty Name="SoluongSP" ColumnName="SoluongSP" />
-          <ScalarProperty Name="maLoai" ColumnName="maLoai" />
-          <ScalarProperty Name="MaKM" ColumnName="MaKM" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="sp_add_CTHD" FunctionName="BakeryStoreDBModel.Store.sp_add_CTHD" />
     <FunctionImportMapping FunctionImportName="sp_AnHienSP" FunctionName="BakeryStoreDBModel.Store.sp_AnHienSP" />
     <FunctionImportMapping FunctionImportName="sp_create_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_create_nguyenlieu" />
@@ -142,7 +20,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_dkytaikhoan" FunctionName="BakeryStoreDBModel.Store.sp_dkytaikhoan" />
     <FunctionImportMapping FunctionImportName="sp_ds_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_ds_nguyenlieu">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ds_nguyenlieu_Result">
@@ -164,7 +41,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_khachdangnhap" FunctionName="BakeryStoreDBModel.Store.sp_khachdangnhap" />
     <FunctionImportMapping FunctionImportName="sp_quenmatkhau" FunctionName="BakeryStoreDBModel.Store.sp_quenmatkhau" />
     <FunctionImportMapping FunctionImportName="sp_SuaSP" FunctionName="BakeryStoreDBModel.Store.sp_SuaSP" />
     <FunctionImportMapping FunctionImportName="sp_ThemSP" FunctionName="BakeryStoreDBModel.Store.sp_ThemSP" />
@@ -240,5 +116,138 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_XemDanhGiaSP" FunctionName="BakeryStoreDBModel.Store.sp_XemDanhGiaSP">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_XemDanhGiaSP_Result">
+          <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
+          <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
+          <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_dkytaikhoan" FunctionName="BakeryStoreDBModel.Store.sp_dkytaikhoan" />
+    <FunctionImportMapping FunctionImportName="sp_khachdangnhap" FunctionName="BakeryStoreDBModel.Store.sp_khachdangnhap" />
+    <EntitySetMapping Name="CTHDs">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.CTHD">
+        <MappingFragment StoreEntitySet="CTHD">
+          <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />
+          <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
+          <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
+          <ScalarProperty Name="DonGia" ColumnName="DonGia" />
+          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+          <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+          <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CTHDNhaps">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.CTHDNhap">
+        <MappingFragment StoreEntitySet="CTHDNhap">
+          <ScalarProperty Name="donGia" ColumnName="donGia" />
+          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+          <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
+          <ScalarProperty Name="MaHDN" ColumnName="MaHDN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DoanhThus">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.DoanhThu">
+        <MappingFragment StoreEntitySet="DoanhThu">
+          <ScalarProperty Name="Ngay" ColumnName="Ngay" />
+          <ScalarProperty Name="TienThu" ColumnName="TienThu" />
+          <ScalarProperty Name="TienChi" ColumnName="TienChi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GioHangs">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.GioHang">
+        <MappingFragment StoreEntitySet="GioHang">
+          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+          <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HoaDons">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDon">
+        <MappingFragment StoreEntitySet="HoaDon">
+          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+          <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
+          <ScalarProperty Name="TinhTrangGiao" ColumnName="TinhTrangGiao" />
+          <ScalarProperty Name="NgayHD" ColumnName="NgayHD" />
+          <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HoaDonNhaps">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDonNhap">
+        <MappingFragment StoreEntitySet="HoaDonNhap">
+          <ScalarProperty Name="NgayNhap" ColumnName="NgayNhap" />
+          <ScalarProperty Name="MaHDN" ColumnName="MaHDN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KhachHangs">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.KhachHang">
+        <MappingFragment StoreEntitySet="KhachHang">
+          <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
+          <ScalarProperty Name="QuyenQuanTri" ColumnName="QuyenQuanTri" />
+          <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+          <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
+          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+          <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+          <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+          <ScalarProperty Name="TenKH" ColumnName="TenKH" />
+          <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KhuyenMais">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.KhuyenMai">
+        <MappingFragment StoreEntitySet="KhuyenMai">
+          <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
+          <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
+          <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
+          <ScalarProperty Name="TenKM" ColumnName="TenKM" />
+          <ScalarProperty Name="MaKM" ColumnName="MaKM" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LoaiSanPhams">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.LoaiSanPham">
+        <MappingFragment StoreEntitySet="LoaiSanPham">
+          <ScalarProperty Name="cate_img" ColumnName="cate_img" />
+          <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
+          <ScalarProperty Name="MaLoai" ColumnName="MaLoai" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NguyenLieux">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.NguyenLieu">
+        <MappingFragment StoreEntitySet="NguyenLieu">
+          <ScalarProperty Name="DVT" ColumnName="DVT" />
+          <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
+          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+          <ScalarProperty Name="TenNguyenLieu" ColumnName="TenNguyenLieu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SanPhams">
+      <EntityTypeMapping TypeName="BakeryStoreDBModel.SanPham">
+        <MappingFragment StoreEntitySet="SanPham">
+          <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
+          <ScalarProperty Name="MaKM" ColumnName="MaKM" />
+          <ScalarProperty Name="maLoai" ColumnName="maLoai" />
+          <ScalarProperty Name="SoluongSP" ColumnName="SoluongSP" />
+          <ScalarProperty Name="SoLuotDanhGia" ColumnName="SoLuotDanhGia" />
+          <ScalarProperty Name="Sao" ColumnName="Sao" />
+          <ScalarProperty Name="img" ColumnName="img" />
+          <ScalarProperty Name="MotaSP" ColumnName="MotaSP" />
+          <ScalarProperty Name="GiaSP" ColumnName="GiaSP" />
+          <ScalarProperty Name="TenSP" ColumnName="TenSP" />
+          <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
