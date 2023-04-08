@@ -49,6 +49,7 @@
     <Property Name="TinhTrangGiao" Type="bit" />
     <Property Name="DiaChiGiao" Type="nvarchar" MaxLength="200" />
     <Property Name="MaKH" Type="int" />
+    <Property Name="TongTien" Type="int" />
   </EntityType>
   <EntityType Name="HoaDonNhap">
     <Key>
@@ -80,6 +81,7 @@
     <Property Name="TiLeKM" Type="float" />
     <Property Name="NgayBD" Type="date" />
     <Property Name="NgayKT" Type="date" />
+    <Property Name="pr_img" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="LoaiSanPham">
     <Key>
@@ -255,6 +257,10 @@
     <Parameter Name="sosao" Type="int" Mode="In" />
     <Parameter Name="danhgia" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="sp_delete_gioHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="maKH" Type="int" Mode="In" />
+    <Parameter Name="maSP" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_delete_loaisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id" Type="int" Mode="In" />
   </Function>
@@ -274,6 +280,9 @@
     <Parameter Name="ngaysinh" Type="date" Mode="In" />
     <Parameter Name="tk" Type="varchar" Mode="In" />
     <Parameter Name="mk" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_ds_cthd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="mahd" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_ds_gioHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="maKH" Type="int" Mode="In" />

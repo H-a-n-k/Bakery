@@ -54,6 +54,7 @@
           <Property Name="TinhTrangGiao" Type="bit" />
           <Property Name="DiaChiGiao" Type="nvarchar" MaxLength="200" />
           <Property Name="MaKH" Type="int" />
+          <Property Name="TongTien" Type="int" />
         </EntityType>
         <EntityType Name="HoaDonNhap">
           <Key>
@@ -85,6 +86,7 @@
           <Property Name="TiLeKM" Type="float" />
           <Property Name="NgayBD" Type="date" />
           <Property Name="NgayKT" Type="date" />
+          <Property Name="pr_img" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="LoaiSanPham">
           <Key>
@@ -260,6 +262,10 @@
           <Parameter Name="sosao" Type="int" Mode="In" />
           <Parameter Name="danhgia" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_delete_gioHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="maKH" Type="int" Mode="In" />
+          <Parameter Name="maSP" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_delete_loaisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
@@ -279,6 +285,9 @@
           <Parameter Name="ngaysinh" Type="date" Mode="In" />
           <Parameter Name="tk" Type="varchar" Mode="In" />
           <Parameter Name="mk" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ds_cthd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="mahd" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_ds_gioHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="maKH" Type="int" Mode="In" />
@@ -422,11 +431,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="BakeryStoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="BakeryStoreDBEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="sp_add_CTHD" ReturnType="Collection(Double)">
-            <Parameter Name="mahd" Mode="In" Type="Int32" />
-            <Parameter Name="masp" Mode="In" Type="Int32" />
-            <Parameter Name="sl" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="sp_AnHienSP">
           <Parameter Name="masp" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -536,11 +540,34 @@
             <Parameter Name="tk" Mode="In" Type="String" />
             <Parameter Name="mk" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_add_gioHang">
+            <Parameter Name="maKH" Mode="In" Type="Int32" />
+            <Parameter Name="maSP" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_update_gioHang">
+            <Parameter Name="maKH" Mode="In" Type="Int32" />
+            <Parameter Name="maSP" Mode="In" Type="Int32" />
+            <Parameter Name="sl" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_khachdangnhap" ReturnType="Collection(BakeryStoreDBModel.sp_khachdangnhap_Result)">
+            <Parameter Name="user" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ChiTietSP" ReturnType="Collection(BakeryStoreDBModel.sp_ChiTietSP_Result)">
+            <Parameter Name="masp" Mode="In" Type="Int32" />
+            <Parameter Name="makh" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ds_gioHang" ReturnType="Collection(BakeryStoreDBModel.sp_ds_gioHang_Result)">
+          <Parameter Name="maKH" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_delete_gioHang">
+            <Parameter Name="maKH" Mode="In" Type="Int32" />
+            <Parameter Name="maSP" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="CTHDs" EntityType="BakeryStoreDBModel.CTHD" />
           <EntitySet Name="CTHDNhaps" EntityType="BakeryStoreDBModel.CTHDNhap" />
           <EntitySet Name="DoanhThus" EntityType="BakeryStoreDBModel.DoanhThu" />
           <EntitySet Name="GioHangs" EntityType="BakeryStoreDBModel.GioHang" />
-          <EntitySet Name="HoaDons" EntityType="BakeryStoreDBModel.HoaDon" />
           <EntitySet Name="HoaDonNhaps" EntityType="BakeryStoreDBModel.HoaDonNhap" />
           <EntitySet Name="KhachHangs" EntityType="BakeryStoreDBModel.KhachHang" />
           <EntitySet Name="KhuyenMais" EntityType="BakeryStoreDBModel.KhuyenMai" />
@@ -549,10 +576,6 @@
           <EntitySet Name="SanPhams" EntityType="BakeryStoreDBModel.SanPham" />
           <AssociationSet Name="FK__CTHD__MaSP__37A5467C" Association="BakeryStoreDBModel.FK__CTHD__MaSP__37A5467C">
             <End Role="SanPham" EntitySet="SanPhams" />
-            <End Role="CTHD" EntitySet="CTHDs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CTHD_HoaDon" Association="BakeryStoreDBModel.FK_CTHD_HoaDon">
-            <End Role="HoaDon" EntitySet="HoaDons" />
             <End Role="CTHD" EntitySet="CTHDs" />
           </AssociationSet>
           <AssociationSet Name="FK_CTHDN_HDN" Association="BakeryStoreDBModel.FK_CTHDN_HDN">
@@ -571,10 +594,6 @@
             <End Role="SanPham" EntitySet="SanPhams" />
             <End Role="GioHang" EntitySet="GioHangs" />
           </AssociationSet>
-          <AssociationSet Name="FK__HoaDon__MaKH__3D5E1FD2" Association="BakeryStoreDBModel.FK__HoaDon__MaKH__3D5E1FD2">
-            <End Role="KhachHang" EntitySet="KhachHangs" />
-            <End Role="HoaDon" EntitySet="HoaDons" />
-          </AssociationSet>
           <AssociationSet Name="FK__SanPham__MaKM__3E52440B" Association="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B">
             <End Role="KhuyenMai" EntitySet="KhuyenMais" />
             <End Role="SanPham" EntitySet="SanPhams" />
@@ -583,32 +602,29 @@
             <End Role="LoaiSanPham" EntitySet="LoaiSanPhams" />
             <End Role="SanPham" EntitySet="SanPhams" />
           </AssociationSet>
-          <FunctionImport Name="sp_add_gioHang">
-            <Parameter Name="maKH" Mode="In" Type="Int32" />
-            <Parameter Name="maSP" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_calcTotal_gioHang" ReturnType="Collection(Double)">
-          <Parameter Name="maKH" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_thanhToan" ReturnType="Collection(Double)">
-            <Parameter Name="maKH" Mode="In" Type="Int32" />
-            <Parameter Name="diachi" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_update_gioHang">
-            <Parameter Name="maKH" Mode="In" Type="Int32" />
-            <Parameter Name="maSP" Mode="In" Type="Int32" />
+          <EntitySet Name="HoaDons" EntityType="BakeryStoreDBModel.HoaDon" />
+          <AssociationSet Name="FK_CTHD_HoaDon" Association="BakeryStoreDBModel.FK_CTHD_HoaDon">
+            <End Role="HoaDon" EntitySet="HoaDons" />
+            <End Role="CTHD" EntitySet="CTHDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HoaDon__MaKH__3D5E1FD2" Association="BakeryStoreDBModel.FK__HoaDon__MaKH__3D5E1FD2">
+            <End Role="KhachHang" EntitySet="KhachHangs" />
+            <End Role="HoaDon" EntitySet="HoaDons" />
+          </AssociationSet>
+          <FunctionImport Name="sp_add_CTHD">
+            <Parameter Name="mahd" Mode="In" Type="Int32" />
+            <Parameter Name="masp" Mode="In" Type="Int32" />
             <Parameter Name="sl" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_khachdangnhap" ReturnType="Collection(BakeryStoreDBModel.sp_khachdangnhap_Result)">
-            <Parameter Name="user" Mode="In" Type="String" />
-            <Parameter Name="pass" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_ChiTietSP" ReturnType="Collection(BakeryStoreDBModel.sp_ChiTietSP_Result)">
-            <Parameter Name="masp" Mode="In" Type="Int32" />
-            <Parameter Name="makh" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_ds_gioHang" ReturnType="Collection(BakeryStoreDBModel.sp_ds_gioHang_Result)">
+          <FunctionImport Name="sp_calcTotal_gioHang">
             <Parameter Name="maKH" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ds_cthd" ReturnType="Collection(BakeryStoreDBModel.sp_ds_cthd_Result)">
+            <Parameter Name="mahd" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_thanhToan">
+            <Parameter Name="maKH" Mode="In" Type="Int32" />
+            <Parameter Name="diachi" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_detailhoadon_Result">
@@ -670,6 +686,35 @@
           <Property Type="String" Name="NoiDungDanhGia" Nullable="true" MaxLength="500" />
           <Property Type="String" Name="TaiKhoan" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="sp_khachdangnhap_Result">
+          <Property Type="Int32" Name="MaKH" Nullable="false" />
+          <Property Type="Boolean" Name="QuyenQuanTri" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_ChiTietSP_Result">
+          <Property Type="Int32" Name="MaSP" Nullable="false" />
+          <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="img" Nullable="true" />
+          <Property Type="Int32" Name="GiaSP" Nullable="false" />
+          <Property Type="String" Name="MotaSP" Nullable="true" MaxLength="500" />
+          <Property Type="Double" Name="Sao" Nullable="false" />
+          <Property Type="Int32" Name="SoLuotDanhGia" Nullable="false" />
+          <Property Type="Int32" Name="SoluongSP" Nullable="false" />
+          <Property Type="String" Name="TenLoai" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NgayBD" Nullable="true" />
+          <Property Type="DateTime" Name="NgayKT" Nullable="true" />
+          <Property Type="Double" Name="TiLeKM" Nullable="true" />
+          <Property Type="Int32" Name="SoLuong" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_ds_gioHang_Result">
+          <Property Type="Int32" Name="MaSP" Nullable="false" />
+          <Property Type="Int32" Name="MaKH" Nullable="false" />
+          <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SoLuong" Nullable="true" />
+          <Property Type="Int32" Name="SoluongSP" Nullable="false" />
+          <Property Type="Int32" Name="GiaSP" Nullable="false" />
+          <Property Type="Double" Name="TiLeKM" Nullable="true" />
+          <Property Type="DateTime" Name="NgayKT" Nullable="true" />
+        </ComplexType>
         <EntityType Name="CTHD">
           <Key>
             <PropertyRef Name="MaSP" />
@@ -716,18 +761,6 @@
           <NavigationProperty Name="KhachHang" Relationship="BakeryStoreDBModel.fk_giohang_khachhang" FromRole="GioHang" ToRole="KhachHang" />
           <NavigationProperty Name="SanPham" Relationship="BakeryStoreDBModel.FK_GioHang_SanPham" FromRole="GioHang" ToRole="SanPham" />
         </EntityType>
-        <EntityType Name="HoaDon">
-          <Key>
-            <PropertyRef Name="MaHD" />
-          </Key>
-          <Property Name="MaHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NgayHD" Type="DateTime" Precision="0" />
-          <Property Name="TinhTrangGiao" Type="Boolean" />
-          <Property Name="DiaChiGiao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MaKH" Type="Int32" />
-          <NavigationProperty Name="CTHDs" Relationship="BakeryStoreDBModel.FK_CTHD_HoaDon" FromRole="HoaDon" ToRole="CTHD" />
-          <NavigationProperty Name="KhachHang" Relationship="BakeryStoreDBModel.FK__HoaDon__MaKH__3D5E1FD2" FromRole="HoaDon" ToRole="KhachHang" />
-        </EntityType>
         <EntityType Name="HoaDonNhap">
           <Key>
             <PropertyRef Name="MaHDN" />
@@ -761,6 +794,7 @@
           <Property Name="TiLeKM" Type="Double" />
           <Property Name="NgayBD" Type="DateTime" Precision="0" />
           <Property Name="NgayKT" Type="DateTime" Precision="0" />
+          <Property Name="pr_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SanPhams" Relationship="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B" FromRole="KhuyenMai" ToRole="SanPham" />
         </EntityType>
         <EntityType Name="LoaiSanPham">
@@ -814,18 +848,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CTHD_HoaDon">
-          <End Type="BakeryStoreDBModel.HoaDon" Role="HoaDon" Multiplicity="1" />
-          <End Type="BakeryStoreDBModel.CTHD" Role="CTHD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HoaDon">
-              <PropertyRef Name="MaHD" />
-            </Principal>
-            <Dependent Role="CTHD">
-              <PropertyRef Name="MaHD" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CTHDN_HDN">
           <End Type="BakeryStoreDBModel.HoaDonNhap" Role="HoaDonNhap" Multiplicity="1" />
           <End Type="BakeryStoreDBModel.CTHDNhap" Role="CTHDNhap" Multiplicity="*" />
@@ -874,18 +896,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__HoaDon__MaKH__3D5E1FD2">
-          <End Type="BakeryStoreDBModel.KhachHang" Role="KhachHang" Multiplicity="0..1" />
-          <End Type="BakeryStoreDBModel.HoaDon" Role="HoaDon" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KhachHang">
-              <PropertyRef Name="MaKH" />
-            </Principal>
-            <Dependent Role="HoaDon">
-              <PropertyRef Name="MaKH" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__SanPham__MaKM__3E52440B">
           <End Type="BakeryStoreDBModel.KhuyenMai" Role="KhuyenMai" Multiplicity="0..1" />
           <End Type="BakeryStoreDBModel.SanPham" Role="SanPham" Multiplicity="*" />
@@ -910,34 +920,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_khachdangnhap_Result">
-          <Property Type="Int32" Name="MaKH" Nullable="false" />
-          <Property Type="Boolean" Name="QuyenQuanTri" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_ChiTietSP_Result">
+        <EntityType Name="HoaDon">
+          <Key>
+            <PropertyRef Name="MaHD" />
+          </Key>
+          <Property Name="MaHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NgayHD" Type="DateTime" Precision="0" />
+          <Property Name="TinhTrangGiao" Type="Boolean" />
+          <Property Name="DiaChiGiao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MaKH" Type="Int32" />
+          <Property Name="TongTien" Type="Int32" />
+          <NavigationProperty Name="CTHDs" Relationship="BakeryStoreDBModel.FK_CTHD_HoaDon" FromRole="HoaDon" ToRole="CTHD" />
+          <NavigationProperty Name="KhachHang" Relationship="BakeryStoreDBModel.FK__HoaDon__MaKH__3D5E1FD2" FromRole="HoaDon" ToRole="KhachHang" />
+        </EntityType>
+        <Association Name="FK_CTHD_HoaDon">
+          <End Type="BakeryStoreDBModel.HoaDon" Role="HoaDon" Multiplicity="1" />
+          <End Type="BakeryStoreDBModel.CTHD" Role="CTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HoaDon">
+              <PropertyRef Name="MaHD" />
+            </Principal>
+            <Dependent Role="CTHD">
+              <PropertyRef Name="MaHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HoaDon__MaKH__3D5E1FD2">
+          <End Type="BakeryStoreDBModel.KhachHang" Role="KhachHang" Multiplicity="0..1" />
+          <End Type="BakeryStoreDBModel.HoaDon" Role="HoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="MaKH" />
+            </Principal>
+            <Dependent Role="HoaDon">
+              <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_ds_cthd_Result">
           <Property Type="Int32" Name="MaSP" Nullable="false" />
-          <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="img" Nullable="true" />
-          <Property Type="Int32" Name="GiaSP" Nullable="false" />
-          <Property Type="String" Name="MotaSP" Nullable="true" MaxLength="500" />
-          <Property Type="Double" Name="Sao" Nullable="false" />
-          <Property Type="Int32" Name="SoLuotDanhGia" Nullable="false" />
-          <Property Type="Int32" Name="SoluongSP" Nullable="false" />
-          <Property Type="String" Name="TenLoai" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="NgayBD" Nullable="true" />
-          <Property Type="DateTime" Name="NgayKT" Nullable="true" />
-          <Property Type="Double" Name="TiLeKM" Nullable="true" />
+          <Property Type="Int32" Name="MaHD" Nullable="false" />
           <Property Type="Int32" Name="SoLuong" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_ds_gioHang_Result">
-          <Property Type="Int32" Name="MaSP" Nullable="false" />
-          <Property Type="Int32" Name="MaKH" Nullable="false" />
-          <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="SoLuong" Nullable="true" />
-          <Property Type="Int32" Name="SoluongSP" Nullable="false" />
-          <Property Type="Int32" Name="GiaSP" Nullable="false" />
-          <Property Type="Double" Name="TiLeKM" Nullable="true" />
-          <Property Type="DateTime" Name="NgayKT" Nullable="true" />
+          <Property Type="Int32" Name="DonGia" Nullable="true" />
+          <Property Type="Int32" Name="SoSaoDanhGia" Nullable="true" />
+          <Property Type="String" Name="NoiDungDanhGia" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="GiamGia" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -945,7 +972,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="BakeryStoreDBModelStoreContainer" CdmEntityContainer="BakeryStoreDBEntities">
-          <FunctionImportMapping FunctionImportName="sp_add_CTHD" FunctionName="BakeryStoreDBModel.Store.sp_add_CTHD" />
           <FunctionImportMapping FunctionImportName="sp_AnHienSP" FunctionName="BakeryStoreDBModel.Store.sp_AnHienSP" />
           <FunctionImportMapping FunctionImportName="sp_create_nguyenlieu" FunctionName="BakeryStoreDBModel.Store.sp_create_nguyenlieu" />
           <FunctionImportMapping FunctionImportName="sp_createhoadon" FunctionName="BakeryStoreDBModel.Store.sp_createhoadon" />
@@ -1052,6 +1078,50 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_dkytaikhoan" FunctionName="BakeryStoreDBModel.Store.sp_dkytaikhoan" />
+          <FunctionImportMapping FunctionImportName="sp_add_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_add_gioHang" />
+          <FunctionImportMapping FunctionImportName="sp_update_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_update_gioHang" />
+          <FunctionImportMapping FunctionImportName="sp_khachdangnhap" FunctionName="BakeryStoreDBModel.Store.sp_khachdangnhap">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_khachdangnhap_Result">
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="QuyenQuanTri" ColumnName="QuyenQuanTri" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ChiTietSP" FunctionName="BakeryStoreDBModel.Store.sp_ChiTietSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ChiTietSP_Result">
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="TenSP" ColumnName="TenSP" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="GiaSP" ColumnName="GiaSP" />
+                <ScalarProperty Name="MotaSP" ColumnName="MotaSP" />
+                <ScalarProperty Name="Sao" ColumnName="Sao" />
+                <ScalarProperty Name="SoLuotDanhGia" ColumnName="SoLuotDanhGia" />
+                <ScalarProperty Name="SoluongSP" ColumnName="SoluongSP" />
+                <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
+                <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
+                <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
+                <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ds_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_ds_gioHang">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ds_gioHang_Result">
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="TenSP" ColumnName="TenSP" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="SoluongSP" ColumnName="SoluongSP" />
+                <ScalarProperty Name="GiaSP" ColumnName="GiaSP" />
+                <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
+                <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_delete_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_delete_gioHang" />
           <EntitySetMapping Name="CTHDs">
             <EntityTypeMapping TypeName="BakeryStoreDBModel.CTHD">
               <MappingFragment StoreEntitySet="CTHD">
@@ -1093,17 +1163,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HoaDons">
-            <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDon">
-              <MappingFragment StoreEntitySet="HoaDon">
-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-                <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
-                <ScalarProperty Name="TinhTrangGiao" ColumnName="TinhTrangGiao" />
-                <ScalarProperty Name="NgayHD" ColumnName="NgayHD" />
-                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HoaDonNhaps">
             <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDonNhap">
               <MappingFragment StoreEntitySet="HoaDonNhap">
@@ -1130,6 +1189,7 @@
           <EntitySetMapping Name="KhuyenMais">
             <EntityTypeMapping TypeName="BakeryStoreDBModel.KhuyenMai">
               <MappingFragment StoreEntitySet="KhuyenMai">
+                <ScalarProperty Name="pr_img" ColumnName="pr_img" />
                 <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
                 <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
                 <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
@@ -1174,51 +1234,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_add_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_add_gioHang" />
+          <EntitySetMapping Name="HoaDons">
+            <EntityTypeMapping TypeName="BakeryStoreDBModel.HoaDon">
+              <MappingFragment StoreEntitySet="HoaDon">
+                <ScalarProperty Name="TongTien" ColumnName="TongTien" />
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
+                <ScalarProperty Name="TinhTrangGiao" ColumnName="TinhTrangGiao" />
+                <ScalarProperty Name="NgayHD" ColumnName="NgayHD" />
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_add_CTHD" FunctionName="BakeryStoreDBModel.Store.sp_add_CTHD" />
           <FunctionImportMapping FunctionImportName="sp_calcTotal_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_calcTotal_gioHang" />
+          <FunctionImportMapping FunctionImportName="sp_ds_cthd" FunctionName="BakeryStoreDBModel.Store.sp_ds_cthd">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ds_cthd_Result">
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="DonGia" ColumnName="DonGia" />
+                <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
+                <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
+                <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_thanhToan" FunctionName="BakeryStoreDBModel.Store.sp_thanhToan" />
-          <FunctionImportMapping FunctionImportName="sp_update_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_update_gioHang" />
-          <FunctionImportMapping FunctionImportName="sp_khachdangnhap" FunctionName="BakeryStoreDBModel.Store.sp_khachdangnhap">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_khachdangnhap_Result">
-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-                <ScalarProperty Name="QuyenQuanTri" ColumnName="QuyenQuanTri" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_ChiTietSP" FunctionName="BakeryStoreDBModel.Store.sp_ChiTietSP">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ChiTietSP_Result">
-                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
-                <ScalarProperty Name="TenSP" ColumnName="TenSP" />
-                <ScalarProperty Name="img" ColumnName="img" />
-                <ScalarProperty Name="GiaSP" ColumnName="GiaSP" />
-                <ScalarProperty Name="MotaSP" ColumnName="MotaSP" />
-                <ScalarProperty Name="Sao" ColumnName="Sao" />
-                <ScalarProperty Name="SoLuotDanhGia" ColumnName="SoLuotDanhGia" />
-                <ScalarProperty Name="SoluongSP" ColumnName="SoluongSP" />
-                <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
-                <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
-                <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
-                <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
-                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_ds_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_ds_gioHang">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ds_gioHang_Result">
-                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-                <ScalarProperty Name="TenSP" ColumnName="TenSP" />
-                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-                <ScalarProperty Name="SoluongSP" ColumnName="SoluongSP" />
-                <ScalarProperty Name="GiaSP" ColumnName="GiaSP" />
-                <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
-                <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Bakery.Models.HoaDon>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NgayHD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TinhTrangGiao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiaChiGiao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TongTien)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KhachHang.TenKH)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NgayHD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TinhTrangGiao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiaChiGiao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TongTien)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KhachHang.TenKH)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MaHD }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MaHD }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MaHD })
+        </td>
+    </tr>
+}
+
+</table>
