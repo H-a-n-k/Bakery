@@ -38,9 +38,10 @@
 	}
 </div>
 
-<p>
-	@Html.ActionLink("Create New", "Create")
-</p>
+@if (Session["Role"] == "Admin") { 
+	<p> @Html.ActionLink("Create New", "Create") </p>	
+}
+
 <table class="table">
 	<tr>
 		<th>
@@ -100,9 +101,13 @@
 				@Html.DisplayFor(modelItem => item.TiLeKM)
 			</td>
 			<td>
-				@Html.ActionLink("Edit", "Edit", new { id = item.MaSP }) |
-				@Html.ActionLink("Details", "Details", new { id = item.MaSP }) |
-				@Html.ActionLink("Delete", "Delete", new { id = item.MaSP })
+				@Html.ActionLink("Details", "Details", new { id = item.MaSP })
+				@if (Session["Role"] == "Admin")
+				{
+					<text>|@Html.ActionLink("Edit", "Edit", new { id = item.MaSP })</text>
+					<text>|@Html.ActionLink("Delete", "Delete", new { id = item.MaSP })</text>
+
+				}
 			</td>
 		</tr>
 	}	

@@ -31,30 +31,13 @@ namespace Bakery.Models
         public virtual DbSet<CTHDNhap> CTHDNhaps { get; set; }
         public virtual DbSet<DoanhThu> DoanhThus { get; set; }
         public virtual DbSet<GioHang> GioHangs { get; set; }
-        public virtual DbSet<HoaDon> HoaDons { get; set; }
         public virtual DbSet<HoaDonNhap> HoaDonNhaps { get; set; }
         public virtual DbSet<KhachHang> KhachHangs { get; set; }
         public virtual DbSet<KhuyenMai> KhuyenMais { get; set; }
         public virtual DbSet<LoaiSanPham> LoaiSanPhams { get; set; }
         public virtual DbSet<NguyenLieu> NguyenLieux { get; set; }
         public virtual DbSet<SanPham> SanPhams { get; set; }
-    
-        public virtual ObjectResult<Nullable<double>> sp_add_CTHD(Nullable<int> mahd, Nullable<int> masp, Nullable<int> sl)
-        {
-            var mahdParameter = mahd.HasValue ?
-                new ObjectParameter("mahd", mahd) :
-                new ObjectParameter("mahd", typeof(int));
-    
-            var maspParameter = masp.HasValue ?
-                new ObjectParameter("masp", masp) :
-                new ObjectParameter("masp", typeof(int));
-    
-            var slParameter = sl.HasValue ?
-                new ObjectParameter("sl", sl) :
-                new ObjectParameter("sl", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("sp_add_CTHD", mahdParameter, maspParameter, slParameter);
-        }
+        public virtual DbSet<HoaDon> HoaDons { get; set; }
     
         public virtual int sp_AnHienSP(Nullable<int> masp)
         {
@@ -436,28 +419,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_add_gioHang", maKHParameter, maSPParameter);
         }
     
-        public virtual ObjectResult<Nullable<double>> sp_calcTotal_gioHang(Nullable<int> maKH)
-        {
-            var maKHParameter = maKH.HasValue ?
-                new ObjectParameter("maKH", maKH) :
-                new ObjectParameter("maKH", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("sp_calcTotal_gioHang", maKHParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<double>> sp_thanhToan(Nullable<int> maKH, string diachi)
-        {
-            var maKHParameter = maKH.HasValue ?
-                new ObjectParameter("maKH", maKH) :
-                new ObjectParameter("maKH", typeof(int));
-    
-            var diachiParameter = diachi != null ?
-                new ObjectParameter("diachi", diachi) :
-                new ObjectParameter("diachi", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("sp_thanhToan", maKHParameter, diachiParameter);
-        }
-    
         public virtual int sp_update_gioHang(Nullable<int> maKH, Nullable<int> maSP, Nullable<int> sl)
         {
             var maKHParameter = maKH.HasValue ?
@@ -508,6 +469,67 @@ namespace Bakery.Models
                 new ObjectParameter("maKH", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_gioHang_Result>("sp_ds_gioHang", maKHParameter);
+        }
+    
+        public virtual int sp_delete_gioHang(Nullable<int> maKH, Nullable<int> maSP)
+        {
+            var maKHParameter = maKH.HasValue ?
+                new ObjectParameter("maKH", maKH) :
+                new ObjectParameter("maKH", typeof(int));
+    
+            var maSPParameter = maSP.HasValue ?
+                new ObjectParameter("maSP", maSP) :
+                new ObjectParameter("maSP", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_delete_gioHang", maKHParameter, maSPParameter);
+        }
+    
+        public virtual int sp_add_CTHD(Nullable<int> mahd, Nullable<int> masp, Nullable<int> sl)
+        {
+            var mahdParameter = mahd.HasValue ?
+                new ObjectParameter("mahd", mahd) :
+                new ObjectParameter("mahd", typeof(int));
+    
+            var maspParameter = masp.HasValue ?
+                new ObjectParameter("masp", masp) :
+                new ObjectParameter("masp", typeof(int));
+    
+            var slParameter = sl.HasValue ?
+                new ObjectParameter("sl", sl) :
+                new ObjectParameter("sl", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_add_CTHD", mahdParameter, maspParameter, slParameter);
+        }
+    
+        public virtual int sp_calcTotal_gioHang(Nullable<int> maKH)
+        {
+            var maKHParameter = maKH.HasValue ?
+                new ObjectParameter("maKH", maKH) :
+                new ObjectParameter("maKH", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_calcTotal_gioHang", maKHParameter);
+        }
+    
+        public virtual ObjectResult<sp_ds_cthd_Result> sp_ds_cthd(Nullable<int> mahd)
+        {
+            var mahdParameter = mahd.HasValue ?
+                new ObjectParameter("mahd", mahd) :
+                new ObjectParameter("mahd", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_cthd_Result>("sp_ds_cthd", mahdParameter);
+        }
+    
+        public virtual int sp_thanhToan(Nullable<int> maKH, string diachi)
+        {
+            var maKHParameter = maKH.HasValue ?
+                new ObjectParameter("maKH", maKH) :
+                new ObjectParameter("maKH", typeof(int));
+    
+            var diachiParameter = diachi != null ?
+                new ObjectParameter("diachi", diachi) :
+                new ObjectParameter("diachi", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_thanhToan", maKHParameter, diachiParameter);
         }
     }
 }

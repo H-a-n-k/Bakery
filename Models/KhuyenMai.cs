@@ -25,6 +25,7 @@ namespace Bakery.Models
         public Nullable<double> TiLeKM { get; set; }
         public Nullable<System.DateTime> NgayBD { get; set; }
         public Nullable<System.DateTime> NgayKT { get; set; }
+        public string pr_img { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SanPham> SanPhams { get; set; }

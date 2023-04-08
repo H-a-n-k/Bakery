@@ -109,6 +109,11 @@
     }
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CTSP.MaSP }) |
-    @Html.ActionLink("Back to List", "Index")
+	@if (Session["Role"] == "Admin")
+	{
+		<text>
+			@Html.ActionLink("Edit", "Edit", new { id = Model.CTSP.MaSP }) |
+		</text>
+	}
+	@Html.ActionLink("Back to List", "Index")
 </p>

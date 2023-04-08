@@ -16,32 +16,52 @@ namespace Bakery.Controllers
     {
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 
+        private int? GetCustomerID(HttpSessionStateBase session) {
+            if (session["CustomerID"] == null) return null;
+
+            return (int)session["CustomerID"];
+
+		}
+
         // GET: GioHangs
-        public ActionResult Index(int maKh)
+        public ActionResult Index()
         {
-            if (Session["CustomerID"] == null) return RedirectToAction("signIn", "khachhangs");
+            int? makh = GetCustomerID(Session);
+            if (makh == null) return RedirectToAction("signIn", "khachhangs");
 
-            if ((int)Session["CustomerID"] != maKh) return Content("This is not your cart");
-
-            var gioHangs = db.sp_ds_gioHang(maKh);
+            var gioHangs = db.sp_ds_gioHang(makh);
             return View(gioHangs.ToList());
         }
 
         [HttpPost]
-		public ActionResult Checkout(List<sp_ds_gioHang_Result> Items)
+		public ActionResult Checkout(string addr)
 		{
+			int? makh = GetCustomerID(Session);
+			if (makh == null) return RedirectToAction("signIn", "khachhangs");
 
-            return Json(new { success = true });
-			//return RedirectToAction("Index", new { maKh = Items.First().MaKH });
+            db.sp_thanhToan(makh, addr);
+            db.sp_delete_gioHang(makh, null);
+            //return Json(new { success = true });
+            return RedirectToAction("Index");
+		}
+        //sua calc tong, addcthd
+		[HttpPost]
+		public ActionResult UpdateQuantity(int masp, int sl)
+		{
+			int? makh = GetCustomerID(Session);
+			if (makh == null) return new EmptyResult();
+
+			db.sp_update_gioHang(makh, masp, sl);
+            return new EmptyResult();
 		}
 
 		[HttpPost]
-		public ActionResult UpdateQuantity(List<sp_ds_gioHang_Result> Items)
+		public ActionResult RemoveItem(int masp)
 		{
-            foreach (var x in Items) {
-                db.sp_update_gioHang(x.MaKH, x.MaSP, x.SoLuong);
-            }
+			int? makh = GetCustomerID(Session);
+			if (makh == null) return new EmptyResult();
 
+			db.sp_delete_gioHang(makh, masp);
             return new EmptyResult();
 		}
 
