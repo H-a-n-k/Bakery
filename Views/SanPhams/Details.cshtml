@@ -16,9 +16,18 @@
             @Html.DisplayNameFor(model => model.CTSP.GiaSP)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CTSP.GiaSP)
-        </dd>
+		<dd>
+			@if (Model.CTSP.TiLeKM.HasValue)
+			{
+				<del>@Model.CTSP.GiaSP</del>
+				<span>@(Model.CTSP.GiaSP * (1 - Model.CTSP.TiLeKM))</span>
+				<span>(cho den @Model.CTSP.NgayKT.Value.ToShortDateString())</span>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.CTSP.GiaSP);
+            }
+		</dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.CTSP.MotaSP)
@@ -62,9 +71,32 @@
 
     </dl>
 
-	<form action="/" method="post">
-		<input type="submit" value="Them vao gio hang" />
-    </form>
+	@if (Session["CustomerID"] != null && Session["Role"] == "Customer")
+    {
+        if (Model.CTSP.SoLuong.HasValue)
+        {
+             <p>Da co trong gio hang:</p>
+             <input type="number" value="@Model.CTSP.SoLuong" min="1" max="@Model.CTSP.SoluongSP" />
+             <br />
+             <button>X</button>
+        }
+        else
+        {
+			<form action="~/GioHangs/Create" method="post">
+				@Html.AntiForgeryToken()
+				<input type="number" name="MaKH" value="@Session["CustomerID"]" hidden />
+				<input type="number" name="MaSP" value="@Model.CTSP.MaSP" hidden />
+				<input type="submit" value="Them vao gio hang" />
+			</form>
+        }
+    }
+    else { 
+        <p>
+            @Html.ActionLink("DANG NHAP ", "SignIn", "KhachHangs")
+            de mua hang
+        </p>
+    }
+
 	<hr />
 	<div>Cac Danh Gia:</div>
     @foreach (var x in Model.DanhGia) { 

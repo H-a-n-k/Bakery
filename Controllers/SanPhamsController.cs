@@ -20,7 +20,7 @@ namespace Bakery.Controllers
         public ActionResult Index(bool? tinhtrang, string keyword, int? maloai , int? page, int? pagelength, int? orderOpt)
         {
 			ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
-            var danhsach = db.sp_DSSP(count, tinhtrang, keyword, maloai, orderOpt, page, 5).ToList();
+            var danhsach = db.sp_DSSP(count, tinhtrang, keyword, maloai, orderOpt, page, pagelength).ToList();
 
             ViewBag.PageCount = Convert.ToInt32(count.Value);
             var SelectOrderOptions = new SelectList(new[] {
@@ -40,7 +40,8 @@ namespace Bakery.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var sanPham= db.sp_ChiTietSP(id).SingleOrDefault();
+            var makh = (int?)Session["CustomerID"];
+            var sanPham = db.sp_ChiTietSP(id, makh).SingleOrDefault();
             if (sanPham == null)
             {
                 return HttpNotFound();

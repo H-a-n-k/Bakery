@@ -34,6 +34,9 @@
                     else { 
         				<li>@Html.ActionLink("Dang Xuat", "SignOut", "Khachhangs", new { area = "" }, new { @class = "nav-link" })</li>
                     }
+                    @if (Session["Role"] == "Customer" && Session["CustomerID"] != null) { 
+						<li>@Html.ActionLink("Gio Hang", "Index", "GioHangs", new { maKh = Session["CustomerID"] }, new { @class = "nav-link" })</li>
+                    }
 				</ul>
             </div>
         </div>

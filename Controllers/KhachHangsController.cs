@@ -134,10 +134,11 @@ namespace Bakery.Controllers
         [HttpPost]
         public ActionResult SignIn(string user, string pass)
 		{
-            bool? isAdmin = db.sp_khachdangnhap(user, pass).SingleOrDefault();
-            if (isAdmin.HasValue) {
+            var kh = db.sp_khachdangnhap(user, pass).SingleOrDefault();
+            if (kh != null) {
 				FormsAuthentication.SetAuthCookie(user, false);
-                Session["Role"] = isAdmin.Value ? "Admin" : "Customer";
+                Session["Role"] = kh.QuyenQuanTri.Value ? "Admin" : "Customer";
+                Session["CustomerID"] = kh.MaKH;
 				return RedirectToAction("Index", "Home");
 			}
 			return View();
@@ -147,7 +148,8 @@ namespace Bakery.Controllers
 		{
             FormsAuthentication.SignOut();
             Session["Role"] = null;
-            return RedirectToAction("SignIn");
+            Session["CustomerID"] = null;
+			return RedirectToAction("SignIn");
 		}
 
 		protected override void Dispose(bool disposing)

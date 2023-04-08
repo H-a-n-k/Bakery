@@ -1,0 +1,88 @@
+﻿@model List<Bakery.Models.sp_ds_gioHang_Result>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model[0].TenSP)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model[0].SoLuong)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model[0].GiaSP)
+		</th>
+		<th></th>
+	</tr>
+
+	@using (Html.BeginForm("Checkout", "GioHangs"))
+	{
+		@Html.AntiForgeryToken()
+		for (int i = 0; i < Model.Count(); i++)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => Model[i].TenSP)
+				</td>
+				<td>
+					@Html.EditorFor(model => Model[i].SoLuong,
+						new { htmlAttributes = new { min = 1, max = Model[i].SoluongSP } })
+					<span>/@Model[i].SoluongSP</span>
+					@Html.HiddenFor(model => Model[i].MaKH)
+					@Html.HiddenFor(model => Model[i].MaSP)
+				</td>
+				<td>
+					@if (Model[i].NgayKT.HasValue)
+					{
+						<del>@Model[i].GiaSP</del>
+						<span>@(Model[i].GiaSP * (1-Model[i].TiLeKM))</span>
+					}
+					else
+					{
+						@Html.DisplayFor(modelItem => Model[i].GiaSP)
+					}
+				</td>
+				<td>
+					<button>X</button>
+				</td>
+			</tr>
+		}
+		<button id="btnCheckout" type="submit" name="action" value="checkout">Thanh toan</button>
+	}
+
+</table>
+<button id="fake-checkout">fake checkout</button>
+
+@section scripts {
+	<script>
+		$(document).ready(() => {
+			document.addEventListener('visibilitychange', function () {
+
+				if (document.visibilityState == 'hidden') {
+					var url = 'giohangs/UpdateQuantity';
+					var data = $('form').serializeArray();
+
+					navigator.sendBeacon(url, data);
+				}
+			});
+
+		})
+		$('#fake-checkout').on('click', () => {
+			var endpoint = 'giohangs/checkout';
+			console.log($('form').serializeArray());
+			/*$.ajax({
+				type: "POST",
+				url: endpoint,
+				data: $('form').serializeArray(),
+				success: function () {
+					alert('success post');
+				}
+			});*/
+		})
+	</script>
+}

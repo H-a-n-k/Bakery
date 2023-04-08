@@ -129,6 +129,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\GioHangsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KhachHangsController.cs" />
     <Compile Include="Controllers\LoaiSanPhamsController.cs" />
@@ -199,10 +200,16 @@
     <Compile Include="Models\sp_DSSP_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_ds_gioHang_Result.cs">
+      <DependentUpon>Bakery.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_ds_loaisp_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_ds_nguyenlieu_Result.cs">
+      <DependentUpon>Bakery.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_khachdangnhap_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_profilekhachhang_Result.cs">
@@ -299,6 +306,11 @@
     <Content Include="Views\KhachHangs\Edit.cshtml" />
     <Content Include="Views\KhachHangs\Index.cshtml" />
     <Content Include="Views\KhachHangs\SignIn.cshtml" />
+    <Content Include="Views\GioHangs\Create.cshtml" />
+    <Content Include="Views\GioHangs\Delete.cshtml" />
+    <Content Include="Views\GioHangs\Details.cshtml" />
+    <Content Include="Views\GioHangs\Edit.cshtml" />
+    <Content Include="Views\GioHangs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
