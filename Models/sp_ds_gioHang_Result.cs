@@ -11,20 +11,15 @@ namespace Bakery.Models
 {
     using System;
     
-    public partial class sp_ChiTietSP_Result
+    public partial class sp_ds_gioHang_Result
     {
         public int MaSP { get; set; }
+        public int MaKH { get; set; }
         public string TenSP { get; set; }
-        public string img { get; set; }
-        public int GiaSP { get; set; }
-        public string MotaSP { get; set; }
-        public double Sao { get; set; }
-        public int SoLuotDanhGia { get; set; }
-        public int SoluongSP { get; set; }
-        public string TenLoai { get; set; }
-        public Nullable<System.DateTime> NgayBD { get; set; }
-        public Nullable<System.DateTime> NgayKT { get; set; }
-        public Nullable<double> TiLeKM { get; set; }
         public Nullable<int> SoLuong { get; set; }
+        public int SoluongSP { get; set; }
+        public int GiaSP { get; set; }
+        public Nullable<double> TiLeKM { get; set; }
+        public Nullable<System.DateTime> NgayKT { get; set; }
     }
 }

@@ -1,92 +1,114 @@
-﻿@model Bakery.Models.SanPham
+﻿@model Bakery.Models.ViewModels.CTSanPhamVM
 
 <div>
     <h4>SanPham</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.TenSP)
+            @Html.DisplayNameFor(model => model.CTSP.TenSP)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TenSP)
+            @Html.DisplayFor(model => model.CTSP.TenSP)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.GiaSP)
+            @Html.DisplayNameFor(model => model.CTSP.GiaSP)
+        </dt>
+
+		<dd>
+			@if (Model.CTSP.TiLeKM.HasValue)
+			{
+				<del>@Model.CTSP.GiaSP</del>
+				<span>@(Model.CTSP.GiaSP * (1 - Model.CTSP.TiLeKM))</span>
+				<span>(cho den @Model.CTSP.NgayKT.Value.ToShortDateString())</span>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.CTSP.GiaSP);
+            }
+		</dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CTSP.MotaSP)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.GiaSP)
+            @Html.DisplayFor(model => model.CTSP.MotaSP)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MotaSP)
+            @Html.DisplayNameFor(model => model.CTSP.img)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MotaSP)
+            @Html.DisplayFor(model => model.CTSP.img)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.img)
+            @Html.DisplayNameFor(model => model.CTSP.Sao)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.img)
+            @Html.DisplayFor(model => model.CTSP.Sao)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Sao)
+            @Html.DisplayNameFor(model => model.CTSP.SoLuotDanhGia)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Sao)
+            @Html.DisplayFor(model => model.CTSP.SoLuotDanhGia)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SoLuotDanhGia)
+            @Html.DisplayNameFor(model => model.CTSP.SoluongSP)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SoLuotDanhGia)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SoluongSP)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SoluongSP)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TinhTrang)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TinhTrang)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.KhuyenMai.TenKM)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.KhuyenMai.TenKM)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LoaiSanPham.TenLoai)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LoaiSanPham.TenLoai)
+            @Html.DisplayFor(model => model.CTSP.SoluongSP)
         </dd>
 
     </dl>
+
+	@if (Session["CustomerID"] != null && Session["Role"] == "Customer")
+    {
+        if (Model.CTSP.SoLuong.HasValue)
+        {
+             <p>Da co trong gio hang:</p>
+             <input type="number" value="@Model.CTSP.SoLuong" min="1" max="@Model.CTSP.SoluongSP" />
+             <br />
+             <button>X</button>
+        }
+        else
+        {
+			<form action="~/GioHangs/Create" method="post">
+				@Html.AntiForgeryToken()
+				<input type="number" name="MaKH" value="@Session["CustomerID"]" hidden />
+				<input type="number" name="MaSP" value="@Model.CTSP.MaSP" hidden />
+				<input type="submit" value="Them vao gio hang" />
+			</form>
+        }
+    }
+    else { 
+        <p>
+            @Html.ActionLink("DANG NHAP ", "SignIn", "KhachHangs")
+            de mua hang
+        </p>
+    }
+
+	<hr />
+	<div>Cac Danh Gia:</div>
+    @foreach (var x in Model.DanhGia) { 
+        <div>
+			<h3>@x.TaiKhoan</h3>
+			<div>@x.SoSaoDanhGia</div>
+			<p>@x.NoiDungDanhGia</p>
+			<hr />
+        </div>
+    }
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MaSP }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CTSP.MaSP }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

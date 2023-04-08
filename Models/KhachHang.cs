@@ -27,7 +27,7 @@ namespace Bakery.Models
         public string SoDienThoai { get; set; }
         public Nullable<System.DateTime> NgaySinh { get; set; }
         public string TaiKhoan { get; set; }
-        public string MatKhau { get; set; }
+        public byte[] MatKhau { get; set; }
         public Nullable<bool> QuyenQuanTri { get; set; }
         public Nullable<int> tinhTrang { get; set; }
     

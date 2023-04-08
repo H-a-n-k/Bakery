@@ -22,6 +22,7 @@ namespace Bakery.Models
     
         public int MaLoai { get; set; }
         public string TenLoai { get; set; }
+        public string cate_img { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SanPham> SanPhams { get; set; }

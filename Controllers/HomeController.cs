@@ -16,7 +16,7 @@ namespace Bakery.Controllers
 		[Authorize]
 		public ActionResult About()
 		{
-			ViewBag.Message = "Đăng nhập mới vào được";
+			ViewBag.Message = "Đã đăng nhập";
 
 			return View();
 		}
@@ -24,8 +24,7 @@ namespace Bakery.Controllers
 		[Authorize(Roles = "Admin")]
 		public ActionResult Contact()
 		{
-			ViewBag.Message = "admin mới vào được";
-
+			ViewBag.Message = "Admin";
 			return View();
 		}
 	}

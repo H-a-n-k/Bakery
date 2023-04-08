@@ -11,10 +11,10 @@ namespace Bakery.Models
 {
     using System;
     
-    public partial class sp_ds_loaisp_Result
+    public partial class sp_XemDanhGiaSP_Result
     {
-        public int MaLoai { get; set; }
-        public string TenLoai { get; set; }
-        public string cate_img { get; set; }
+        public Nullable<int> SoSaoDanhGia { get; set; }
+        public string NoiDungDanhGia { get; set; }
+        public string TaiKhoan { get; set; }
     }
 }

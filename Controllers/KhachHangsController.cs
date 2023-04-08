@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bakery.Models;
+using Bakery.Models.ViewModels;
 
 /* Go to Model browser
 1st place- Under Complex Types-> as MyStoreProc_result
@@ -26,7 +27,7 @@ namespace Bakery.Controllers
         public ActionResult Index(bool? isActive, string keyword, int? page, int? pageLength)
         {
             ObjectParameter count = new ObjectParameter("pageCount", typeof(Int32));
-            var list = db.sp_dskhachhang(isActive, keyword, page, pageLength, count).ToList();
+            var list = db.sp_dskhachhang(count, isActive, keyword, page, pageLength).ToList();
 			ViewBag.TotalPage = Convert.ToInt32(count.Value);
             return View(list);
         }
@@ -58,7 +59,7 @@ namespace Bakery.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TenKH,GioiTinh,SoDienThoai,NgaySinh,TaiKhoan,MatKhau")] KhachHang kh)
+        public ActionResult Create(SignUpVM kh)
         {
             if (ModelState.IsValid)
             {
@@ -115,8 +116,8 @@ namespace Bakery.Controllers
             return View(khachHang);
         }
 
-        // POST: KhachHangs/Delete/5
-        [HttpPost, ActionName("Delete")]
+		// POST: KhachHangs/Delete/5
+		[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -133,9 +134,11 @@ namespace Bakery.Controllers
         [HttpPost]
         public ActionResult SignIn(string user, string pass)
 		{
-            bool? role = db.sp_khachdangnhap(user, pass).SingleOrDefault();
-            if (role.HasValue) {
+            var kh = db.sp_khachdangnhap(user, pass).SingleOrDefault();
+            if (kh != null) {
 				FormsAuthentication.SetAuthCookie(user, false);
+                Session["Role"] = kh.QuyenQuanTri.Value ? "Admin" : "Customer";
+                Session["CustomerID"] = kh.MaKH;
 				return RedirectToAction("Index", "Home");
 			}
 			return View();
@@ -144,7 +147,9 @@ namespace Bakery.Controllers
 		public ActionResult SignOut()
 		{
             FormsAuthentication.SignOut();
-            return RedirectToAction("SignIn");
+            Session["Role"] = null;
+            Session["CustomerID"] = null;
+			return RedirectToAction("SignIn");
 		}
 
 		protected override void Dispose(bool disposing)

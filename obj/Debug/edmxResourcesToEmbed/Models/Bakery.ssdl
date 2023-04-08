@@ -67,7 +67,7 @@
     <Property Name="SoDienThoai" Type="varchar" MaxLength="15" />
     <Property Name="NgaySinh" Type="date" />
     <Property Name="TaiKhoan" Type="varchar" MaxLength="50" />
-    <Property Name="MatKhau" Type="varchar" MaxLength="50" />
+    <Property Name="MatKhau" Type="varbinary" MaxLength="500" />
     <Property Name="QuyenQuanTri" Type="bit" />
     <Property Name="tinhTrang" Type="int" />
   </EntityType>
@@ -87,6 +87,7 @@
     </Key>
     <Property Name="MaLoai" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TenLoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="cate_img" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="NguyenLieu">
     <Key>
@@ -111,7 +112,7 @@
     <Property Name="SoluongSP" Type="int" Nullable="false" />
     <Property Name="maLoai" Type="int" />
     <Property Name="MaKM" Type="int" />
-    <Property Name="TinhTrang" Type="bit" />
+    <Property Name="tinhTrang" Type="int" />
   </EntityType>
   <Association Name="FK__CTHD__MaSP__37A5467C">
     <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
@@ -226,11 +227,19 @@
     <Parameter Name="masp" Type="int" Mode="In" />
     <Parameter Name="sl" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_add_gioHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="maKH" Type="int" Mode="In" />
+    <Parameter Name="maSP" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_AnHienSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="masp" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_calcTotal_gioHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="maKH" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_ChiTietSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="masp" Type="int" Mode="In" />
+    <Parameter Name="makh" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_create_nguyenlieu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ten" Type="nvarchar" Mode="In" />
@@ -263,8 +272,11 @@
     <Parameter Name="gioi" Type="int" Mode="In" />
     <Parameter Name="sdt" Type="varchar" Mode="In" />
     <Parameter Name="ngaysinh" Type="date" Mode="In" />
-    <Parameter Name="tk" Type="nvarchar" Mode="In" />
-    <Parameter Name="mk" Type="nvarchar" Mode="In" />
+    <Parameter Name="tk" Type="varchar" Mode="In" />
+    <Parameter Name="mk" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_ds_gioHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="maKH" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_ds_loaisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="sp_ds_nguyenlieu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -273,14 +285,20 @@
     <Parameter Name="ngay" Type="date" Mode="In" />
   </Function>
   <Function Name="sp_dskhachhang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="pageCount" Type="int" Mode="InOut" />
     <Parameter Name="isActive" Type="bit" Mode="In" />
     <Parameter Name="keyword" Type="nvarchar" Mode="In" />
     <Parameter Name="page" Type="int" Mode="In" />
     <Parameter Name="pageLength" Type="int" Mode="In" />
-    <Parameter Name="pageCount" Type="int" Mode="InOut" />
   </Function>
   <Function Name="sp_DSSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="totalPage" Type="int" Mode="InOut" />
     <Parameter Name="tinhtrang" Type="bit" Mode="In" />
+    <Parameter Name="keyword" Type="nvarchar" Mode="In" />
+    <Parameter Name="maloai" Type="int" Mode="In" />
+    <Parameter Name="orderOpt" Type="int" Mode="In" />
+    <Parameter Name="page" Type="int" Mode="In" />
+    <Parameter Name="pagelength" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_khachdangnhap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="user" Type="varchar" Mode="In" />
@@ -304,8 +322,13 @@
     <Parameter Name="sl" Type="int" Mode="In" />
     <Parameter Name="maKM" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_thanhToan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="maKH" Type="int" Mode="In" />
+    <Parameter Name="diachi" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="sp_them_loaisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="name" Type="nvarchar" Mode="In" />
+    <Parameter Name="img" Type="varchar(max)" Mode="In" />
   </Function>
   <Function Name="sp_ThemSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="tenSP" Type="nvarchar" Mode="In" />
@@ -313,6 +336,11 @@
     <Parameter Name="MotaSP" Type="nvarchar" Mode="In" />
     <Parameter Name="img" Type="varchar(max)" Mode="In" />
     <Parameter Name="maloai" Type="int" Mode="In" />
+    <Parameter Name="sl" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_update_gioHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="maKH" Type="int" Mode="In" />
+    <Parameter Name="maSP" Type="int" Mode="In" />
     <Parameter Name="sl" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_update_loaisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -331,6 +359,9 @@
     <Parameter Name="gioi" Type="int" Mode="In" />
     <Parameter Name="sdt" Type="varchar" Mode="In" />
     <Parameter Name="ngaysinh" Type="date" Mode="In" />
+  </Function>
+  <Function Name="sp_XemDanhGiaSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="masp" Type="int" Mode="In" />
   </Function>
   <EntityContainer Name="BakeryStoreDBModelStoreContainer">
     <EntitySet Name="CTHD" EntityType="Self.CTHD" Schema="dbo" store:Type="Tables" />

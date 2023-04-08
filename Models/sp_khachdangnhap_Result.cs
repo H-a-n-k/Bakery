@@ -11,10 +11,9 @@ namespace Bakery.Models
 {
     using System;
     
-    public partial class sp_ds_loaisp_Result
+    public partial class sp_khachdangnhap_Result
     {
-        public int MaLoai { get; set; }
-        public string TenLoai { get; set; }
-        public string cate_img { get; set; }
+        public int MaKH { get; set; }
+        public Nullable<bool> QuyenQuanTri { get; set; }
     }
 }
