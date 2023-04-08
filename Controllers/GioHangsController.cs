@@ -27,9 +27,9 @@ namespace Bakery.Controllers
         public ActionResult Index()
         {
             int? makh = GetCustomerID(Session);
-            if (makh == null) return RedirectToAction("signIn", "khachhangs");
+			if (makh == null) return RedirectToAction("SignIn", "Auth");
 
-            var gioHangs = db.sp_ds_gioHang(makh);
+			var gioHangs = db.sp_ds_gioHang(makh);
             return View(gioHangs.ToList());
         }
 
@@ -37,7 +37,7 @@ namespace Bakery.Controllers
 		public ActionResult Checkout(string addr)
 		{
 			int? makh = GetCustomerID(Session);
-			if (makh == null) return RedirectToAction("signIn", "khachhangs");
+            if (makh == null) return RedirectToAction("SignIn", "Auth");
 
             db.sp_thanhToan(makh, addr);
             db.sp_delete_gioHang(makh, null);

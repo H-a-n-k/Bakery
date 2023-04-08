@@ -224,7 +224,12 @@
     <Compile Include="Models\sp_XemDanhGiaSP_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_xemLichSuMua_Result.cs">
+      <DependentUpon>Bakery.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserRoleProvider.cs" />
+    <Compile Include="Models\ViewModels\CTHDVM.cs" />
+    <Compile Include="Models\ViewModels\CTKHVM.cs" />
     <Compile Include="Models\ViewModels\CTSanPhamVM.cs" />
     <Compile Include="Models\ViewModels\SignUpVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -322,7 +327,6 @@
     <Content Include="Views\KhachHangs\Details.cshtml" />
     <Content Include="Views\KhachHangs\Edit.cshtml" />
     <Content Include="Views\KhachHangs\Index.cshtml" />
-    <Content Include="Views\KhachHangs\SignIn.cshtml" />
     <Content Include="Views\GioHangs\Create.cshtml" />
     <Content Include="Views\GioHangs\Delete.cshtml" />
     <Content Include="Views\GioHangs\Details.cshtml" />

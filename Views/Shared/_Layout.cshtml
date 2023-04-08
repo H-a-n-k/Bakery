@@ -18,27 +18,25 @@
 			</button>
 			<div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
 				<ul class="navbar-nav flex-grow-1">
-					<li>@Html.ActionLink("San Pham", "Index", "SanPhams", new { area = "" }, new { @class = "nav-link" })</li>
+					<li>@Html.ActionLink("San pham", "Index", "SanPhams", new { area = "" }, new { @class = "nav-link" })</li>
 					@if (Session["Role"] == "Admin")
 					{
-						<li>@Html.ActionLink("Loai San Pham", "Index", "LoaiSanPhams", new { area = "" }, new { @class = "nav-link" })</li>
-					}
-					@if (Session["Role"] == "Admin")
-					{
-						<li>@Html.ActionLink("Khach Hang", "Index", "KhachHangs", new { area = "" }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("Loai san pham", "Index", "LoaiSanPhams", new { area = "" }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("Khach hang", "Index", "KhachHangs", new { area = "" }, new { @class = "nav-link" })</li>
 					}
 					@if (Session["Role"] == null)
 					{
 						<li>@Html.ActionLink("Dang nhap", "SignIn", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
-						<li>@Html.ActionLink("Dang ky", "Create", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("Dang ky", "Create", "KhachHangs", new { area = "" }, new { @class = "nav-link" })</li>
 					}
 					else
 					{
-						<li>@Html.ActionLink("Dang Xuat", "SignOut", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("Dang xuat", "SignOut", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
 					}
 					@if (Session["Role"] == "Customer" && Session["CustomerID"] != null)
 					{
-						<li>@Html.ActionLink("Gio Hang", "Index", "GioHangs", new { maKh = Session["CustomerID"] }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("Gio hang", "Index", "GioHangs", new { maKh = Session["CustomerID"] }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("Tai khoan", "Details", "KhachHangs", new { maKh = Session["CustomerID"] }, new { @class = "nav-link" })</li>
 					}
 				</ul>
 			</div>

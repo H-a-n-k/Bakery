@@ -136,19 +136,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_nguyenlieu_Result>("sp_ds_nguyenlieu");
         }
     
-        public virtual ObjectResult<sp_dshoadon_Result> sp_dshoadon(Nullable<int> id, Nullable<System.DateTime> ngay)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            var ngayParameter = ngay.HasValue ?
-                new ObjectParameter("ngay", ngay) :
-                new ObjectParameter("ngay", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dshoadon_Result>("sp_dshoadon", idParameter, ngayParameter);
-        }
-    
         public virtual ObjectResult<string> sp_quenmatkhau(string sdt)
         {
             var sdtParameter = sdt != null ?
@@ -510,15 +497,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_calcTotal_gioHang", maKHParameter);
         }
     
-        public virtual ObjectResult<sp_ds_cthd_Result> sp_ds_cthd(Nullable<int> mahd)
-        {
-            var mahdParameter = mahd.HasValue ?
-                new ObjectParameter("mahd", mahd) :
-                new ObjectParameter("mahd", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_cthd_Result>("sp_ds_cthd", mahdParameter);
-        }
-    
         public virtual int sp_thanhToan(Nullable<int> maKH, string diachi)
         {
             var maKHParameter = maKH.HasValue ?
@@ -530,6 +508,41 @@ namespace Bakery.Models
                 new ObjectParameter("diachi", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_thanhToan", maKHParameter, diachiParameter);
+        }
+    
+        public virtual ObjectResult<sp_xemLichSuMua_Result> sp_xemLichSuMua(Nullable<int> makh, Nullable<int> limit)
+        {
+            var makhParameter = makh.HasValue ?
+                new ObjectParameter("makh", makh) :
+                new ObjectParameter("makh", typeof(int));
+    
+            var limitParameter = limit.HasValue ?
+                new ObjectParameter("limit", limit) :
+                new ObjectParameter("limit", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_xemLichSuMua_Result>("sp_xemLichSuMua", makhParameter, limitParameter);
+        }
+    
+        public virtual ObjectResult<sp_dshoadon_Result> sp_dshoadon(Nullable<int> id, Nullable<System.DateTime> ngay)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var ngayParameter = ngay.HasValue ?
+                new ObjectParameter("ngay", ngay) :
+                new ObjectParameter("ngay", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dshoadon_Result>("sp_dshoadon", idParameter, ngayParameter);
+        }
+    
+        public virtual ObjectResult<sp_ds_cthd_Result> sp_ds_cthd(Nullable<int> mahd)
+        {
+            var mahdParameter = mahd.HasValue ?
+                new ObjectParameter("mahd", mahd) :
+                new ObjectParameter("mahd", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_cthd_Result>("sp_ds_cthd", mahdParameter);
         }
     }
 }

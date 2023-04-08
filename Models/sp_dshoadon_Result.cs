@@ -18,5 +18,6 @@ namespace Bakery.Models
         public Nullable<bool> TinhTrangGiao { get; set; }
         public string DiaChiGiao { get; set; }
         public Nullable<int> MaKH { get; set; }
+        public Nullable<int> TongTien { get; set; }
     }
 }
