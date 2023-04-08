@@ -31,10 +31,6 @@
       <Parameter Name="id" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_ds_nguyenlieu" ReturnType="Collection(BakeryStoreDBModel.sp_ds_nguyenlieu_Result)" />
-    <FunctionImport Name="sp_dshoadon" ReturnType="Collection(BakeryStoreDBModel.sp_dshoadon_Result)">
-      <Parameter Name="id" Mode="In" Type="Int32" />
-      <Parameter Name="ngay" Mode="In" Type="DateTime" />
-    </FunctionImport>
     <FunctionImport Name="sp_quenmatkhau" ReturnType="Collection(String)">
       <Parameter Name="sdt" Mode="In" Type="String" />
     </FunctionImport>
@@ -189,12 +185,20 @@
     <FunctionImport Name="sp_calcTotal_gioHang">
       <Parameter Name="maKH" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_ds_cthd" ReturnType="Collection(BakeryStoreDBModel.sp_ds_cthd_Result)">
-      <Parameter Name="mahd" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="sp_thanhToan">
       <Parameter Name="maKH" Mode="In" Type="Int32" />
       <Parameter Name="diachi" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_xemLichSuMua" ReturnType="Collection(BakeryStoreDBModel.sp_xemLichSuMua_Result)">
+      <Parameter Name="makh" Mode="In" Type="Int32" />
+      <Parameter Name="limit" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dshoadon" ReturnType="Collection(BakeryStoreDBModel.sp_dshoadon_Result)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="ngay" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="sp_ds_cthd" ReturnType="Collection(BakeryStoreDBModel.sp_ds_cthd_Result)">
+      <Parameter Name="mahd" Mode="In" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_detailhoadon_Result">
@@ -209,13 +213,6 @@
     <Property Type="Double" Name="SoLuong" Nullable="true" />
     <Property Type="Int32" Name="MaNguyenLieu" Nullable="false" />
     <Property Type="String" Name="DVT" Nullable="true" MaxLength="50" />
-  </ComplexType>
-  <ComplexType Name="sp_dshoadon_Result">
-    <Property Type="Int32" Name="MaHD" Nullable="false" />
-    <Property Type="DateTime" Name="NgayHD" Nullable="true" />
-    <Property Type="Boolean" Name="TinhTrangGiao" Nullable="true" />
-    <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="MaKH" Nullable="true" />
   </ComplexType>
   <ComplexType Name="sp_profilekhachhang_Result">
     <Property Type="Int32" Name="MaKH" Nullable="false" />
@@ -527,13 +524,31 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <ComplexType Name="sp_xemLichSuMua_Result">
+    <Property Type="Int32" Name="MaHD" Nullable="false" />
+    <Property Type="DateTime" Name="NgayHD" Nullable="true" />
+    <Property Type="Boolean" Name="TinhTrangGiao" Nullable="true" />
+    <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="MaKH" Nullable="true" />
+    <Property Type="Int32" Name="TongTien" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_dshoadon_Result">
+    <Property Type="Int32" Name="MaHD" Nullable="false" />
+    <Property Type="DateTime" Name="NgayHD" Nullable="true" />
+    <Property Type="Boolean" Name="TinhTrangGiao" Nullable="true" />
+    <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="MaKH" Nullable="true" />
+    <Property Type="Int32" Name="TongTien" Nullable="true" />
+  </ComplexType>
   <ComplexType Name="sp_ds_cthd_Result">
     <Property Type="Int32" Name="MaSP" Nullable="false" />
     <Property Type="Int32" Name="MaHD" Nullable="false" />
+    <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="img" Nullable="true" />
     <Property Type="Int32" Name="SoLuong" Nullable="true" />
     <Property Type="Int32" Name="DonGia" Nullable="true" />
+    <Property Type="Int32" Name="GiamGia" Nullable="true" />
     <Property Type="Int32" Name="SoSaoDanhGia" Nullable="true" />
     <Property Type="String" Name="NoiDungDanhGia" Nullable="true" MaxLength="500" />
-    <Property Type="Int32" Name="GiamGia" Nullable="true" />
   </ComplexType>
 </Schema>

@@ -5,7 +5,7 @@
 }
 
 @section Styles {
-	<link href="@Url.Content("~/styles/")" rel="stylesheet" type="text/css" />
+	<link href="~/Content/styles/giohang.css" rel="stylesheet" type="text/css" />
 }
 
 <h2>Index</h2>
@@ -34,16 +34,16 @@
 			<td>
 				@Html.EditorFor(model => Model[i].SoLuong,
 					new
-						 {
-							 htmlAttributes = new
-							 {
-								 min = 1,
-								 max = Model[i].SoluongSP,
-								 @class = "quantity",
-						onchange = String.Format($"onQuantityChange(event, {Model[i].MaSP})"),
-								 onkeydown = "onQuantityKeydown(event)"
-							 }
-						 })
+					{
+						htmlAttributes = new
+						{
+							min = 1,
+							max = Model[i].SoluongSP,
+							@class = "quantity",
+							onchange = String.Format($"onCartQuantityChange(event, {Model[i].MaSP}); calcPrice();"),
+							onkeydown = "onQuantityKeydown(event)"
+						}
+					})
 				<span>/@Model[i].SoluongSP</span>
 			</td>
 			<td>
@@ -99,22 +99,6 @@
 			}
 
 			$('#total').html(total);
-		}
-
-		function onQuantityKeydown(event) {
-			if (event.keyCode != 8 && event.keyCode < 48 || event.keyCode > 57) {
-				event.preventDefault();
-				return false;
-			}
-		}
-
-		function onQuantityChange(event, masp) {
-			let val = event.target.value;
-			if (isNaN(val) || val == "") event.target.value = 1;
-
-			$.post('giohangs/UpdateQuantity', { masp, sl: event.target.value });
-
-			calcPrice();
 		}
 
 		function removeItem(masp) {
