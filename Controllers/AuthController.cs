@@ -43,6 +43,7 @@ namespace Bakery.Controllers
 					return RedirectToAction("Index", "Home");
 				}
 			}
+			ViewBag.ErrorMsg = "Tai khoan hoac mat khau sai";
 			return View();
 		}
 
