@@ -17,24 +17,26 @@ namespace Bakery.Controllers
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 
         // GET: SanPhams
-        public ActionResult Index(bool? tinhtrang, string keyword, int? maloai , int? page, int? pagelength, int? orderOpt)
-        {
+		public ActionResult Index(bool? tinhtrang, string keyword, int? maloai, int? page, int? pagelength, int? orderOpt)
+		{
+			if (!pagelength.HasValue) pagelength = 9;
 			ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
-            var danhsach = db.sp_DSSP(count, tinhtrang, keyword, maloai, orderOpt, page, pagelength).ToList();
+			var danhsach = db.sp_DSSP(count, tinhtrang, keyword, maloai, orderOpt, page, pagelength).ToList();
 
-            ViewBag.PageCount = Convert.ToInt32(count.Value);
-            var SelectOrderOptions = new SelectList(new[] {
-				new Tuple<string, int>("Dang gia tot nhat", 4),
-				new Tuple<string, int>("Gia thap nhat", 1),
-                new Tuple<string, int>("Gia cao nhat", 2)
-            }, "Item2", "Item1");
-            ViewBag.orderOpt = SelectOrderOptions;
-            ViewBag.maLoai = new SelectList(db.sp_ds_loaisp(), "MaLoai", "TenLoai");
+			ViewBag.PageCount = Convert.ToInt32(count.Value);
+			var SelectOrderOptions = new SelectList(new[] {
+				new Tuple<string, int>("Đánh giá tốt nhất", 4),
+				new Tuple<string, int>("Giá thấp nhất", 1),
+				new Tuple<string, int>("Giá cao nhất", 2)
+			}, "Item2", "Item1");
+			ViewBag.orderOpt = SelectOrderOptions;
+			ViewBag.maLoai = new SelectList(db.sp_ds_loaisp(), "MaLoai", "TenLoai");
+            ViewBag.loai = db.sp_ds_loaisp().ToList();
 			return View(danhsach);
-        }
+		}
 
-        // GET: SanPhams/Details/5
-        public ActionResult Details(int? id)
+		// GET: SanPhams/Details/5
+		public ActionResult Details(int? id)
         {
             if (id == null)
             {
