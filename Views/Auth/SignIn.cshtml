@@ -4,6 +4,7 @@
 }
 
 <h2>SignIn</h2>
+<div class="error-msg" style="color:red">@ViewBag.ErrorMsg</div>
 @using (Html.BeginForm("SignIn", "Auth", FormMethod.Post))
 {
 	<input type="text" name="user" placeholder="username" />
