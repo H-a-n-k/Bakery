@@ -23,13 +23,17 @@ a:hover {
 	width: 20px;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .m-row {
 	display: flex;
 	align-items: center;
 }
 
 .m-container {
-	width: 70%;
+	width: 70vw;
 	margin: 0 auto;
 	padding: 40px 0;
 }
@@ -41,7 +45,7 @@ a:hover {
 
 .img-wrapper {
 	height: 100%;
-	background-color: grey;
+	background-color: whitesmoke;
 	overflow: hidden;
 }
 
@@ -69,7 +73,7 @@ a:hover {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 
@@ -90,17 +94,32 @@ a:hover {
 	position: relative;
 	height: 100%;
 	width: var(--slide-width);
-	padding: 20px;
+	padding: 12px;
 }
 
-.slider-container .slider .slider-item .item-title {
-	position: absolute;
-	bottom: 30px;
-	left: 50%;
-	transform: translateX(-50%);
-	text-align: center;
-	background-color: rgba(255, 255, 255, 0.5);
-}
+	.slider-container .slider .slider-item .content {
+		height: 100%;
+		background-color: white;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content:space-evenly;
+	}
+
+	.slider-container .slider .slider-item .img-wrapper {
+		width: 100%;
+		aspect-ratio: 1/1;
+	}
+
+	.slider-container .slider .slider-item .img-wrapper {
+		height: 50px;
+		width: 50px;
+		background-color: white;
+	}
+
+		.slider-container .slider .slider-item .item-title {
+				
+		}
 
 .slider-container:hover .move-slide {
 	display: flex;
@@ -122,10 +141,14 @@ a:hover {
 	cursor: pointer;
 }
 
-.slider-container .move-slide svg {
-	height: 50%;
-	width: 50%;
-}
+	.slider-container .move-slide:hover {
+		background-color: whitesmoke;
+	}
+
+	.slider-container .move-slide svg {
+		height: 50%;
+		width: 50%;
+	}
 
 .slider-container .next-slide {
 	right: 10px;
@@ -138,7 +161,7 @@ a:hover {
 .m-nav {
 	width: 100%;
 	padding: 20px 40px;
-	border: 2px solid grey;
+	border-bottom: 2px solid grey;
 }
 
 .m-nav .left {
@@ -179,26 +202,29 @@ a:hover {
 
 .m-nav .right {
 	width: 35%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 }
 
-	.m-nav .right form {
+	.m-nav .right .search {
 		display: flex;
 		justify-content: flex-end;
 	}
 
-		.m-nav .right form button {
+		.m-nav .right .search button {
 			border: none;
 			background: none;
 		}
 
-		.m-nav .right form #search {
+		.m-nav .right .search #search {
 			margin-left: 20px;
 			border: none;
 			border-bottom: 1px solid grey;
-			width: 60%;
+			width: 200px;
 		}
 
-			.m-nav .right form #search:focus {
+			.m-nav .right .search #search:focus {
 				outline: none;
 			}
 

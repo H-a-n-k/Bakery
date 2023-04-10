@@ -110,22 +110,21 @@ namespace Bakery.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaKH,MaSP,SoLuong")] GioHang gioHang)
+        public ActionResult Create(int masp)
         {
-            if (ModelState.IsValid) {
-                try
-                {
-                    db.sp_add_gioHang(gioHang.MaKH, gioHang.MaSP);
-                }
-                catch (Exception e) {
-					return RedirectToAction("Details", "SanPhams", new { id = gioHang.MaSP });
-				}
-				//return RedirectToAction("Index", "SanPhams");
-				return RedirectToAction("Details", "SanPhams", new { id = gioHang.MaSP });
+			int? makh = GetCustomerID(Session);
+			if (makh == null) return new EmptyResult();
+
+			try
+			{
+				db.sp_add_gioHang(makh, masp);
+			}
+			catch (Exception e)
+			{
+				return RedirectToAction("Details", "SanPhams", new { id = masp });
 			}
 
-			return RedirectToAction("Details", "SanPhams", new { id = gioHang.MaSP });
+            return RedirectToAction("Details", "SanPhams", new { id = masp });
 		}
 
         // GET: GioHangs/Edit/5

@@ -1,78 +1,41 @@
 ﻿@model Bakery.Models.ViewModels.SignUpVM
 
 @{
-    ViewBag.Title = "Create";
+	ViewBag.Title = "Create";
 }
 
-<h2>Dang ky tai khoan</h2>
-
-<div class="error-msg" style="color:red">@ViewBag.ErrorMsg</div>
-
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.TenKH, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TenKH, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TenKH, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.GioiTinh, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.GioiTinh, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SoDienThoai, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SoDienThoai, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NgaySinh, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-                @Html.ValidationMessageFor(model => model.NgaySinh, "", new { @class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TaiKhoan, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TaiKhoan, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TaiKhoan, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MatKhau, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+@section Styles {
+	<link href="~/Content/styles/dangnhap.css" rel="stylesheet" type="text/css" />
 }
 
+<div class="login-page">
+	<div class="main">
+		<div class="title">ĐĂNG KÝ</div>
+		@using (Html.BeginForm())
+		{
+			@Html.AntiForgeryToken()
+			@Html.EditorFor(model => model.TenKH, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên" } })
+			<div class="gender">
+				<input type="radio" name="GioiTinh" value="1" id="male" />
+				<label for="male">Nam</label>
+				<input type="radio" name="GioiTinh" value="0" id="female" />
+				<label for="female">Nữ</label>
+				<input type="radio" name="GioiTinh" value="2" id="no" />
+				<label for="no">Khác</label>
+			</div>
+			@Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control", placeholder = "Số điện thoại" } })
+			@Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+			@Html.EditorFor(model => model.TaiKhoan, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên tài khoản" } })
+			@Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control", placeholder = "Mật khẩu", type="password" } })
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+			<input type="submit" value="Gửi" class="submit" />
+		}
+		<div class="signup">
+			Có tài khoản rồi?
+			@Html.ActionLink("Đăng nhập", "SignIn", "Auth")
+		</div>
+		<div class="error">@ViewBag.ErrorMsg</div>
+	</div>
+</div>
+
+

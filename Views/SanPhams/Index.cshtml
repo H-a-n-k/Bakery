@@ -32,12 +32,14 @@
 
 				@foreach (var x in ((List<Bakery.Models.sp_ds_loaisp_Result>)ViewBag.loai))
 				{
-					<div class="slider-item @(p["maloai"] == x.MaLoai+""?"selected":"")" data-cateid="@x.MaLoai" onclick="selectCate(event)">
-						<div class="img-wrapper">
-							<img src="@x.cate_img" alt="">
-						</div>
-						<div class="item-title">
-							@x.TenLoai
+					<div class="slider-item pointer @(p["maloai"] == x.MaLoai+""?"selected":"")" data-cateid="@x.MaLoai" onclick="selectCate(event)">
+						<div class="content">
+							<div class="img-wrapper">
+								<img src="@x.cate_img" alt="">
+							</div>
+							<div class="item-title">
+								@x.TenLoai
+							</div>
 						</div>
 					</div>
 				}
@@ -48,29 +50,52 @@
 			<div class="m-header">Sản phẩm</div>
 			<div class="sort">
 				<div style="white-space: nowrap; margin-right: 20px">Sắp xếp theo:</div>
-				@Html.DropDownList("orderOpt", null, "Mới nhất", htmlAttributes: new { @class = "form-control", form= "product-frm", onchange = "searchProduct()" })
+				@Html.DropDownList("orderOpt", null, "Mới nhất", htmlAttributes: new { @class = "form-control", form = "product-frm", onchange = "searchProduct()" })
 			</div>
 		</div>
 
-		@if (!String.IsNullOrEmpty(p["keyword"])) { 
+		@if (!String.IsNullOrEmpty(p["keyword"]))
+		{
 			<p><i>Hiển thị kết quả cho từ khóa "@p["keyword"]"</i></p>
 		}
+
+		@if (Model.Count() == 0)
+		{
+			<div>
+				<h3>Không tìm thấy sản phẩm phù hợp với tiêu chí của bạn :<</h3>
+				<p>Mua cái khác nhé</p>
+			</div>
+		}
+
 		<div class="product-list">
 
 			@foreach (var x in Model)
 			{
-				<div class="product">
-					<div class="img-wrapper">
-						<img src="@x.img" alt="">
+				<a href="SanPhams/DetailS/@x.MaSP">
+					<div class="product">
+						<div class="img-wrapper">
+							<img src="@x.img" alt="">
+						</div>
+						<div class="name">@x.TenSP</div>
+						<div class="star">
+							@x.Sao / 5
+							<img class="icon" src="https://www.iconarchive.com/download/i103490/paomedia/small-n-flat/star.ico" alt="">
+							<i>(@x.SoLuotDanhGia đánh giá)</i>
+						</div>
+						<div class="price">
+							@if (x.TiLeKM.HasValue)
+							{
+								<del>@string.Format("{0:N0}", x.GiaSP)</del>
+								<text>@string.Format("{0:N0}", x.GiaSP * (1-x.TiLeKM))</text>
+							}
+							else
+							{
+								<text>@string.Format("{0:N0}", x.GiaSP)</text>
+							}
+							đ
+						</div>
 					</div>
-					<div class="name">@x.TenSP</div>
-					<div class="star">
-						@x.Sao / 5
-						<img class="icon" src="https://www.iconarchive.com/download/i103490/paomedia/small-n-flat/star.ico" alt="">
-						<i>(@x.SoLuotDanhGia đánh giá)</i>
-					</div>
-					<div class="price">@string.Format("{0:N0}", x.GiaSP) đ</div>
-				</div>
+				</a>
 			}
 
 		</div>
@@ -78,7 +103,7 @@
 		<div class="pager">
 			@for (int i = 1; i <= ViewBag.PageCount; i++)
 			{
-				<div class="page @((i == 1 && String.IsNullOrEmpty(p["page"])) || (i + "" == p["page"]) ? "selected" : "")"
+				<div class="page pointer @((i == 1 && String.IsNullOrEmpty(p["page"])) || (i + "" == p["page"]) ? "selected" : "")"
 					 onclick="changePage(event)">@i</div>
 				}
 		</div>

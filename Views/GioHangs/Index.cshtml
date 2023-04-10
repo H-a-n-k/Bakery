@@ -8,77 +8,62 @@
 	<link href="~/Content/styles/giohang.css" rel="stylesheet" type="text/css" />
 }
 
-<h2>Index</h2>
+<div class="cart-page">
+	<div class="m-container">
+		<div class="cart">
+			<div class="row header">
+				<div class="col-2"></div>
+				<div class="col-4">Sản phẩm</div>
+				<div class="col-2">Giá</div>
+				<div class="col-2">Số lượng</div>
+				<div class="col-2">Tổng</div>
+			</div>
 
-<table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model[0].TenSP)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model[0].SoLuong)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model[0].GiaSP)
-		</th>
-		<th>Tong</th>
-		<th></th>
-	</tr>
+			@for (int i = 0; i < Model.Count(); i++)
+			{
+				double price = Model[i].GiaSP;
+				if (Model[i].TiLeKM.HasValue) { price = price * (1 - Model[i].TiLeKM.Value); }
+				<div class="row item" data-ind="@i">
+					<div class="col-2">
+						<div class="img-wrapper">
+							<img src="@Model[i].img" alt="">
+						</div>
+					</div>
+					<div class="col-4">@Model[i].TenSP</div>
+					<div class="col-2 price" data-val="@price">@string.Format("{0:N0}", price)đ</div>
+					<div class="col-2">
+						<input type="number" class="quantity" value="@Model[i].SoLuong" min="0" max="@Model[i].SoluongSP"
+							   onkeydown="onQuantityKeydown(event)" onchange="onCartQuantityChange(event, @Model[i].MaSP); calcPrice();" />
+					</div>
+					<div class="col-2 sum">
 
-	@for (int i = 0; i < Model.Count(); i++)
-	{
-		<tr data-ind="@i" class="item">
-			<td>
-				@Html.DisplayFor(modelItem => Model[i].TenSP)
-			</td>
-			<td>
-				@Html.EditorFor(model => Model[i].SoLuong,
-					new
-					{
-						htmlAttributes = new
-						{
-							min = 1,
-							max = Model[i].SoluongSP,
-							@class = "quantity",
-							onchange = String.Format($"onCartQuantityChange(event, {Model[i].MaSP}); calcPrice();"),
-							onkeydown = "onQuantityKeydown(event)"
-						}
-					})
-				<span>/@Model[i].SoluongSP</span>
-			</td>
-			<td>
-				@if (Model[i].NgayKT.HasValue)
-				{
-					<del>@Model[i].GiaSP</del>
-					<span class="price">@(Model[i].GiaSP * (1-Model[i].TiLeKM))</span>
-				}
-				else
-				{
-					<span class="price">@Html.DisplayFor(modelItem => Model[i].GiaSP, new { HtmlAttribute = new { @class = "price" } })</span>
-				}
-			</td>
-			<td class="sum">0</td>
-			<td>
-				<div onclick="removeItem(@Model[i].MaSP)">X</div>
-			</td>
-		</tr>
-	}
-
-	<button id="btnCheckout" onclick="showCheckoutConfirmDialog()">Thanh toan</button>
-	<div class="dialog-wrapper hidden">
-		<div class="dialog-content">
-			<form action="giohangs/checkout" method="post" id="frm-checkout">
-				<h3>Form xac nhan thanh toan</h3>
-				<div>Tong Tien: <span id="total-2">0</span></div>
-				<label>Dia chi: </label>
-				<input type="text" placeholder="Nhap dia chi" name="addr" value="" required />
-				<input type="submit" value="Xac nhan" />
-			</form>
+					</div>
+				</div>
+			}
 		</div>
-	</div>
 
-</table>
-<div>Tong Tien: <span id="total">0</span></div>
+		<div class="dialog-wrapper hidden">
+			<div class="dialog-content">
+				<form action="giohangs/checkout" method="post" id="frm-checkout">
+					<h3>Xác nhận thanh toán</h3>
+					<div class="amount">Số tiền: <span id="total-2">0</span></div>
+					<label>Địa chỉ: </label>
+					<input type="text" placeholder="Nhập địa chỉ" name="addr" value="" required />
+					<input type="submit" value="Xác nhận" />
+				</form>
+			</div>
+		</div>
+
+		<div class="checkout">
+			<div class="total">
+				Tổng tiền: <span class="value" id="total"></span>
+			</div>
+
+			<button class="pay" onclick="showCheckoutConfirmDialog()">Thanh toán</button>
+		</div>
+
+	</div>
+</div>
 
 @section scripts {
 	<script>
@@ -87,18 +72,23 @@
 			calcPrice();
 		})
 
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+
 		function calcPrice() {
-			const items = $('.item');
+			const items = $('.row.item');
 			let total = 0;
 			for (let i = 0; i < items.length; i++) {
-				let price = $(`.item[data-ind='${i}'] .price`).html();
+				let price = $(`.item[data-ind='${i}'] .price`).data('val');
 				let quant = $(`.item[data-ind='${i}'] .quantity`).val();
+				console.log(items);
 
 				total += price * quant;
-				$(`.item[data-ind='${i}'] .sum`).html(price * quant);
+				$(`.item[data-ind='${i}'] .sum`).html(numberWithCommas(price * quant) + 'đ');
 			}
 
-			$('#total').html(total);
+			$('#total').html(numberWithCommas(total)+ 'đ');
 		}
 
 		function removeItem(masp) {

@@ -17,20 +17,21 @@
 		<div class="m-row">
 			<div class="left">
 				@Html.ActionLink("TRANG CHỦ", "Index", "Home", new { area = "" }, new { @class = "item" })
-				@*<span class="item select">
-			<select name="name">
-				<option hidden selected>LOẠI SẢN PHẨM</option>
-				<option>Loại 1</option>
-				<option>Loại 1</option>
-				<option>Loại 1</option>
-			</select>
-		</span>*@
 				@Html.ActionLink("SẢN PHẨM", "Index", "SanPhams", new { area = "" }, new { @class = "item" })
-				@Html.ActionLink("ĐĂNG NHẬP", "SignIn", "Auth", new { area = "" }, new { @class = "item" })
+				@if (Session["Role"] == null)
+				{
+					<text>@Html.ActionLink("ĐĂNG NHẬP", "SignIn", "Auth", new { area = "" }, new { @class = "item" })</text>
+					<text>@Html.ActionLink("ĐĂNG KÝ", "Create", "KhachHangs", new { area = "" }, new { @class = "item" })</text>
+				}
+				@if (Session["Role"] == "Customer" && Session["CustomerID"] != null)
+				{
+					<text>@Html.ActionLink("GIỎ HÀNG", "Index", "GioHangs", new { maKh = Session["CustomerID"] }, new { @class = "item" })</text>
+					<text>@Html.ActionLink("TÀI KHOẢN", "Details", "KhachHangs", new { maKh = Session["CustomerID"] }, new { @class = "item" })</text>
+				}
 			</div>
 			<div class="middle"><div><span class="yellow">yellow</span>Kitchen</div></div>
 			<div class="right">
-				<form method="get" action="#">
+				<div class="search">
 					<button form="product-frm" class="icon">
 						<svg xmlns="http://www.w3.org/2000/svg"
 							 viewBox="0 0 512 512">
@@ -38,7 +39,12 @@
 						</svg>
 					</button>
 					<input id="search" form="product-frm" name="keyword" type="text" placeholder="Bạn muốn tìm gì?" value="@p["keyword"]">
-				</form>
+				</div>
+
+				@if (Session["Role"] != null)
+				{
+					<text>@Html.ActionLink("ĐĂNG XUẤT", "SignOut", "Auth", new { area = "" }, new { @class = "item" })</text>
+				}
 			</div>
 		</div>
 	</div>
