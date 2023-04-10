@@ -16,7 +16,7 @@
 		<input type="number" form="product-frm" id="product-page-number" name="page" value="1" hidden />
 		<div class="m-row">
 			<div class="left">
-				@Html.ActionLink("TRANG CHỦ", "Index", "Home", new { area = "" }, new { @class = "item" })
+				@*@Html.ActionLink("TRANG CHỦ", "Index", "Home", new { area = "" }, new { @class = "item" })*@
 				@Html.ActionLink("SẢN PHẨM", "Index", "SanPhams", new { area = "" }, new { @class = "item" })
 				@if (Session["Role"] == null)
 				{
