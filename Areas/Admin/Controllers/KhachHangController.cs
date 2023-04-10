@@ -10,7 +10,7 @@ using Bakery.Models;
 
 namespace Bakery.Areas.Admin.Controllers
 {
-    public class KhachHangsController : Controller
+    public class KhachHangController : Controller
     {
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 

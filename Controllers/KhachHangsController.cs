@@ -67,7 +67,15 @@ namespace Bakery.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				db.sp_dkytaikhoan(kh.TenKH, kh.GioiTinh, kh.SoDienThoai, kh.NgaySinh, kh.TaiKhoan, kh.MatKhau);
+                try
+                {
+                    db.sp_dkytaikhoan(kh.TenKH, kh.GioiTinh, kh.SoDienThoai, kh.NgaySinh, kh.TaiKhoan, kh.MatKhau);
+                }
+                catch (Exception e) {
+                    ViewBag.ErrorMsg = e.InnerException.Message.Split('\r')[0];
+                    return View(kh);
+
+				}
 				return RedirectToAction("Index", "Home");
 			}
 
@@ -75,8 +83,15 @@ namespace Bakery.Controllers
 		}
 
         public ActionResult AddReview(List<sp_ds_cthd_Result> reviews) {
-            foreach (var x in reviews) {
-                db.sp_danhGiaSP(x.MaHD, x.MaSP, x.SoSaoDanhGia, x.NoiDungDanhGia);
+            try
+            {
+                foreach (var x in reviews)
+                {
+                    db.sp_danhGiaSP(x.MaHD, x.MaSP, x.SoSaoDanhGia, x.NoiDungDanhGia);
+                }
+            }
+            catch (Exception e) {
+                return RedirectToAction("Details");
 			}
             return RedirectToAction("Details");
         }

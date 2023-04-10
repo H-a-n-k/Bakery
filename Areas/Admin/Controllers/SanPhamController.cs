@@ -10,7 +10,7 @@ using Bakery.Models;
 
 namespace Bakery.Areas.Admin.Controllers
 {
-    public class SanPhamsController : Controller
+    public class SanPhamController : Controller
     {
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 

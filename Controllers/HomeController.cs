@@ -10,6 +10,7 @@ namespace Bakery.Controllers
 	{
 		public ActionResult Index()
 		{
+			return RedirectToAction("Index", "SanPhams");
 			return View();
 		}
 

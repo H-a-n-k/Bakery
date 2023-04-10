@@ -9,45 +9,51 @@
 	@RenderSection("Styles", required: false)
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-		<div class="container">
-			@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-					aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-				<ul class="navbar-nav flex-grow-1">
-					<li>@Html.ActionLink("San pham", "Index", "SanPhams", new { area = "" }, new { @class = "nav-link" })</li>
-					@if (Session["Role"] == "Admin")
-					{
-						<li>@Html.ActionLink("Loai san pham", "Index", "LoaiSanPhams", new { area = "" }, new { @class = "nav-link" })</li>
-						<li>@Html.ActionLink("Khach hang", "Index", "KhachHangs", new { area = "" }, new { @class = "nav-link" })</li>
-					}
-					@if (Session["Role"] == null)
-					{
-						<li>@Html.ActionLink("Dang nhap", "SignIn", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
-						<li>@Html.ActionLink("Dang ky", "Create", "KhachHangs", new { area = "" }, new { @class = "nav-link" })</li>
-					}
-					else
-					{
-						<li>@Html.ActionLink("Dang xuat", "SignOut", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
-					}
-					@if (Session["Role"] == "Customer" && Session["CustomerID"] != null)
-					{
-						<li>@Html.ActionLink("Gio hang", "Index", "GioHangs", new { maKh = Session["CustomerID"] }, new { @class = "nav-link" })</li>
-						<li>@Html.ActionLink("Tai khoan", "Details", "KhachHangs", new { maKh = Session["CustomerID"] }, new { @class = "nav-link" })</li>
-					}
-				</ul>
+	@{var p = Request.Params;}
+	<!-- shared nav -->
+	<div class="m-nav">
+		<form action="/SanPhams" method="get" id="product-frm"></form>
+		<input type="number" form="product-frm" id="product-page-number" name="page" value="1" hidden />
+		<div class="m-row">
+			<div class="left">
+				@*@Html.ActionLink("TRANG CHỦ", "Index", "Home", new { area = "" }, new { @class = "item" })*@
+				@Html.ActionLink("SẢN PHẨM", "Index", "SanPhams", new { area = "" }, new { @class = "item" })
+				@if (Session["Role"] == null)
+				{
+					<text>@Html.ActionLink("ĐĂNG NHẬP", "SignIn", "Auth", new { area = "" }, new { @class = "item" })</text>
+					<text>@Html.ActionLink("ĐĂNG KÝ", "Create", "KhachHangs", new { area = "" }, new { @class = "item" })</text>
+				}
+				@if (Session["Role"] == "Customer" && Session["CustomerID"] != null)
+				{
+					<text>@Html.ActionLink("GIỎ HÀNG", "Index", "GioHangs", new { maKh = Session["CustomerID"] }, new { @class = "item" })</text>
+					<text>@Html.ActionLink("TÀI KHOẢN", "Details", "KhachHangs", new { maKh = Session["CustomerID"] }, new { @class = "item" })</text>
+				}
+			</div>
+			<div class="middle"><div><span class="yellow">yellow</span>Kitchen</div></div>
+			<div class="right">
+				<div class="search">
+					<button form="product-frm" class="icon">
+						<svg xmlns="http://www.w3.org/2000/svg"
+							 viewBox="0 0 512 512">
+							<path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+						</svg>
+					</button>
+					<input id="search" form="product-frm" name="keyword" type="text" placeholder="Bạn muốn tìm gì?" value="@p["keyword"]">
+				</div>
+
+				@if (Session["Role"] != null)
+				{
+					<text>@Html.ActionLink("ĐĂNG XUẤT", "SignOut", "Auth", new { area = "" }, new { @class = "item" })</text>
+				}
 			</div>
 		</div>
-	</nav>
-	<div class="container body-content">
-		@RenderBody()
-		<hr />
-		<footer>
-			<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-		</footer>
+	</div>
+
+	<!-- end nav -->
+	@RenderBody()
+
+	<div class="footer">
+		© Copyright yellokitchen
 	</div>
 
 	@Scripts.Render("~/bundles/jquery")

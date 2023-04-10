@@ -35,7 +35,7 @@ namespace Bakery.Controllers
 				if (kh.QuyenQuanTri.Value)
 				{
 					Session["Role"] = "Admin";
-					return RedirectToAction("Index", "SanPhams", new { area = "Admin" });
+					return RedirectToAction("Index", "SanPham", new { area = "Admin" });
 				}
 				else {
 					Session["Role"] = "Customer";
@@ -43,6 +43,7 @@ namespace Bakery.Controllers
 					return RedirectToAction("Index", "Home");
 				}
 			}
+			ViewBag.ErrorMsg = "Tài khoản hoặc mật khẩu sai";
 			return View();
 		}
 

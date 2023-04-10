@@ -16,6 +16,7 @@ namespace Bakery.Models
         public int MaSP { get; set; }
         public int MaKH { get; set; }
         public string TenSP { get; set; }
+        public string img { get; set; }
         public Nullable<int> SoLuong { get; set; }
         public int SoluongSP { get; set; }
         public int GiaSP { get; set; }
