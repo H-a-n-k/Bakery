@@ -3,12 +3,24 @@
 	ViewBag.Title = "SignIn";
 }
 
-<h2>SignIn</h2>
-<div class="error-msg" style="color:red">@ViewBag.ErrorMsg</div>
-@using (Html.BeginForm("SignIn", "Auth", FormMethod.Post))
-{
-	<input type="text" name="user" placeholder="username" />
-	<br />
-	<input type="password" name="pass" placeholder="password" />
-	<input type="submit" />
+@section Styles {
+	<link href="~/Content/styles/dangnhap.css" rel="stylesheet" type="text/css" />
 }
+
+
+<div class="login-page">
+	<div class="main">
+		<div class="title">ĐĂNG NHẬP</div>
+		@using (Html.BeginForm("SignIn", "Auth", FormMethod.Post))
+		{
+			<input type="text" name="user" placeholder="Tài khoản" />
+			<input type="password" name="pass" placeholder="Mật khẩu" />
+			<input type="submit" value="Gửi" />
+		}
+		<div class="signup">
+			Chưa có tài khoản?
+			@Html.ActionLink("Đăng ký ngay", "Create", "KhachHangs")
+		</div>
+		<div class="error">@ViewBag.ErrorMsg</div>
+	</div>
+</div>

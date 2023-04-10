@@ -372,10 +372,6 @@
   <Function Name="sp_XemDanhGiaSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="masp" Type="int" Mode="In" />
   </Function>
-  <Function Name="sp_xemLichSuMua" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="makh" Type="int" Mode="In" />
-    <Parameter Name="limit" Type="int" Mode="In" />
-  </Function>
   <EntityContainer Name="BakeryStoreDBModelStoreContainer">
     <EntitySet Name="CTHD" EntityType="Self.CTHD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CTHDNhap" EntityType="Self.CTHDNhap" Schema="dbo" store:Type="Tables" />

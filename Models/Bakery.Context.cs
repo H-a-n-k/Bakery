@@ -449,15 +449,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ChiTietSP_Result>("sp_ChiTietSP", maspParameter, makhParameter);
         }
     
-        public virtual ObjectResult<sp_ds_gioHang_Result> sp_ds_gioHang(Nullable<int> maKH)
-        {
-            var maKHParameter = maKH.HasValue ?
-                new ObjectParameter("maKH", maKH) :
-                new ObjectParameter("maKH", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_gioHang_Result>("sp_ds_gioHang", maKHParameter);
-        }
-    
         public virtual int sp_delete_gioHang(Nullable<int> maKH, Nullable<int> maSP)
         {
             var maKHParameter = maKH.HasValue ?
@@ -543,6 +534,15 @@ namespace Bakery.Models
                 new ObjectParameter("mahd", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_cthd_Result>("sp_ds_cthd", mahdParameter);
+        }
+    
+        public virtual ObjectResult<sp_ds_gioHang_Result> sp_ds_gioHang(Nullable<int> maKH)
+        {
+            var maKHParameter = maKH.HasValue ?
+                new ObjectParameter("maKH", maKH) :
+                new ObjectParameter("maKH", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_gioHang_Result>("sp_ds_gioHang", maKHParameter);
         }
     }
 }

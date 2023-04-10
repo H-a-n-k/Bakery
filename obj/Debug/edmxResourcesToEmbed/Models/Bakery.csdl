@@ -123,9 +123,6 @@
       <Parameter Name="masp" Mode="In" Type="Int32" />
       <Parameter Name="makh" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_ds_gioHang" ReturnType="Collection(BakeryStoreDBModel.sp_ds_gioHang_Result)">
-      <Parameter Name="maKH" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="sp_delete_gioHang">
       <Parameter Name="maKH" Mode="In" Type="Int32" />
       <Parameter Name="maSP" Mode="In" Type="Int32" />
@@ -200,6 +197,9 @@
     <FunctionImport Name="sp_ds_cthd" ReturnType="Collection(BakeryStoreDBModel.sp_ds_cthd_Result)">
       <Parameter Name="mahd" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_ds_gioHang" ReturnType="Collection(BakeryStoreDBModel.sp_ds_gioHang_Result)">
+      <Parameter Name="maKH" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_detailhoadon_Result">
     <Property Type="Int32" Name="MaHD" Nullable="false" />
@@ -271,16 +271,6 @@
     <Property Type="DateTime" Name="NgayKT" Nullable="true" />
     <Property Type="Double" Name="TiLeKM" Nullable="true" />
     <Property Type="Int32" Name="SoLuong" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_ds_gioHang_Result">
-    <Property Type="Int32" Name="MaSP" Nullable="false" />
-    <Property Type="Int32" Name="MaKH" Nullable="false" />
-    <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="SoLuong" Nullable="true" />
-    <Property Type="Int32" Name="SoluongSP" Nullable="false" />
-    <Property Type="Int32" Name="GiaSP" Nullable="false" />
-    <Property Type="Double" Name="TiLeKM" Nullable="true" />
-    <Property Type="DateTime" Name="NgayKT" Nullable="true" />
   </ComplexType>
   <EntityType Name="CTHD">
     <Key>
@@ -550,5 +540,16 @@
     <Property Type="Int32" Name="GiamGia" Nullable="true" />
     <Property Type="Int32" Name="SoSaoDanhGia" Nullable="true" />
     <Property Type="String" Name="NoiDungDanhGia" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="sp_ds_gioHang_Result">
+    <Property Type="Int32" Name="MaSP" Nullable="false" />
+    <Property Type="Int32" Name="MaKH" Nullable="false" />
+    <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="img" Nullable="true" />
+    <Property Type="Int32" Name="SoLuong" Nullable="true" />
+    <Property Type="Int32" Name="SoluongSP" Nullable="false" />
+    <Property Type="Int32" Name="GiaSP" Nullable="false" />
+    <Property Type="Double" Name="TiLeKM" Nullable="true" />
+    <Property Type="DateTime" Name="NgayKT" Nullable="true" />
   </ComplexType>
 </Schema>

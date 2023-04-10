@@ -1,128 +1,178 @@
 ﻿@model Bakery.Models.ViewModels.CTSanPhamVM
 
-<div>
-	<h4>SanPham</h4>
-	<hr />
-	<dl class="dl-horizontal">
-		<dt>
-			@Html.DisplayNameFor(model => model.CTSP.TenSP)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.CTSP.TenSP)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.CTSP.GiaSP)
-		</dt>
-
-		<dd>
-			@if (Model.CTSP.TiLeKM.HasValue)
-			{
-				<del>@Model.CTSP.GiaSP</del>
-				<span>@(Model.CTSP.GiaSP * (1 - Model.CTSP.TiLeKM))</span>
-				<span>(cho den @Model.CTSP.NgayKT.Value.ToShortDateString())</span>
-			}
-			else
-			{
-				@Html.DisplayFor(model => model.CTSP.GiaSP);
-			}
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.CTSP.MotaSP)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.CTSP.MotaSP)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.CTSP.img)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.CTSP.img)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.CTSP.Sao)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.CTSP.Sao)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.CTSP.SoLuotDanhGia)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.CTSP.SoLuotDanhGia)
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.CTSP.SoluongSP)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.CTSP.SoluongSP)
-		</dd>
-
-	</dl>
-
-	@if (Session["CustomerID"] != null && Session["Role"] == "Customer")
-	{
-		if (Model.CTSP.SoLuong.HasValue)
-		{
-			<p>Da co trong gio hang:</p>
-			<input type="number" value="@Model.CTSP.SoLuong" min="1" max="@Model.CTSP.SoluongSP" 
-				   onchange="onCartQuantityChange(event, @Model.CTSP.MaSP)" onkeydown="onQuantityKeydown(event)"/>
-			<br />
-			<button>X</button>
+@{
+	ViewBag.Title = "Details";
 }
-		else
-		{
-			<form action="~/GioHangs/Create" method="post">
-				@Html.AntiForgeryToken()
-				<input type="number" name="MaKH" value="@Session["CustomerID"]" hidden />
-				<input type="number" name="MaSP" value="@Model.CTSP.MaSP" hidden />
-				<input type="submit" value="Them vao gio hang" />
-			</form>
-		}
-	}
-	else
-	{
-		<p>
-			@Html.ActionLink("DANG NHAP ", "SignIn", "KhachHangs")
-			de mua hang
-		</p>
-	}
 
-	<hr />
-	<div>Cac Danh Gia:</div>
-	@foreach (var x in Model.DanhGia)
-	{
-		<div>
-			<h3>@x.TaiKhoan</h3>
-			<div>@x.SoSaoDanhGia</div>
-			<p>@x.NoiDungDanhGia</p>
-			<hr />
+@section Styles {
+	<link href="~/Content/styles/ctsp.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="product-detail-page">
+	<div class="m-container">
+		<div class="product-info">
+			<div class="left">
+				<div class="img-wrapper">
+					<img src="@Model.CTSP.img" alt="">
+				</div>
+				<div class="name">@Model.CTSP.TenSP</div>
+				<div class="rate">
+					@Model.CTSP.Sao
+					<img class="icon" src="https://www.iconarchive.com/download/i103490/paomedia/small-n-flat/star.ico" alt="">
+					<i>(@Model.CTSP.SoLuotDanhGia đánh giá)</i>
+				</div>
+				<div class="price">
+					@if (Model.CTSP.TiLeKM.HasValue)
+					{
+						<del>@string.Format("{0:N0}", Model.CTSP.GiaSP) </del>
+						<text>@string.Format("{0:N0}", Model.CTSP.GiaSP * (1 - Model.CTSP.TiLeKM))đ</text>
+						<i>(cho đến ngày @Model.CTSP.NgayKT.Value.ToShortDateString())</i>
+					}
+					else
+					{
+						<text>@string.Format("{0:N0}", Model.CTSP.GiaSP)đ</text>
+					}
+
+				</div>
+				@if (Session["CustomerID"] != null)
+				{
+					<div class="quantity">
+						Số lượng:
+						<span class="btn" onclick="addQuantity(-1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">–</span>
+						<span class="number">@(Model.CTSP.SoLuong.HasValue ? Model.CTSP.SoLuong: 0)</span>
+						<span class="btn" onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">+</span>
+					</div>
+				}
+				else { 
+					<div>
+						<a href="/Auth/SignIn" style="color: blue">Vui lòng đăng nhập</a> <span>để mua hàng</span>
+					</div>
+				}
+				<div class="desc">@Model.CTSP.MotaSP</div>
+			</div>
+			<div class="right">
+				<div class="block-1" style="--bg:url('@Model.CTSP.img')"></div>
+				<div class="block-2-3">
+					<div class="block-2" style="--bg:url('@Model.CTSP.img')"></div>
+					<div class="block-3" style="--bg:url('@Model.CTSP.img')"></div>
+				</div>
+			</div>
 		</div>
-	}
+
+		@if (Model.DanhGia.Count() > 0)
+		{
+			<div class="reviews">
+				<div class="left">
+					<div class="title">
+						Đánh Giá <span class="special">
+							Của Khách Hàng
+						</span>
+					</div>
+					<div class="page-number">
+						<div>
+							<span class="current">01</span>
+							<span class="total">/05</span>
+						</div>
+
+						<div>
+							<span class="btn prev disabled" onclick="changePage(-1)">
+								<img src="https://flaticons.net/icon.php?slug_category=mobile-application&slug_icon=left-arrow" alt="" class="icon">
+							</span>
+							<span class="btn next" onclick="changePage(1)">
+								<img src="https://www.torproject.org/static/fonts/fontawesome/png/white/solid/arrow-right.png" alt="" class="icon">
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="right">
+
+					@foreach (var x in Model.DanhGia)
+					{
+						<div class="review">
+							<div class="name">@x.TaiKhoan</div>
+							<div class="rate">
+								<img class="icon" src="https://www.iconarchive.com/download/i103490/paomedia/small-n-flat/star.ico" alt="">
+								@x.SoSaoDanhGia
+							</div>
+							<div class="comment">@x.NoiDungDanhGia</div>
+						</div>
+					}
+
+				</div>
+			</div>
+		}
+		else { 
+			<p><i>Sản phẩm chưa có ai đánh giá</i></p>
+		}
+	</div>
 </div>
-<p>
-	@if (Session["Role"] == "Admin")
-	{
-		<text>
-			@Html.ActionLink("Edit", "Edit", new { id = Model.CTSP.MaSP }) |
-		</text>
-	}
-	@Html.ActionLink("Back to List", "Index")
-</p>
 
 @section scripts {
-<script>
+	<script>
+        var ind = 0;
+        const PageLength = 3;
+        var pageCount;
+        var itemCount;
+        var items;
 
-</script>		
+        $(document).ready(()=>{
+            items = $('.review');
+            itemCount = items.length;
+            pageCount = Math.ceil(1.0* itemCount / PageLength) - 1;
+            let p = pageCount + 1;
+            $('.total').html('/' + (p < 10? '0'+ p : p));
+
+            changePage(0);
+        })
+
+        function changePage (i) {
+            if(i < 0) i = -1;
+            else if(i > 0) i = 1;
+            if ((i == -1 && ind == 0) || (ind == pageCount && i == 1)) return;
+
+            ind += i;
+            let c = ind + 1
+            $('.current').html(c < 9? '0'+c: c);
+            $(items).addClass('hidden');
+            for(let i = ind*PageLength; i < (ind + 1) * PageLength; i++){
+                $(items[i]).removeClass('hidden');
+            }
+            changeBtnState();
+        }
+
+        function changeBtnState(){
+            if(ind <= 0) $('.prev').addClass('disabled')
+            else $('.prev').removeClass('disabled')
+
+            if (ind >= pageCount) $('.next').addClass('disabled')
+            else $('.next').removeClass('disabled')
+        }
+
+		var quantityUpdating = false;
+		function addQuantity(sl, masp, max){
+			if(quantityUpdating) return;
+			let url = '/giohangs/';
+			let param = {masp};
+			let slm = parseInt($('.number').html()) + sl;
+			if(slm < 0 || slm > max) return;
+
+			if(slm == 1){
+				//add
+				url += 'create';
+			}else if(slm == 0){
+				//remove	
+				url+= 'RemoveItem'
+			}else{
+				//update
+				url += 'UpdateQuantity'
+				param = {masp, sl:slm}
+			}
+
+			quantityUpdating = true;
+			$.post(url, param, ()=>{
+				$('.number').html(slm);
+				quantityUpdating = false;
+			});
+		}
+	</script>
 }
