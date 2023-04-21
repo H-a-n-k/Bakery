@@ -78,7 +78,7 @@
 					margin-top: 10px;
 				}
 
-				.user-page .m-container .history .item .review {
+				.user-page .m-container .history .item .review-btn {
 					position: absolute;
 					right: 10px;
 					top: 50%;
@@ -87,4 +87,12 @@
 					color: white;
 					padding: 10px 20px;
 					cursor: pointer;
+				}
+
+				.user-page .m-container .history .item .review-msg {
+					position: absolute;
+					right: 10px;
+					top: 50%;
+					transform: translateY(-50%);
+					color: grey;
 				}
