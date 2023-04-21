@@ -10,18 +10,18 @@
 
 <div class="product-detail-page">
 	<div class="m-container">
-		<div class="product-info">
+		<div class="product-info font-nunito">
 			<div class="left">
 				<div class="img-wrapper">
 					<img src="@Model.CTSP.img" alt="">
 				</div>
-				<div class="name">@Model.CTSP.TenSP</div>
+				<div class="name font-poppins">@Model.CTSP.TenSP</div>
 				<div class="rate">
 					@Model.CTSP.Sao
 					<img class="icon" src="https://www.iconarchive.com/download/i103490/paomedia/small-n-flat/star.ico" alt="">
 					<i>(@Model.CTSP.SoLuotDanhGia đánh giá)</i>
 				</div>
-				<div class="price">
+				<div class="price font-poppins">
 					@if (Model.CTSP.TiLeKM.HasValue)
 					{
 						<del>@string.Format("{0:N0}", Model.CTSP.GiaSP) </del>
@@ -34,18 +34,30 @@
 					}
 
 				</div>
+				<p><i>(Còn lại: @Model.CTSP.SoluongSP sản phẩm)</i></p>
 				@if (Session["CustomerID"] != null)
 				{
-					<div class="quantity">
-						Số lượng:
-						<span class="btn" onclick="addQuantity(-1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">–</span>
-						<span class="number">@(Model.CTSP.SoLuong.HasValue ? Model.CTSP.SoLuong: 0)</span>
-						<span class="btn" onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">+</span>
-					</div>
+					if (Model.CTSP.SoLuong.HasValue)
+					{
+						<div class="quantity">
+							<b>Đã thêm vào giỏ:</b>
+							<span class="btn" onclick="addQuantity(-1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">–</span>
+							<span class="number">@Model.CTSP.SoLuong</span>
+							<span class="btn" onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">+</span>
+						</div>
+					}
+					else
+					{
+						<span class="number hidden">0</span>
+						<div class="add"  onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">
+							Thêm vào giỏ hàng
+						</div>
+					}
 				}
-				else { 
+				else
+				{
 					<div>
-						<a href="/Auth/SignIn" style="color: blue">Vui lòng đăng nhập</a> <span>để mua hàng</span>
+						<span>Vui lòng</span> <a href="/Auth/SignIn" style="color: blue">đăng nhập</a> <span>để mua hàng</span>
 					</div>
 				}
 				<div class="desc">@Model.CTSP.MotaSP</div>
@@ -61,7 +73,7 @@
 
 		@if (Model.DanhGia.Count() > 0)
 		{
-			<div class="reviews">
+			<div class="reviews font-poppins">
 				<div class="left">
 					<div class="title">
 						Đánh Giá <span class="special">
@@ -94,7 +106,7 @@
 								<img class="icon" src="https://www.iconarchive.com/download/i103490/paomedia/small-n-flat/star.ico" alt="">
 								@x.SoSaoDanhGia
 							</div>
-							<div class="comment">@x.NoiDungDanhGia</div>
+							<div class="comment font-quicksand">@x.NoiDungDanhGia</div>
 						</div>
 					}
 
@@ -156,7 +168,7 @@
 			let slm = parseInt($('.number').html()) + sl;
 			if(slm < 0 || slm > max) return;
 
-			if(slm == 1){
+			if(slm == 1 && sl == 1){
 				//add
 				url += 'create';
 			}else if(slm == 0){
@@ -172,6 +184,7 @@
 			$.post(url, param, ()=>{
 				$('.number').html(slm);
 				quantityUpdating = false;
+				if (slm == 0 || (sl == 1 && slm == 1)) window.location.reload();
 			});
 		}
 	</script>

@@ -1,5 +1,5 @@
 ﻿.cart-page {
-	min-height: 65vh;
+	min-height: 80vh;
 }
 
 	.cart-page .cart .header {
@@ -50,3 +50,11 @@
 .amount {
 	margin: 15px 0;
 }
+
+.sp {
+	color: #FB9333;
+}
+
+	.sp a:hover {
+		text-decoration: underline;
+	}
