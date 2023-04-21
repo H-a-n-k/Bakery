@@ -122,22 +122,24 @@
 			<div class="slide">
 				@for (int i = 4; i < Model.Count(); i++)
 				{
-					<div class="product">
-						<img src="@(Model[i].img)" alt="">
-						<div class="name">@(Model[i].TenSP)</div>
-						<div class="price">
-							@if (Model[i].TiLeKM.HasValue)
-							{
-								<del>@string.Format("{0:N0}", Model[i].GiaSP)</del>
-								<text>@string.Format("{0:N0}", Model[i].GiaSP * (1 - Model[i].TiLeKM))</text>
-							}
-							else
-							{
-								<text>@string.Format("{0:N0}", Model[i].GiaSP)</text>
-							}
-							đ
+					<a href="@Url.Action("details", "SanPhams", new {id = Model[i].MaSP})">
+						<div class="product">
+							<img src="@(Model[i].img)" alt="">
+							<div class="name">@(Model[i].TenSP)</div>
+							<div class="price">
+								@if (Model[i].TiLeKM.HasValue)
+								{
+									<del>@string.Format("{0:N0}", Model[i].GiaSP)</del>
+									<text>@string.Format("{0:N0}", Model[i].GiaSP * (1 - Model[i].TiLeKM))</text>
+								}
+								else
+								{
+									<text>@string.Format("{0:N0}", Model[i].GiaSP)</text>
+								}
+								đ
+							</div>
 						</div>
-					</div>
+					</a>
 				}
 			</div>
 		</div>
