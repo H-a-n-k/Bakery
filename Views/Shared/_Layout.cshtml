@@ -4,6 +4,12 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewBag.Title - My ASP.NET Application</title>
+
+	@*fonts*@
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lavishly+Yours&family=Lexend&family=Nunito&family=Poppins&family=Quicksand&display=swap" rel="stylesheet">
+
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
 	@RenderSection("Styles", required: false)
@@ -11,25 +17,16 @@
 <body>
 	@{var p = Request.Params;}
 	<!-- shared nav -->
-	<div class="m-nav">
+	<div class="m-nav font-quicksand">
 		<form action="/SanPhams" method="get" id="product-frm"></form>
 		<input type="number" form="product-frm" id="product-page-number" name="page" value="1" hidden />
 		<div class="m-row">
 			<div class="left">
 				@*@Html.ActionLink("TRANG CHỦ", "Index", "Home", new { area = "" }, new { @class = "item" })*@
+				@Html.ActionLink("TRANG CHỦ", "Index", "Home", new { area = "" }, new { @class = "item" })
 				@Html.ActionLink("SẢN PHẨM", "Index", "SanPhams", new { area = "" }, new { @class = "item" })
-				@if (Session["Role"] == null)
-				{
-					<text>@Html.ActionLink("ĐĂNG NHẬP", "SignIn", "Auth", new { area = "" }, new { @class = "item" })</text>
-					<text>@Html.ActionLink("ĐĂNG KÝ", "Create", "KhachHangs", new { area = "" }, new { @class = "item" })</text>
-				}
-				@if (Session["Role"] == "Customer" && Session["CustomerID"] != null)
-				{
-					<text>@Html.ActionLink("GIỎ HÀNG", "Index", "GioHangs", new { maKh = Session["CustomerID"] }, new { @class = "item" })</text>
-					<text>@Html.ActionLink("TÀI KHOẢN", "Details", "KhachHangs", new { maKh = Session["CustomerID"] }, new { @class = "item" })</text>
-				}
 			</div>
-			<div class="middle"><div><span class="yellow">yellow</span>Kitchen</div></div>
+			<div class="middle logo"><div><span class="yellow">yellow</span>kitchen</div></div>
 			<div class="right">
 				<div class="search">
 					<button form="product-frm" class="icon">
@@ -41,9 +38,29 @@
 					<input id="search" form="product-frm" name="keyword" type="text" placeholder="Bạn muốn tìm gì?" value="@p["keyword"]">
 				</div>
 
+				@if (Session["Role"] == "Customer" && Session["CustomerID"] != null)
+				{
+					<a href="@Url.Action("Index", "GioHangs", new { maKh = Session["CustomerID"] })">
+						<img src="~/Content/imgs/cart-icon.png" alt="Alternate Text" title="Giỏ hàng" class="icon" />
+					</a>
+					<a href="@Url.Action("Details", "KhachHangs", new { maKh = Session["CustomerID"] })">
+						<img src="~/Content/imgs/user-icon.png" alt="Alternate Text" title="Tài khoản" class="icon" />
+					</a>
+				}
+
+				@if (Session["Role"] == null)
+				{
+					<text>@Html.ActionLink("Đăng nhập", "SignIn", "Auth", new { area = "" }, new { @class = "item login" })</text>
+
+				}
 				@if (Session["Role"] != null)
 				{
-					<text>@Html.ActionLink("ĐĂNG XUẤT", "SignOut", "Auth", new { area = "" }, new { @class = "item" })</text>
+					@*<text>@Html.ActionLink("Đăng xuất", "SignOut", "Auth", new { area = "" }, new { @class = "item login" })</text>*@
+					<a href="@Url.Action("SignOut", "Auth")" class="item" title="Đăng xuất"> 
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon" >
+							<path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"/>
+						</svg>
+					</a>
 				}
 			</div>
 		</div>
@@ -52,9 +69,57 @@
 	<!-- end nav -->
 	@RenderBody()
 
-	<div class="footer">
-		© Copyright yellokitchen
+<div class="footer font-poppins">
+	<div class="m-container">
+		<div class="sections">
+			<div class="section-1 section">
+				<div class="content">
+					<div>
+						<div class="logo line"><div><span class="yellow">yellow</span>kitchen</div></div>
+						<p>
+							Mỗi tháng chúng tôi đều có những đợt giảm giá dịch vụ và sản phẩm nhằm tri ân khách hàng.
+						</p>
+					</div>
+					<div>
+						© Copyright yellokitchen
+					</div>
+				</div>
+			</div>
+			<div class="section">
+				<div class="content">
+					<div class="header line">Chính sách</div>
+					<div class="line">Nhanh chóng</div>
+					<div class="line">Dễ dàng</div>
+					<div class="line">Ngon</div>
+					<div>Rất ngon</div>
+				</div>
+			</div>
+			<div class="section">
+				<div class="content">
+					<div class="header line">Liên hệ</div>
+					<div class="line">
+						<img src="~/Content/imgs/location-icon.png" alt="Alternate Text" class="icon" />
+						<span>828 Sư Vạn Hạnh, Quận 10</span>
+					</div>
+					<div class="line">
+						<img src="~/Content/imgs/email-icon.png" alt="Alternate Text" class="icon" />
+						<span>info@yellowkitchen.com</span>
+					</div>
+					<div>
+						<img src="~/Content/imgs/phone-icon.png" alt="Alternate Text" class="icon" />
+						<span>(098) 765-4321</span>
+					</div>
+				</div>
+			</div>
+			<div class="section">
+				<div class="content">
+					<div class="line header">Đôi lời tâm sự</div>
+					<div>Bánh ngon lắm, mua đi</div>
+				</div>
+			</div>
+		</div>
 	</div>
+</div>
 
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")

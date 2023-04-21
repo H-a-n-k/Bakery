@@ -1,6 +1,27 @@
 ﻿
-:root {
-	font-family: sans-serif;
+body {
+	font-family: 'Lexend', sans-serif;
+}
+
+@font-face {
+	font-family: 'SVN Poppins';
+	src: url('/Content/fonts/poppins.ttf');
+}
+
+.font-poppins {
+	font-family: 'SVN Poppins', 'Lexend', sans-serif;
+}
+.font-quicksand {
+	font-family: 'Quicksand', sans-serif;
+}
+.font-nunito {
+	font-family: 'Nunito', sans-serif;
+}
+.font-lexend {
+	font-family: 'Lexend', sans-serif;
+}
+.font-lavish {
+	font-family: 'Lavishly Yours', sans-serif;
 }
 
 * {
@@ -19,8 +40,8 @@ a:hover {
 }
 
 .icon {
-	height: 20px;
-	width: 20px;
+	height: 21px;
+	width: 21px;
 }
 
 .pointer {
@@ -177,6 +198,10 @@ a:hover {
 		outline: none;
 	}
 
+	.m-nav .icon {
+		margin: 0 12px;
+	}
+
 .m-nav .middle {
 	display: flex;
 	justify-content: center;
@@ -184,21 +209,28 @@ a:hover {
 	font-size: 2em;
 }
 
-.m-nav .middle .yellow {
+	.m-nav .login {
+		padding: 6px 16px;
+		border: 1px solid rgba(117, 117, 117, 0.75);
+		border-radius: 100px;
+	}
+
+.logo .yellow {
 	font-weight: bold;
 	position: relative;
 }
 
-.m-nav .middle .yellow::after {
-	content: '';
-	background-color: yellow;
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	height: 50%;
-	width: 100%;
-	z-index: -1;
-}
+	.logo .yellow::after {
+		content: '';
+		background-color: #FFE145;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		height: 50%;
+		width: 100%;
+		z-index: -1;
+	}
+
 
 .m-nav .right {
 	width: 35%;
@@ -218,10 +250,9 @@ a:hover {
 		}
 
 		.m-nav .right .search #search {
-			margin-left: 20px;
 			border: none;
 			border-bottom: 1px solid grey;
-			width: 200px;
+			width: 250px;
 		}
 
 			.m-nav .right .search #search:focus {
@@ -229,9 +260,42 @@ a:hover {
 			}
 
 .footer {
-	height: 20vh;
+	min-height: 10vh;
 	border-top: 1px solid black;
 	display: flex;
 	justify-content: center;
-	align-items: center;
 }
+
+	.footer .sections {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.footer .line {
+		margin-bottom: 20px;
+	}
+
+	.footer .header {
+		color: #FB9333;
+	}
+
+	.footer .content {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+
+	.footer .section-1 .content {
+		justify-content: space-between;
+	}
+
+		.footer .section {
+			flex: 1;
+			display: flex;
+			justify-content: center;
+			height: 100%;
+		}
+
+	.footer .icon {
+		margin-right: 5px;
+	}

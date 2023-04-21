@@ -8,9 +8,25 @@
 	<link href="~/Content/styles/sanpham.css" rel="stylesheet" type="text/css" />
 }
 
-@{var p = Request.Params;}
+@{
+	//get list of query params;
+	var p = Request.Params;
+	//get list of categories from viewbag
+	var categories = (List<Bakery.Models.sp_ds_loaisp_Result>)ViewBag.loai;
 
-<div class="product-page">
+	//Assign selected category name
+	string currentCate = "";
+	if (String.IsNullOrEmpty(p["maloai"])) { currentCate = "Sản phẩm"; } 
+	else
+	{
+		foreach (var x in categories)
+		{
+			if (x.MaLoai + "" == p["maloai"]) { currentCate = x.TenLoai; break; }
+		}
+	}
+}
+
+<div class="product-page font-poppins">
 	<div class="m-container">
 
 		<div class="m-header">Loại sản phẩm</div>
@@ -30,14 +46,14 @@
 			<input type="text" name="maloai" value="@p["maloai"]" form="product-frm" id="cateEl" hidden />
 			<div class="slider">
 
-				@foreach (var x in ((List<Bakery.Models.sp_ds_loaisp_Result>)ViewBag.loai))
+				@foreach (var x in (categories))
 				{
-					<div class="slider-item pointer @(p["maloai"] == x.MaLoai+""?"selected":"")" data-cateid="@x.MaLoai" onclick="selectCate(event)">
+					<div class="slider-item pointer @(p["maloai"] == x.MaLoai + "" ? "selected" : "")" data-cateid="@x.MaLoai" onclick="selectCate(event)">
 						<div class="content">
 							<div class="img-wrapper">
 								<img src="@x.cate_img" alt="">
 							</div>
-							<div class="item-title">
+							<div class="item-title font-nunito">
 								@x.TenLoai
 							</div>
 						</div>
@@ -47,7 +63,7 @@
 		</div>
 
 		<div class="product-header">
-			<div class="m-header">Sản phẩm</div>
+			<div class="m-header">@currentCate</div>
 			<div class="sort">
 				<div style="white-space: nowrap; margin-right: 20px">Sắp xếp theo:</div>
 				@Html.DropDownList("orderOpt", null, "Mới nhất", htmlAttributes: new { @class = "form-control", form = "product-frm", onchange = "searchProduct()" })

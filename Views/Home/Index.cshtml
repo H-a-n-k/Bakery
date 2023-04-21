@@ -1,7 +1,231 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model List<Bakery.Models.sp_DSSP_Result>
+@{
+	ViewBag.Title = "Home Page";
 }
 
-<div>Role hien tai: @Session["Role"]</div>
-<div>ADMIN: username: admin123 - password: admin123</div>
-<div>Customer: username: user0001 - password: user0001</div>
+@section Styles {
+	<link href="~/Content/styles/home.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="m-carousel">
+	<div class="slider">
+		<div class="slide">
+			<img src="~/Content/imgs/home-slide-1.png" alt="" class="slide-bg">
+			<div class="content">
+				<img src="~/Content/imgs/home-slide-bg-1.png" alt="" class="content-bg">
+				<div class="text">
+					<h2 class="font-lavish">
+						Món bánh mùa xuân hoàn toàn mới
+					</h2>
+					<p class="font-nunito">
+						Chào mừng sự bắt đầu của mùa xuân với các món bánh hoàn toàn mới với số lượng giới hạn. Thưởng thức một loạt các món
+						bánh tráng miệng thú vị từ bánh cupcake màu pastel mang đến những sự ngọt ngào cho tất cả mọi người.
+					</p>
+				</div>
+				<div class="pager" style="--btn-color: #5F3E60">
+				</div>
+			</div>
+		</div>
+		<div class="slide">
+			<img src="~/Content/imgs/home-slide-2.png" alt="" class="slide-bg">
+			<div class="content">
+				<img src="~/Content/imgs/home-slide-bg-2.png" alt="" class="content-bg">
+				<div class="text">
+					<h2 class="font-lavish">
+						Món tráng miệng cho Lễ Vượt Qua
+					</h2>
+					<p class="font-nunito">
+						Lễ Vượt Qua là một thời gian trong năm mang đậm truyền thống. Đối với nhiều gia đình, điều đó có nghĩa là thưởng thức
+						những món tráng miệng thật ngon miệng.
+						Các món tráng miệng trong Lễ Vượt qua có giới hạn số lượng và thời gian.
+					</p>
+				</div>
+				<div class="pager" style="--btn-color: #050E3C">
+				</div>
+			</div>
+		</div>
+		<div class="slide">
+			<img src="~/Content/imgs/home-slide-3.png" alt="" class="slide-bg">
+			<div class="content">
+				<img src="~/Content/imgs/home-slide-bg-3.png" alt="" class="content-bg">
+				<div class="text">
+					<h2 class="font-lavish">
+						Bánh ngọt cho ngày của Mẹ
+					</h2>
+					<p class="font-nunito">
+						Các món ăn mới trong Ngày của Mẹ đã có ở đây! Làm cho ngày của mẹ trở nên ngọt ngào hơn với các món tráng miệng lấy cảm
+						hứng từ hoa giới hạn. Chúng tôi có bó hoa Cookies and Cupcakes đến bánh quy Buttercream Flower được làm thủ công.
+					</p>
+				</div>
+				<div class="pager" style="--btn-color: #581B28">
+				</div>
+			</div>
+		</div>
+		<div class="slide">
+			<img src="~/Content/imgs/home-slide-4.png" alt="" class="slide-bg">
+			<div class="content">
+				<img src="~/Content/imgs/home-slide-bg-4.png" alt="" class="content-bg">
+				<div class="text">
+					<h2 class="font-lavish">
+						Món bánh mùa xuân hoàn toàn mới
+					</h2>
+					<p class="font-nunito">
+						Chào mừng sự bắt đầu của mùa xuân với các món bánh hoàn toàn mới với số lượng giới hạn. Thưởng thức một
+						loạt các món
+						bánh tráng miệng thú vị từ bánh cupcake màu pastel mang đến những sự ngọt ngào cho tất cả mọi người.
+					</p>
+				</div>
+				<div class="pager" style="--btn-color: #00211A">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="m-container font-lexend">
+	<div class="tag ">Bạn nên thử</div>
+	<div class="bestseller-header">
+		<div class="left">
+			<div class="m-header font-lavish">
+				Sản phẩm nổi bật
+			</div>
+		</div>
+		<div class="right">
+			<div class="prev btn disabled" onclick="moveProductSlide(0)"><</div>
+			<div class="next btn" onclick="moveProductSlide(1)">></div>
+		</div>
+	</div>
+	<div class="product-slide">
+		<div class="slider">
+			<div class="slide">
+				@for (int i = 0; i < 4; i++) { 
+					<a href="@Url.Action("details", "SanPhams", new {id = Model[i].MaSP})">
+						<div class="product">
+							<img src="@(Model[i].img)" alt="">
+							<div class="name">@(Model[i].TenSP)</div>
+							<div class="price">
+								@if (Model[i].TiLeKM.HasValue)
+								{
+									<del>@string.Format("{0:N0}", Model[i].GiaSP)</del>
+									<text>@string.Format("{0:N0}", Model[i].GiaSP * (1 - Model[i].TiLeKM))</text>
+								}
+								else
+								{
+									<text>@string.Format("{0:N0}", Model[i].GiaSP)</text>
+								}
+								đ
+							</div>
+						</div>
+					</a>
+				}
+			</div>
+			<div class="slide">
+				@for (int i = 4; i < Model.Count(); i++)
+				{
+					<div class="product">
+						<img src="@(Model[i].img)" alt="">
+						<div class="name">@(Model[i].TenSP)</div>
+						<div class="price">
+							@if (Model[i].TiLeKM.HasValue)
+							{
+								<del>@string.Format("{0:N0}", Model[i].GiaSP)</del>
+								<text>@string.Format("{0:N0}", Model[i].GiaSP * (1 - Model[i].TiLeKM))</text>
+							}
+							else
+							{
+								<text>@string.Format("{0:N0}", Model[i].GiaSP)</text>
+							}
+							đ
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+
+	<div class="tag ">Giới thiệu</div>
+	<div class="m-header font-lavish">
+		Về chúng tôi
+	</div>
+	<p class="about ">
+		Từ năm 1996, <span class="yellow">yellowkitchen</span> là một trong những tiệm bánh được yêu thích nhất của Việt Nam và đặt ra tiêu chuẩn cho các
+		món bánh ngọt và bánh mặn đã được thử và đúng. Đi cùng chúng tôi để hiểu về hành trình từ viên ngọc quý còn thô đến
+		thành công đầy ngọt ngào.
+	</p>
+	<img src="~/Content/imgs/home-about.png" alt="" class="about-img">
+</div>
+
+@section scripts {
+	<script>
+        const slides = $('.m-carousel .slider .slide')
+        const nSlides = slides.length - 1;
+        const slider = $('.m-carousel .slider');
+        let currentSlide = 0;
+        const SLIDE_DELAY_TIME = 3000;
+        let slideInterval;
+        let mouseOverCarousel = false;
+
+        $(document).ready(()=>{
+            addPager();
+            startSlideInterval();
+
+            $('.m-carousel').on('mouseenter', () => {
+                clearInterval(slideInterval);
+                mouseOverCarousel = true;
+            })
+            $('.m-carousel').on('mouseleave', () => {
+                slideInterval = setInterval(() => { nextSlide(1) }, SLIDE_DELAY_TIME);
+                mouseOverCarousel = false;
+            })
+        })
+
+        const startSlideInterval = ()=>{
+            clearInterval(slideInterval);
+            if(!mouseOverCarousel) slideInterval = setInterval(() => { nextSlide(1) }, SLIDE_DELAY_TIME);
+        }
+
+        const addPager = ()=>{
+            let pagers = $('.m-carousel .slider .slide .pager');
+
+            let htmlPages = '';
+            for(let i =0; i<=nSlides; i++) htmlPages += `<div class="page" onclick='slideTo(${i})'></div>`
+            const html = `
+                 <div class="prev" onclick='nextSlide(-1)'>
+                    <img src="@Url.Content("~/Content/imgs/prev-icon.png")" alt="">
+                </div>
+                ${htmlPages}
+                <div class="next" onclick='nextSlide(1)'>
+                    <img src="@Url.Content("~/Content/imgs/next-icon.png")" alt="">
+                </div>
+            `
+            for(let i =0; i< pagers.length; i++){
+                $(pagers[i]).html(html);
+                let selectedPage = $(pagers[i]).find('.page')[i];
+                $(selectedPage).addClass('selected');
+            }
+        }
+
+        const slideTo = (i) => {
+            if(i > nSlides) i = 0;
+            if(i < 0) i = nSlides;
+            currentSlide = i;
+            startSlideInterval();
+            $(slider).css('transform', `translateX(calc(100% * -${i}))`)
+        }
+        const nextSlide = (i) =>{
+            slideTo(currentSlide + i);
+		}
+
+		let currentProductSlide = 0;
+		const moveProductSlide = (i) => {
+			if (currentProductSlide === i) return;
+			if (i != 0) i = 1;
+			$('.product-slide .slider').css('transform', `translateX(calc(100% * -${i}))`)
+			currentProductSlide = i;
+			$('.bestseller-header .prev').toggleClass('disabled')
+			$('.bestseller-header .next').toggleClass('disabled')
+		}
+
+
+	</script>
+} 

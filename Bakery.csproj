@@ -259,6 +259,7 @@
     <Content Include="Content\styles\ctsp.css" />
     <Content Include="Content\styles\dangnhap.css" />
     <Content Include="Content\styles\giohang.css" />
+    <Content Include="Content\styles\home.css" />
     <Content Include="Content\styles\sanpham.css" />
     <Content Include="Content\styles\shared-style.css" />
     <Content Include="favicon.ico" />
@@ -315,6 +316,7 @@
     <Content Include="Areas\Admin\Views\KhuyenMais\Details.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMais\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMais\Index.cshtml" />
+    <Content Include="Content\fonts\poppins.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -370,6 +372,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Content\imgs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

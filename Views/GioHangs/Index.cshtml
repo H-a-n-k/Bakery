@@ -10,57 +10,66 @@
 
 <div class="cart-page">
 	<div class="m-container">
-		<div class="cart">
-			<div class="row header">
-				<div class="col-2"></div>
-				<div class="col-4">Sản phẩm</div>
-				<div class="col-2">Giá</div>
-				<div class="col-2">Số lượng</div>
-				<div class="col-2">Tổng</div>
-			</div>
+		@if (Model.Count > 0)
+		{
+			<div class="cart">
+				<div class="row header">
+					<div class="col-2"></div>
+					<div class="col-4">Sản phẩm</div>
+					<div class="col-2">Giá</div>
+					<div class="col-2">Số lượng</div>
+					<div class="col-2">Tổng</div>
+				</div>
 
-			@for (int i = 0; i < Model.Count(); i++)
-			{
-				double price = Model[i].GiaSP;
-				if (Model[i].TiLeKM.HasValue) { price = price * (1 - Model[i].TiLeKM.Value); }
-				<div class="row item" data-ind="@i">
-					<div class="col-2">
-						<div class="img-wrapper">
-							<img src="@Model[i].img" alt="">
+				@for (int i = 0; i < Model.Count(); i++)
+				{
+					double price = Model[i].GiaSP;
+					if (Model[i].TiLeKM.HasValue) { price = price * (1 - Model[i].TiLeKM.Value); }
+					<div class="row item" data-ind="@i">
+						<div class="col-2">
+							<a href="@Url.Action("details", "SanPhams", new { id = Model[i].MaSP })">
+								<div class="img-wrapper">
+									<img src="@Model[i].img" alt="">
+								</div>
+							</a>
+						</div>
+						<div class="col-4">@Model[i].TenSP</div>
+						<div class="col-2 price" data-val="@price">@string.Format("{0:N0}", price)đ</div>
+						<div class="col-2">
+							<input type="number" class="quantity" value="@Model[i].SoLuong" min="0" max="@Model[i].SoluongSP"
+								   onkeydown="onQuantityKeydown(event)" onchange="onCartQuantityChange(event, @Model[i].MaSP); calcPrice();" />
+						</div>
+						<div class="col-2 sum">
+
 						</div>
 					</div>
-					<div class="col-4">@Model[i].TenSP</div>
-					<div class="col-2 price" data-val="@price">@string.Format("{0:N0}", price)đ</div>
-					<div class="col-2">
-						<input type="number" class="quantity" value="@Model[i].SoLuong" min="0" max="@Model[i].SoluongSP"
-							   onkeydown="onQuantityKeydown(event)" onchange="onCartQuantityChange(event, @Model[i].MaSP); calcPrice();" />
-					</div>
-					<div class="col-2 sum">
+				}
+			</div>
 
-					</div>
+			<div class="dialog-wrapper hidden">
+				<div class="dialog-content">
+					<form action="giohangs/checkout" method="post" id="frm-checkout">
+						<h3>Xác nhận thanh toán</h3>
+						<div class="amount">Số tiền: <span id="total-2">0</span></div>
+						<label>Địa chỉ: </label>
+						<input type="text" placeholder="Nhập địa chỉ" name="addr" value="" required />
+						<input type="submit" value="Xác nhận" />
+					</form>
 				</div>
-			}
-		</div>
-
-		<div class="dialog-wrapper hidden">
-			<div class="dialog-content">
-				<form action="giohangs/checkout" method="post" id="frm-checkout">
-					<h3>Xác nhận thanh toán</h3>
-					<div class="amount">Số tiền: <span id="total-2">0</span></div>
-					<label>Địa chỉ: </label>
-					<input type="text" placeholder="Nhập địa chỉ" name="addr" value="" required />
-					<input type="submit" value="Xác nhận" />
-				</form>
-			</div>
-		</div>
-
-		<div class="checkout">
-			<div class="total">
-				Tổng tiền: <span class="value" id="total"></span>
 			</div>
 
-			<button class="pay" onclick="showCheckoutConfirmDialog()">Thanh toán</button>
-		</div>
+			<div class="checkout">
+				<div class="total">
+					Tổng tiền: <span class="value" id="total"></span>
+				</div>
+
+				<button class="pay" onclick="showCheckoutConfirmDialog()">Thanh toán</button>
+			</div>
+		}
+		else { 
+			<h2>Giỏ hàng của bạn đang bị <span class="sp">trống</span></h2>
+			<h2>Hãy lấp đầy nó với tình yêu đồ ngọt nào! <span class="sp">@Html.ActionLink("Mua hàng", "Index", "Sanphams")</span></h2>
+		}
 
 	</div>
 </div>
