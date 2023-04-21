@@ -5,11 +5,9 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Danh sách khách hàng</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<button type="button" class="btn btn-primary mt-3 mb-3">@Html.ActionLink("Tạo mới", "Create")</button>
 <table class="table">
     <tr>
         <th>
@@ -28,12 +26,6 @@
             @Html.DisplayNameFor(model => model.TaiKhoan)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MatKhau)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuyenQuanTri)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.tinhTrang)
         </th>
         <th></th>
@@ -45,30 +37,24 @@
             @Html.DisplayFor(modelItem => item.TenKH)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.GioiTinh)
+            @(item.GioiTinh.HasValue? (item.GioiTinh == 1? "Nam" : (item.GioiTinh == 0? "Nữ" : "Khác"))  : "Khác")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SoDienThoai)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.NgaySinh)
+            @item.NgaySinh.Value.ToShortDateString()
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TaiKhoan)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MatKhau)
+            @(item.tinhTrang.HasValue && item.tinhTrang.Value == 1? "Hoạt động" : "Bị cấm")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.QuyenQuanTri)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tinhTrang)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MaKH }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MaKH }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MaKH })
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.MaKH }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MaKH }) |*@
+            @Html.ActionLink("Xóa", "Delete", new { id=item.MaKH })
         </td>
     </tr>
 }
