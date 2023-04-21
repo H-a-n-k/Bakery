@@ -1,5 +1,5 @@
 ﻿.login-page {
-	height: 90vh;
+	min-height: 90vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -7,6 +7,7 @@
 	background-image: url('https://images.hdqwalls.com/wallpapers/lake-nature-night-reflection-r1.jpg');
 	background-size: cover;
 	background-position: center;
+	font-size: 12px;
 }
 
 	.login-page .main {
@@ -14,6 +15,7 @@
 		border-radius: 20px;
 		padding: 50px;
 		font-size: 1.5em;
+		margin: 50px;
 	}
 
 		.login-page .main .title {
@@ -31,7 +33,6 @@
 				margin-bottom: 10px;
 				padding: 10px 20px;
 				width: 100%;
-				max-width: 1000px;
 			}
 
 		.login-page .main .signup a {
@@ -57,4 +58,5 @@
 	display: flex;
 	align-items: baseline;
 	font-size: 16px;
+	white-space: nowrap;
 }

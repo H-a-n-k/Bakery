@@ -76,7 +76,7 @@ namespace Bakery.Controllers
                     return View(kh);
 
 				}
-				return RedirectToAction("SignIn", "Auth");
+				return RedirectToAction("Index");
 			}
 
 			return View(kh);

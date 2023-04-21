@@ -7,9 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bakery.Models;
+using Bakery.Models.ViewModels;
 
 namespace Bakery.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class KhachHangController : Controller
     {
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
@@ -46,16 +48,24 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaKH,TenKH,GioiTinh,SoDienThoai,NgaySinh,TaiKhoan,MatKhau,QuyenQuanTri,tinhTrang")] KhachHang khachHang)
+        public ActionResult Create(SignUpVM kh)
         {
             if (ModelState.IsValid)
             {
-                db.KhachHangs.Add(khachHang);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.sp_dkytaikhoan(kh.TenKH, kh.GioiTinh, kh.SoDienThoai, kh.NgaySinh, kh.TaiKhoan, kh.MatKhau);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ErrorMsg = e.InnerException.Message.Split('\r')[0];
+                    return View(kh);
+
+                }
+                return RedirectToAction("SignIn", "Auth");
             }
 
-            return View(khachHang);
+            return View(kh);
         }
 
         // GET: Admin/KhachHangs/Edit/5

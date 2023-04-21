@@ -4,11 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Danh sách hóa đơn</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<button type="button" class="btn btn-primary mt-3 mb-3">@Html.ActionLink("Tạo mới", "Create")</button>
 <table class="table">
     <tr>
         <th>
@@ -32,10 +30,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.NgayHD)
+            @item.NgayHD.Value.ToShortDateString()
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TinhTrangGiao)
+            @(item.TinhTrangGiao.HasValue && item.TinhTrangGiao.Value? "Đã giao" : "Chưa giao")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DiaChiGiao)
@@ -47,9 +45,9 @@
             @Html.DisplayFor(modelItem => item.KhachHang.TenKH)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MaHD }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MaHD }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MaHD })
+            @Html.ActionLink("Sửa", "Edit", new { id=item.MaHD }) |
+            @Html.ActionLink("Xem", "Details", new { id=item.MaHD }) |
+            @Html.ActionLink("Xóa", "Delete", new { id=item.MaHD })
         </td>
     </tr>
 }

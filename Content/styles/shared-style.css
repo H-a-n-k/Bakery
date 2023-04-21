@@ -218,6 +218,7 @@ a:hover {
 .logo .yellow {
 	font-weight: bold;
 	position: relative;
+	z-index: 1;
 }
 
 	.logo .yellow::after {
@@ -277,6 +278,7 @@ a:hover {
 
 	.footer .header {
 		color: #FB9333;
+		font-weight: 600;
 	}
 
 	.footer .content {

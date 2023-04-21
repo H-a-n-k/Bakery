@@ -10,6 +10,7 @@ using Bakery.Models;
 
 namespace Bakery.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class KhuyenMaisController : Controller
     {
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();

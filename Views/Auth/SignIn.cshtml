@@ -13,8 +13,10 @@
 		<div class="title">ĐĂNG NHẬP</div>
 		@using (Html.BeginForm("SignIn", "Auth", FormMethod.Post))
 		{
-			<input type="text" name="user" placeholder="Tài khoản" />
-			<input type="password" name="pass" placeholder="Mật khẩu" />
+			<label>Tài khoản</label>
+			<input type="text" name="user" />
+			<label>Mật khẩu</label>
+			<input type="password" name="pass" />
 			<input type="submit" value="Gửi" />
 		}
 		<div class="signup">

@@ -171,11 +171,11 @@
             addPager();
             startSlideInterval();
 
-            $('.m-carousel').on('mouseenter', () => {
+			$('.m-carousel').on('mouseenter', () => {
                 clearInterval(slideInterval);
                 mouseOverCarousel = true;
             })
-            $('.m-carousel').on('mouseleave', () => {
+			$('.m-carousel').on('mouseleave', () => {
                 slideInterval = setInterval(() => { nextSlide(1) }, SLIDE_DELAY_TIME);
                 mouseOverCarousel = false;
             })

@@ -10,6 +10,10 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lavishly+Yours&family=Lexend&family=Nunito&family=Poppins&family=Quicksand&display=swap" rel="stylesheet">
 
+	@*Bootstrap*@
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
 	@RenderSection("Styles", required: false)
@@ -71,13 +75,13 @@
 	<!-- end nav -->
 	@RenderBody()
 
-<div class="footer font-poppins">
+<div class="footer">
 	<div class="m-container">
 		<div class="sections">
 			<div class="section-1 section">
 				<div class="content">
 					<div>
-						<div class="logo line"><div><span class="yellow">yellow</span>kitchen</div></div>
+						<div class="logo line font-quicksand"><div><span class="yellow">yellow</span>kitchen</div></div>
 						<p>
 							Mỗi tháng chúng tôi đều có những đợt giảm giá dịch vụ và sản phẩm nhằm tri ân khách hàng.
 						</p>

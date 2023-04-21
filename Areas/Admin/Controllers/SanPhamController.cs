@@ -10,6 +10,7 @@ using Bakery.Models;
 
 namespace Bakery.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SanPhamController : Controller
     {
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
@@ -53,8 +54,9 @@ namespace Bakery.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SanPhams.Add(sanPham);
-                db.SaveChanges();
+                db.sp_ThemSP(sanPham.TenSP, sanPham.GiaSP, sanPham.MotaSP, sanPham.img, sanPham.maLoai, sanPham.SoluongSP);
+                //db.SanPhams.Add(sanPham);
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -89,8 +91,9 @@ namespace Bakery.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(sanPham).State = EntityState.Modified;
-                db.SaveChanges();
+                db.sp_SuaSP(sanPham.MaSP, sanPham.TenSP, sanPham.GiaSP, sanPham.MotaSP, sanPham.img, sanPham.Sao, sanPham.SoLuotDanhGia, sanPham.maLoai, sanPham.SoluongSP, sanPham.MaKM);
+                //db.Entry(sanPham).State = EntityState.Modified;
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sanPham.MaKM);
