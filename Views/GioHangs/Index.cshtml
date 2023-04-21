@@ -15,10 +15,11 @@
 			<div class="cart">
 				<div class="row header">
 					<div class="col-2"></div>
-					<div class="col-4">Sản phẩm</div>
+					<div class="col-3">Sản phẩm</div>
 					<div class="col-2">Giá</div>
 					<div class="col-2">Số lượng</div>
 					<div class="col-2">Tổng</div>
+					<div class="col-1"></div>
 				</div>
 
 				@for (int i = 0; i < Model.Count(); i++)
@@ -33,14 +34,18 @@
 								</div>
 							</a>
 						</div>
-						<div class="col-4">@Model[i].TenSP</div>
+						<div class="col-3">@Model[i].TenSP</div>
 						<div class="col-2 price" data-val="@price">@string.Format("{0:N0}", price)đ</div>
 						<div class="col-2">
-							<input type="number" class="quantity" value="@Model[i].SoLuong" min="0" max="@Model[i].SoluongSP"
+							<input type="number" class="quantity" value="@Model[i].SoLuong" min="1" max="@Model[i].SoluongSP"
 								   onkeydown="onQuantityKeydown(event)" onchange="onCartQuantityChange(event, @Model[i].MaSP); calcPrice();" />
+							/ @Model[i].SoluongSP
 						</div>
 						<div class="col-2 sum">
 
+						</div>
+						<div class="col-1 remove" onclick="removeItem(@Model[i].MaSP)">
+							X
 						</div>
 					</div>
 				}
@@ -67,8 +72,13 @@
 			</div>
 		}
 		else { 
-			<h2>Giỏ hàng của bạn đang bị <span class="sp">trống</span></h2>
-			<h2>Hãy lấp đầy nó với tình yêu đồ ngọt nào! <span class="sp">@Html.ActionLink("Mua hàng", "Index", "Sanphams")</span></h2>
+			<div class="empty">
+				<div>
+					<h2>Giỏ hàng của bạn đang bị <span class="sp">trống</span></h2>
+					<h2>Hãy lấp đầy nó với tình yêu đồ ngọt nào! <span class="sp">@Html.ActionLink("Mua hàng", "Index", "Sanphams")</span></h2>
+					<img src="~/Content/imgs/pororo.png" />
+				</div>
+			</div>
 		}
 
 	</div>

@@ -10,6 +10,7 @@
 	display: flex;
 	justify-content: space-between;
 	height: 90vh;
+	margin-bottom: 20px;	
 }
 
 	.product-detail-page .product-info .left {
@@ -52,8 +53,16 @@
 
 		.product-detail-page .product-info .left .quantity .btn {
 			cursor: pointer;
-			box-shadow: 0px 2px 16px rgba(60, 62, 74, 0.08);
-			padding: 5px;
+			/*box-shadow: 0px 2px 16px rgba(60, 62, 74, 0.08);*/
+			border: 1px solid grey;
+			padding: 0 10px;
+			margin: 5px;
+		}
+
+		.product-detail-page .product-info .left .quantity .btn.remove {
+			color: grey;
+			border-color: grey;
+			margin-left: 20px;
 		}
 
 		.product-detail-page .product-info .left .add {
@@ -62,7 +71,7 @@
 			padding: 8px 16px;
 			border-radius: 100px;
 			cursor: pointer;
-			margin: 10px 0;
+			margin-bottom: 5px;
 		}
 
 		.product-detail-page .product-info .left .desc {

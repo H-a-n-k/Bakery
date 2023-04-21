@@ -42,8 +42,9 @@
 						<div class="quantity">
 							<b>Đã thêm vào giỏ:</b>
 							<span class="btn" onclick="addQuantity(-1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">–</span>
-							<span class="number">@Model.CTSP.SoLuong</span>
+							<span class="number">@(Math.Min(Model.CTSP.SoLuong.Value, Model.CTSP.SoluongSP))</span>
 							<span class="btn" onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">+</span>
+							<span class="btn remove" onclick="removeItem(@Model.CTSP.MaSP)">Hủy</span>
 						</div>
 					}
 					else
@@ -158,7 +159,13 @@
 
             if (ind >= pageCount) $('.next').addClass('disabled')
             else $('.next').removeClass('disabled')
-        }
+		}
+
+		function removeItem (id) {
+			$.post('/giohangs/RemoveItem', { masp: id} , () => {
+				window.location.reload();
+			});
+		}
 
 		var quantityUpdating = false;
 		function addQuantity(sl, masp, max){
@@ -166,14 +173,11 @@
 			let url = '/giohangs/';
 			let param = {masp};
 			let slm = parseInt($('.number').html()) + sl;
-			if(slm < 0 || slm > max) return;
+			if(slm <= 0 || slm > max) return;
 
 			if(slm == 1 && sl == 1){
 				//add
 				url += 'create';
-			}else if(slm == 0){
-				//remove	
-				url+= 'RemoveItem'
 			}else{
 				//update
 				url += 'UpdateQuantity'
@@ -184,7 +188,7 @@
 			$.post(url, param, ()=>{
 				$('.number').html(slm);
 				quantityUpdating = false;
-				if (slm == 0 || (sl == 1 && slm == 1)) window.location.reload();
+				if (sl == 1 && slm == 1) window.location.reload();
 			});
 		}
 	</script>

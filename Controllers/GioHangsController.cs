@@ -54,7 +54,9 @@ namespace Bakery.Controllers
 		[HttpPost]
 		public ActionResult UpdateQuantity(int masp, int sl)
 		{
-			int? makh = GetCustomerID(Session);
+            if(sl <= 0) return new EmptyResult();
+
+            int? makh = GetCustomerID(Session);
 			if (makh == null) return new EmptyResult();
 
             try

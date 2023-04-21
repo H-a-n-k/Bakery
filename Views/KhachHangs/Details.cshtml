@@ -19,7 +19,7 @@
 		<div class="info">
 			<div class="m-row">
 				<div class="name">Tên: <span class="value">@Model.kh.TenKH</span></div>
-				<div class="gender">@Model.kh.GioiTinh</div>
+				<div class="gender">Giới tính: @Model.kh.GioiTinh</div>
 			</div>
 			<div class="m-row">
 				<div class="phone">sdt: @Model.kh.SoDienThoai</div>
@@ -46,7 +46,17 @@
 						}
 					</ul>
 
-					<div class="review" onclick="showReviewDialog(@x.hd.MaHD)">Đánh giá</div>
+					@if (x.hd.TinhTrangGiao.HasValue && x.hd.TinhTrangGiao.Value)
+					{
+						if (x.cthds.Any(y => y.SoSaoDanhGia.HasValue))
+						{
+							<div class="review-btn" onclick="showReviewDialog(@x.hd.MaHD)">Đánh giá</div>
+						}
+						else
+						{
+							<p class="review-msg">Đã đánh giá</p>
+						}
+					}
 				</div>
 			}
 		</div>
