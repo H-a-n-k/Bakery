@@ -1,42 +1,93 @@
-﻿@model IEnumerable<Bakery.Models.SanPham>
+﻿@model IEnumerable<Bakery.Models.sp_DSSP_Result>
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
+@{
+	var p = Request.Params;
+	var cates = (List<Bakery.Models.sp_ds_loaisp_Result>)ViewBag.cates;
+}
+
+<style>
+	.pager .selected {
+		color: blue;
+		text-decoration: underline;
+	}
+	.pager span {
+		cursor: pointer;
+	}
+	.search input[type="radio"]:checked + label {
+		background-color: #6c757d;
+		color: white;
+	}
+</style>
 
 <h2>Danh sách sản phẩm</h2>
 
 <button type="button" class="btn btn-primary mt-3 mb-3">@Html.ActionLink("Tạo mới", "Create")</button>
 
+<form action="" method="get" id="search-frm">
+	<input type="number" id="page-number" name="page" value="1" hidden />
+	<div class="mb-3 row search">
+		<div class="col-4">
+			<div class="input-group mb-3">
+				<span class="input-group-text" id="basic-addon3">Tìm theo tên</span>
+				<input type="text" class="form-control" name="keyword" value="@p["keyword"]" />
+			</div>
+		</div>
+
+		<div class="col-4">
+			<span>Loại: </span>
+			<select class="form-select" name="cate" style="display: inline">
+				<option value="">Tất cả</option>
+				@foreach (var x in cates)
+				{
+					<option value="@x.MaLoai" @(x.MaLoai + "" == p["cate"] ? "selected" : "")>@x.TenLoai</option>
+				}
+				<option value="-1" @("-1" == p["cate"] ? "selected" : "")>Chưa phân loại</option>
+			</select>
+		</div>
+
+		<div class="col-3">
+			<input id="inactive" type="radio" name="active" value="true" hidden @(p["active"] == "true" || String.IsNullOrEmpty(p["active"]) ? "checked" : "") />
+			<label for="inactive" class="btn btn-outline-secondary ms-2 me-2">Đang bán</label>
+			<input id="active" type="radio" name="active" value="false" hidden @(p["active"] == "false" ? "checked" : "") />
+			<label for="active" class="btn btn-outline-secondary">Tạm ẩn</label>
+		</div>
+
+		<div class="col-1">
+			<button class="btn btn-primary">Tìm</button>
+		</div>
+	</div>
+</form>
+
 <table class="table">
 	<tr class="table-info row">
 		<th class="col-1">
-			@Html.DisplayNameFor(model => model.img)
+			Hình ảnh
 		</th>
 		<th class="col-2">
-			@Html.DisplayNameFor(model => model.TenSP)
+			Tên SP
 		</th>
 		<th class="col-1">
-			@Html.DisplayNameFor(model => model.GiaSP)
+			Đơn giá
 		</th>
-		<th class="col-2">
-			@Html.DisplayNameFor(model => model.MotaSP)
-		</th>
-		<th class="col-1">
-			@Html.DisplayNameFor(model => model.Sao)
+		<th class="col-3">
+			Mô tả
 		</th>
 		<th class="col-1">
-			@Html.DisplayNameFor(model => model.SoLuotDanhGia)
+			Số sao
 		</th>
 		<th class="col-1">
-			@Html.DisplayNameFor(model => model.SoluongSP)
+			Số đánh giá
 		</th>
 		<th class="col-1">
-			@Html.DisplayNameFor(model => model.tinhTrang)
+			Số lượng
 		</th>
 		<th class="col-1">
-			@Html.DisplayNameFor(model => model.LoaiSanPham.TenLoai)
+			Loại SP
 		</th>
 		<th class="col-1"></th>
 	</tr>
@@ -52,7 +103,7 @@
 		<td class="col-1">
 			@string.Format("{0:N0}", item.GiaSP) đ
 		</td>
-		<td class="col-2">
+		<td class="col-3">
 			@Html.DisplayFor(modelItem => item.MotaSP)
 		</td>
 		<td class="col-1">
@@ -65,10 +116,7 @@
 			@Html.DisplayFor(modelItem => item.SoluongSP)
 		</td>
 		<td class="col-1">
-			@(item.tinhTrang.HasValue && item.tinhTrang.Value == 1 ? "Đang bán" : "Ẩn")
-		</td>
-		<td class="col-1">
-			@Html.DisplayFor(modelItem => item.LoaiSanPham.TenLoai)
+			@Html.DisplayFor(modelItem => item.TenLoai)
 		</td>
 		<td class="col-1">
 			<a href="@Url.Action("Edit", new { id = item.MaSP })">
@@ -84,3 +132,20 @@
 }
 
 </table>
+
+<div style="display: flex" class="pager">
+	<div style="flex: 1;"></div>
+	<div>
+		@for (int i = 1; i <= ViewBag.PageCount; i++)
+		{
+			<span href="?page=@i" class="m-1 @((i == 1 && String.IsNullOrEmpty(p["page"])) || (i + "" == p["page"]) ? "selected" : "")" onclick="changePage(@i)">@i</span>
+		}
+	</div>
+</div>
+
+<script>
+	function changePage(i) {
+		$("#page-number").val(i);
+		$("#search-frm").submit();
+	}
+</script>

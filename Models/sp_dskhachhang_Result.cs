@@ -18,5 +18,6 @@ namespace Bakery.Models
         public string GioiTinh { get; set; }
         public string SoDienThoai { get; set; }
         public Nullable<System.DateTime> NgaySinh { get; set; }
+        public string TaiKhoan { get; set; }
     }
 }

@@ -198,10 +198,19 @@
     <Compile Include="Models\sp_detailhoadon_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_detail_khuyenMai_Result.cs">
+      <DependentUpon>Bakery.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_detail_loaisp_Result.cs">
+      <DependentUpon>Bakery.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_dshoadon_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_dskhachhang_Result.cs">
+      <DependentUpon>Bakery.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_dssp_khuyenMai_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_DSSP_Result.cs">
@@ -211,6 +220,9 @@
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_ds_gioHang_Result.cs">
+      <DependentUpon>Bakery.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_ds_khuyenMai_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_ds_loaisp_Result.cs">

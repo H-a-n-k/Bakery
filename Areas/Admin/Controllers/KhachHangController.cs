@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,9 +18,33 @@ namespace Bakery.Areas.Admin.Controllers
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 
         // GET: Admin/KhachHangs
-        public ActionResult Index()
+        public ActionResult Index(string keyword, int? page = 1, bool? active = true)
         {
-            return View(db.KhachHangs.ToList());
+            ObjectParameter count = new ObjectParameter("pageCount", typeof(Int32));
+            var list = db.sp_dskhachhang(count, active, keyword, page, 20).ToList();
+            ViewBag.PageCount = Convert.ToInt32(count.Value);
+            return View(list);
+        }
+
+        [HttpPost]
+        public ActionResult Lock(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            try
+            {
+                db.sp_deletekhachhang(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index");
+
+            }
+
         }
 
         // GET: Admin/KhachHangs/Details/5

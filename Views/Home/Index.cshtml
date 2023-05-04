@@ -176,8 +176,8 @@
                 mouseOverCarousel = true;
             })
 			$('.m-carousel').on('mouseleave', () => {
-                slideInterval = setInterval(() => { nextSlide(1) }, SLIDE_DELAY_TIME);
-                mouseOverCarousel = false;
+				mouseOverCarousel = false;
+				startSlideInterval();
             })
         })
 
