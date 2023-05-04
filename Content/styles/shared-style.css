@@ -301,3 +301,10 @@ a:hover {
 	.footer .icon {
 		margin-right: 5px;
 	}
+
+table svg {
+	display: none;
+}
+table .row:hover svg {
+	display: inline;
+}

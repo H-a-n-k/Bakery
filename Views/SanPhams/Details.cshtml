@@ -18,7 +18,7 @@
 				<div class="name font-poppins">@Model.CTSP.TenSP</div>
 				<div class="rate">
 					@Model.CTSP.Sao
-					<img class="icon" src="https://www.iconarchive.com/download/i103490/paomedia/small-n-flat/star.ico" alt="">
+					<img class="icon" src="~/Content/imgs/star.ico" alt="">
 					<i>(@Model.CTSP.SoLuotDanhGia đánh giá)</i>
 				</div>
 				<div class="price font-poppins">
@@ -26,7 +26,7 @@
 					{
 						<del>@string.Format("{0:N0}", Model.CTSP.GiaSP) </del>
 						<text>@string.Format("{0:N0}", Model.CTSP.GiaSP * (1 - Model.CTSP.TiLeKM))đ</text>
-						<i>(cho đến ngày @Model.CTSP.NgayKT.Value.ToShortDateString())</i>
+						@*<i>(cho đến ngày @Model.CTSP.NgayKT.Value.ToShortDateString())</i>*@
 					}
 					else
 					{

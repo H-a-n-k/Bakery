@@ -50,12 +50,16 @@
 					{
 						if (x.cthds.Any(y => y.SoSaoDanhGia.HasValue))
 						{
-							<div class="review-btn" onclick="showReviewDialog(@x.hd.MaHD)">Đánh giá</div>
+							<p class="review-msg">Đã đánh giá</p>
 						}
 						else
 						{
-							<p class="review-msg">Đã đánh giá</p>
+							<div class="review-btn" onclick="showReviewDialog(@x.hd.MaHD)">Đánh giá</div>
 						}
+					}
+					else
+					{
+						<p class="review-msg">Chưa giao</p>
 					}
 				</div>
 			}

@@ -11,13 +11,10 @@ namespace Bakery.Models
 {
     using System;
     
-    public partial class sp_detailhoadon_Result
+    public partial class sp_detail_loaisp_Result
     {
-        public int MaHD { get; set; }
-        public Nullable<System.DateTime> NgayHD { get; set; }
-        public Nullable<bool> TinhTrangGiao { get; set; }
-        public string DiaChiGiao { get; set; }
-        public Nullable<int> MaKH { get; set; }
-        public Nullable<int> TongTien { get; set; }
+        public int MaLoai { get; set; }
+        public string TenLoai { get; set; }
+        public string cate_img { get; set; }
     }
 }

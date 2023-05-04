@@ -18,8 +18,8 @@ namespace Bakery.Areas.Admin.Controllers
         // GET: Admin/HoaDons
         public ActionResult Index()
         {
-            var hoaDons = db.HoaDons.Include(h => h.KhachHang);
-            return View(hoaDons.ToList());
+            var hoaDons = db.sp_dshoadon(null, null).ToList();
+            return View(hoaDons);
         }
 
         // GET: Admin/HoaDons/Details/5
@@ -69,11 +69,21 @@ namespace Bakery.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HoaDon hoaDon = db.HoaDons.Find(id);
+            var hoaDon = db.sp_detailhoadon(id).FirstOrDefault();
             if (hoaDon == null)
             {
                 return HttpNotFound();
             }
+
+            var tinhtrangs = new SelectList(new[] {
+                new Tuple<string, bool>("Đã giao", true),
+                new Tuple<string, bool>("Chưa giao", false)
+            }, "Item2", "Item1", hoaDon.TinhTrangGiao);
+
+            var cthds = db.sp_ds_cthd(id).ToList();
+
+            ViewBag.cthds = cthds;
+            ViewBag.TinhTrangGiao = tinhtrangs;
             ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "TenKH", hoaDon.MaKH);
             return View(hoaDon);
         }
@@ -83,16 +93,23 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaHD,NgayHD,TinhTrangGiao,DiaChiGiao,MaKH,TongTien")] HoaDon hoaDon)
+        public ActionResult Edit(sp_detailhoadon_Result hoaDon)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(hoaDon).State = EntityState.Modified;
-                db.SaveChanges();
+                db.sp_update_hoadon(hoaDon.MaHD, hoaDon.TinhTrangGiao, hoaDon.DiaChiGiao);
                 return RedirectToAction("Index");
             }
-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "TenKH", hoaDon.MaKH);
-            return View(hoaDon);
+            catch {
+                var tinhtrangs = new SelectList(new[] {
+                    new Tuple<string, bool>("Đã giao", true),
+                    new Tuple<string, bool>("Chưa giao", false)
+                }, "Item2", "Item1", hoaDon.TinhTrangGiao);
+
+                ViewBag.TinhTrangGiao = tinhtrangs;
+                ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "TenKH", hoaDon.MaKH);
+                return View(hoaDon);
+            }
         }
 
         // GET: Admin/HoaDons/Delete/5

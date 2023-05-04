@@ -18,7 +18,7 @@ namespace Bakery.Areas.Admin.Controllers
         // GET: Admin/KhuyenMais
         public ActionResult Index()
         {
-            return View(db.KhuyenMais.ToList());
+            return View(db.sp_ds_khuyenMai(null).ToList());
         }
 
         // GET: Admin/KhuyenMais/Details/5
@@ -47,16 +47,17 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaKM,TenKM,TiLeKM,NgayBD,NgayKT,pr_img")] KhuyenMai khuyenMai)
+        public ActionResult Create([Bind(Include = "MaKM,TenKM,TiLeKM,NgayBD,NgayKT,pr_img")] KhuyenMai km)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.KhuyenMais.Add(khuyenMai);
-                db.SaveChanges();
+                db.sp_add_khuyenMai(km.TenKM, km.TiLeKM, km.NgayBD, km.NgayKT, km.pr_img);
                 return RedirectToAction("Index");
             }
-
-            return View(khuyenMai);
+            catch (Exception ex) {
+                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
+                return View(km);
+            }
         }
 
         // GET: Admin/KhuyenMais/Edit/5
@@ -66,11 +67,14 @@ namespace Bakery.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            KhuyenMai khuyenMai = db.KhuyenMais.Find(id);
+            var khuyenMai = db.sp_detail_khuyenMai(id).FirstOrDefault();
             if (khuyenMai == null)
             {
                 return HttpNotFound();
             }
+
+            var sps = db.sp_dssp_khuyenMai(id).ToList();
+            ViewBag.sps = sps;
             return View(khuyenMai);
         }
 
@@ -79,15 +83,20 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaKM,TenKM,TiLeKM,NgayBD,NgayKT,pr_img")] KhuyenMai khuyenMai)
+        public ActionResult Edit(sp_detail_khuyenMai_Result km)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(khuyenMai).State = EntityState.Modified;
-                db.SaveChanges();
+                db.sp_update_khuyenMai(km.MaKM, km.TenKM, km.TiLeKM, km.NgayBD, km.NgayKT);
                 return RedirectToAction("Index");
             }
-            return View(khuyenMai);
+            catch (Exception ex) {
+                var sps = db.sp_dssp_khuyenMai(km.MaKM).ToList();
+                ViewBag.sps = sps;
+                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
+                return View(km);
+            }
+            
         }
 
         // GET: Admin/KhuyenMais/Delete/5
@@ -110,10 +119,14 @@ namespace Bakery.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            KhuyenMai khuyenMai = db.KhuyenMais.Find(id);
-            db.KhuyenMais.Remove(khuyenMai);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                db.sp_delete_khuyenMai(id);
+                return RedirectToAction("Index");
+            }
+            catch {
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)

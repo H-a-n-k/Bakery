@@ -11,13 +11,13 @@ namespace Bakery.Models
 {
     using System;
     
-    public partial class sp_detailhoadon_Result
+    public partial class sp_ds_khuyenMai_Result
     {
-        public int MaHD { get; set; }
-        public Nullable<System.DateTime> NgayHD { get; set; }
-        public Nullable<bool> TinhTrangGiao { get; set; }
-        public string DiaChiGiao { get; set; }
-        public Nullable<int> MaKH { get; set; }
-        public Nullable<int> TongTien { get; set; }
+        public int MaKM { get; set; }
+        public string TenKM { get; set; }
+        public Nullable<double> TiLeKM { get; set; }
+        public Nullable<System.DateTime> NgayBD { get; set; }
+        public Nullable<System.DateTime> NgayKT { get; set; }
+        public string pr_img { get; set; }
     }
 }

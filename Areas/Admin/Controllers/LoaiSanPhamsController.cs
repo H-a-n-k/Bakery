@@ -18,7 +18,8 @@ namespace Bakery.Areas.Admin.Controllers
         // GET: Admin/LoaiSanPhams
         public ActionResult Index()
         {
-            return View(db.LoaiSanPhams.ToList());
+            var list = db.sp_ds_loaisp().ToList();
+            return View(list);
         }
 
         // GET: Admin/LoaiSanPhams/Details/5
@@ -47,16 +48,17 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaLoai,TenLoai,cate_img")] LoaiSanPham loaiSanPham)
+        public ActionResult Create(LoaiSanPham lsp)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.LoaiSanPhams.Add(loaiSanPham);
-                db.SaveChanges();
+                db.sp_them_loaisp(lsp.TenLoai, lsp.cate_img);
                 return RedirectToAction("Index");
             }
-
-            return View(loaiSanPham);
+            catch
+            {
+                return View(lsp);
+            }
         }
 
         // GET: Admin/LoaiSanPhams/Edit/5
@@ -66,12 +68,12 @@ namespace Bakery.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
-            if (loaiSanPham == null)
+            var lsp = db.sp_detail_loaisp(id).FirstOrDefault();
+            if (lsp == null)
             {
                 return HttpNotFound();
             }
-            return View(loaiSanPham);
+            return View(lsp);
         }
 
         // POST: Admin/LoaiSanPhams/Edit/5
@@ -79,15 +81,16 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaLoai,TenLoai,cate_img")] LoaiSanPham loaiSanPham)
+        public ActionResult Edit([Bind(Include = "MaLoai,TenLoai,cate_img")] LoaiSanPham lsp)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(loaiSanPham).State = EntityState.Modified;
-                db.SaveChanges();
+                db.sp_update_loaisp(lsp.MaLoai, lsp.TenLoai, lsp.cate_img);
                 return RedirectToAction("Index");
             }
-            return View(loaiSanPham);
+            catch {
+                return View(lsp);
+            }
         }
 
         // GET: Admin/LoaiSanPhams/Delete/5
@@ -110,10 +113,14 @@ namespace Bakery.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
-            db.LoaiSanPhams.Remove(loaiSanPham);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                db.sp_delete_loaisp(id);
+                return RedirectToAction("Index");
+            }
+            catch {
+                return RedirectToAction("Edit", "LoaiSanPhams", new { id = id });
+            }
         }
 
         protected override void Dispose(bool disposing)

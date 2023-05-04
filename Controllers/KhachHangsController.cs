@@ -74,9 +74,8 @@ namespace Bakery.Controllers
                 catch (Exception e) {
                     ViewBag.ErrorMsg = e.InnerException.Message.Split('\r')[0];
                     return View(kh);
-
 				}
-				return RedirectToAction("Index");
+                return RedirectToAction("SignIn", "Auth");
 			}
 
 			return View(kh);

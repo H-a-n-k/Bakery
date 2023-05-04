@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -16,10 +17,16 @@ namespace Bakery.Areas.Admin.Controllers
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 
         // GET: Admin/SanPhams
-        public ActionResult Index()
+        public ActionResult Index(string keyword, int? cate, int? page = 1, bool? active = true)
         {
             var sanPhams = db.SanPhams.Include(s => s.KhuyenMai).Include(s => s.LoaiSanPham);
-            return View(sanPhams.ToList());
+            ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
+            var list = db.sp_DSSP(count, active, keyword, cate, null, page, 20).ToList();
+
+            var cates = db.sp_ds_loaisp().ToList();
+            ViewBag.cates = cates;
+            ViewBag.PageCount = Convert.ToInt32(count.Value);
+            return View(list);
         }
 
         // GET: Admin/SanPhams/Details/5
@@ -50,19 +57,20 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaSP,TenSP,GiaSP,MotaSP,img,Sao,SoLuotDanhGia,SoluongSP,maLoai,MaKM,tinhTrang")] SanPham sanPham)
+        public ActionResult Create(SanPham sanPham)
         {
-            if (ModelState.IsValid)
+            try
             {
                 db.sp_ThemSP(sanPham.TenSP, sanPham.GiaSP, sanPham.MotaSP, sanPham.img, sanPham.maLoai, sanPham.SoluongSP);
-                //db.SanPhams.Add(sanPham);
-                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sanPham.MaKM);
-            ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sanPham.maLoai);
-            return View(sanPham);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
+                ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sanPham.MaKM);
+                ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sanPham.maLoai);
+                return View(sanPham);
+            }
         }
 
         // GET: Admin/SanPhams/Edit/5
@@ -72,13 +80,19 @@ namespace Bakery.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SanPham sanPham = db.SanPhams.Find(id);
+            var sanPham = db.sp_ChiTietSP(id, null).FirstOrDefault();
             if (sanPham == null)
             {
                 return HttpNotFound();
             }
+            var tinhtrangs = new SelectList(new[] {
+                new Tuple<string, int>("Đang bán", 1),
+                new Tuple<string, int>("Tạm ẩn", 0)
+            }, "Item2", "Item1", sanPham.tinhTrang);
+
+            ViewBag.tinhTrang = tinhtrangs;
             ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sanPham.MaKM);
-            ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sanPham.maLoai);
+            ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sanPham.MaLoai);
             return View(sanPham);
         }
 
@@ -87,18 +101,26 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaSP,TenSP,GiaSP,MotaSP,img,Sao,SoLuotDanhGia,SoluongSP,maLoai,MaKM,tinhTrang")] SanPham sanPham)
+        public ActionResult Edit(sp_ChiTietSP_Result sanPham)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.sp_SuaSP(sanPham.MaSP, sanPham.TenSP, sanPham.GiaSP, sanPham.MotaSP, sanPham.img, sanPham.Sao, sanPham.SoLuotDanhGia, sanPham.maLoai, sanPham.SoluongSP, sanPham.MaKM);
-                //db.Entry(sanPham).State = EntityState.Modified;
-                //db.SaveChanges();
+                db.sp_SuaSP(sanPham.MaSP, sanPham.TenSP, sanPham.GiaSP, sanPham.MotaSP, sanPham.img, sanPham.Sao, sanPham.SoLuotDanhGia, sanPham.MaLoai, sanPham.SoluongSP, sanPham.MaKM, sanPham.tinhTrang);
                 return RedirectToAction("Index");
             }
-            ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sanPham.MaKM);
-            ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sanPham.maLoai);
-            return View(sanPham);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
+                var tinhtrangs = new SelectList(new[] {
+                        new Tuple<string, int>("Đang bán", 1),
+                        new Tuple<string, int>("Tạm ẩn", 0)
+                    }, "Item2", "Item1", sanPham.tinhTrang);
+
+                ViewBag.tinhTrang = tinhtrangs;
+                ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sanPham.MaKM);
+                ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sanPham.MaLoai);
+                return View(sanPham);
+            }
         }
 
         // GET: Admin/SanPhams/Delete/5
