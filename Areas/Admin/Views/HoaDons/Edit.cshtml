@@ -1,8 +1,8 @@
 ﻿@model Bakery.Models.sp_detailhoadon_Result
 
 @{
-    ViewBag.Title = "Edit";
-    var cthds = (List<Bakery.Models.sp_ds_cthd_Result>)ViewBag.cthds;
+	ViewBag.Title = "Edit";
+	var cthds = (List<Bakery.Models.sp_ds_cthd_Result>)ViewBag.cthds;
 }
 
 <h2>Chỉnh sửa</h2>
@@ -10,41 +10,41 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.MaHD)
+	@Html.AntiForgeryToken()
 
-	    <div class="mb-1">Ngày hóa đơn: @Model.NgayHD.Value.ToShortDateString()</div>
+	<div class="form-horizontal">
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		@Html.HiddenFor(model => model.MaHD)
+
+		<div class="mb-1">Ngày hóa đơn: @Model.NgayHD.Value.ToShortDateString()</div>
 		<h3 class="mb-1">Tổng tiền: @string.Format("{0:N0}", Model.TongTien) đ</h3>
 
-        <div class="form-group">
+		<div class="form-group">
 			<label for="TinhTrangGiao">Tình trạng giao:</label>
-            <div class="col-md-10">
+			<div class="col-md-10">
 				<div class="checkbox">
 					@Html.DropDownList("TinhTrangGiao", null, htmlAttributes: new { @class = "form-control" })
 					@Html.ValidationMessageFor(model => model.TinhTrangGiao, "", new { @class = "text-danger" })
 				</div>
-            </div>
-        </div>
+			</div>
+		</div>
 
-        <div class="form-group">
+		<div class="form-group">
 			<label for="DiaChiGiao">Địa chỉ giao</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DiaChiGiao, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DiaChiGiao, "", new { @class = "text-danger" })
-            </div>
-        </div>
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.DiaChiGiao, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.DiaChiGiao, "", new { @class = "text-danger" })
+			</div>
+		</div>
 
-        <div class="form-group">
+		<div class="form-group">
 			<button type="submit" class="btn btn-primary mb-3 mt-3">Lưu</button>
-        </div>
-    </div>
+		</div>
+	</div>
 }
 
-<form method="post" action="@Url.Action("Delete", new {id = Model.MaHD})">
+<form method="post" action="@Url.Action("Delete", new {id = Model.MaHD})" onsubmit="onDelete(event)">
 	@Html.AntiForgeryToken()
 	<button type="submit" class="btn btn-danger mb-3">Xóa</button>
 </form>
@@ -57,7 +57,8 @@
 <h3>Chi tiết hóa đơn:</h3>
 
 <table class="table">
-	@if (cthds.Count() > 0) { 
+	@if (cthds.Count() > 0)
+	{
 		<tr class="table-info row">
 			<th class="col-1">
 			</th>
@@ -96,7 +97,7 @@
 				@item.SoLuong
 			</td>
 			<td class="col-2">
-				@string.Format("{0:N0}", (item.DonGia - (item.GiamGia.HasValue?item.GiamGia: 0)) * item.SoLuong) đ
+				@string.Format("{0:N0}", (item.DonGia - (item.GiamGia.HasValue ? item.GiamGia : 0)) * item.SoLuong) đ
 			</td>
 		</tr>
 	}
@@ -104,5 +105,11 @@
 </table>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+	<script>
+		function onDelete(e) {
+			if (confirm('Xóa hóa đơn?')) return;
+			e.preventDefault();
+		}
+	</script>
+	@Scripts.Render("~/bundles/jqueryval")
 }

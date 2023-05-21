@@ -83,10 +83,10 @@
 					right: 10px;
 					top: 50%;
 					transform: translateY(-50%);
-					background-color: #1a5691;
+					/*background-color: #1a5691;
 					color: white;
 					padding: 10px 20px;
-					cursor: pointer;
+					cursor: pointer;*/
 				}
 
 				.user-page .m-container .history .item .review-msg {
@@ -96,3 +96,10 @@
 					transform: translateY(-50%);
 					color: grey;
 				}
+
+.star.yellow path {
+	fill: #FFE145;
+}
+.star.grey path {
+	fill: grey;
+}

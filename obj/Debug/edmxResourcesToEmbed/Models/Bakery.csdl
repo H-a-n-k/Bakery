@@ -103,7 +103,6 @@
     <EntitySet Name="GioHangs" EntityType="BakeryStoreDBModel.GioHang" />
     <EntitySet Name="HoaDonNhaps" EntityType="BakeryStoreDBModel.HoaDonNhap" />
     <EntitySet Name="KhachHangs" EntityType="BakeryStoreDBModel.KhachHang" />
-    <EntitySet Name="KhuyenMais" EntityType="BakeryStoreDBModel.KhuyenMai" />
     <EntitySet Name="LoaiSanPhams" EntityType="BakeryStoreDBModel.LoaiSanPham" />
     <EntitySet Name="NguyenLieux" EntityType="BakeryStoreDBModel.NguyenLieu" />
     <EntitySet Name="SanPhams" EntityType="BakeryStoreDBModel.SanPham" />
@@ -126,10 +125,6 @@
     <AssociationSet Name="FK_GioHang_SanPham" Association="BakeryStoreDBModel.FK_GioHang_SanPham">
       <End Role="SanPham" EntitySet="SanPhams" />
       <End Role="GioHang" EntitySet="GioHangs" />
-    </AssociationSet>
-    <AssociationSet Name="FK__SanPham__MaKM__3E52440B" Association="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B">
-      <End Role="KhuyenMai" EntitySet="KhuyenMais" />
-      <End Role="SanPham" EntitySet="SanPhams" />
     </AssociationSet>
     <AssociationSet Name="FK__SanPham__maLoai__3F466844" Association="BakeryStoreDBModel.FK__SanPham__maLoai__3F466844">
       <End Role="LoaiSanPham" EntitySet="LoaiSanPhams" />
@@ -203,30 +198,10 @@
       <Parameter Name="ttg" Mode="In" Type="Boolean" />
       <Parameter Name="diachi" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_add_khuyenMai">
-      <Parameter Name="ten" Mode="In" Type="String" />
-      <Parameter Name="tiLe" Mode="In" Type="Double" />
-      <Parameter Name="batDau" Mode="In" Type="DateTime" />
-      <Parameter Name="ketThuc" Mode="In" Type="DateTime" />
-      <Parameter Name="img" Mode="In" Type="String" />
-    </FunctionImport>
     <FunctionImport Name="sp_delete_khuyenMai">
       <Parameter Name="maKM" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_ds_khuyenMai" ReturnType="Collection(BakeryStoreDBModel.sp_ds_khuyenMai_Result)">
-      <Parameter Name="showEpxired" Mode="In" Type="Boolean" />
-    </FunctionImport>
     <FunctionImport Name="sp_dssp_khuyenMai" ReturnType="Collection(BakeryStoreDBModel.sp_dssp_khuyenMai_Result)">
-      <Parameter Name="maKM" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_update_khuyenMai">
-      <Parameter Name="maKM" Mode="In" Type="Int32" />
-      <Parameter Name="ten" Mode="In" Type="String" />
-      <Parameter Name="tiLe" Mode="In" Type="Double" />
-      <Parameter Name="batDau" Mode="In" Type="DateTime" />
-      <Parameter Name="ketThuc" Mode="In" Type="DateTime" />
-    </FunctionImport>
-    <FunctionImport Name="sp_detail_khuyenMai" ReturnType="Collection(BakeryStoreDBModel.sp_detail_khuyenMai_Result)">
       <Parameter Name="maKM" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_dskhachhang" ReturnType="Collection(BakeryStoreDBModel.sp_dskhachhang_Result)">
@@ -235,6 +210,34 @@
       <Parameter Name="keyword" Mode="In" Type="String" />
       <Parameter Name="page" Mode="In" Type="Int32" />
       <Parameter Name="pageLength" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="KhuyenMais" EntityType="BakeryStoreDBModel.KhuyenMai" />
+    <AssociationSet Name="FK__SanPham__MaKM__3E52440B" Association="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B">
+      <End Role="KhuyenMai" EntitySet="KhuyenMais" />
+      <End Role="SanPham" EntitySet="SanPhams" />
+    </AssociationSet>
+    <FunctionImport Name="sp_add_khuyenMai">
+      <Parameter Name="ten" Mode="In" Type="String" />
+      <Parameter Name="tiLe" Mode="In" Type="Double" />
+      <Parameter Name="batDau" Mode="In" Type="DateTime" />
+      <Parameter Name="ketThuc" Mode="In" Type="DateTime" />
+      <Parameter Name="img" Mode="In" Type="String" />
+      <Parameter Name="mota" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_detail_khuyenMai" ReturnType="Collection(BakeryStoreDBModel.sp_detail_khuyenMai_Result)">
+      <Parameter Name="maKM" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_ds_khuyenMai" ReturnType="Collection(BakeryStoreDBModel.sp_ds_khuyenMai_Result)">
+      <Parameter Name="showEpxired" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="sp_update_khuyenMai">
+      <Parameter Name="maKM" Mode="In" Type="Int32" />
+      <Parameter Name="ten" Mode="In" Type="String" />
+      <Parameter Name="tiLe" Mode="In" Type="Double" />
+      <Parameter Name="batDau" Mode="In" Type="DateTime" />
+      <Parameter Name="ketThuc" Mode="In" Type="DateTime" />
+      <Parameter Name="mota" Mode="In" Type="String" />
+      <Parameter Name="pr_img" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_ds_nguyenlieu_Result">
@@ -349,18 +352,6 @@
     <NavigationProperty Name="GioHangs" Relationship="BakeryStoreDBModel.fk_giohang_khachhang" FromRole="KhachHang" ToRole="GioHang" />
     <NavigationProperty Name="HoaDons" Relationship="BakeryStoreDBModel.FK__HoaDon__MaKH__3D5E1FD2" FromRole="KhachHang" ToRole="HoaDon" />
   </EntityType>
-  <EntityType Name="KhuyenMai">
-    <Key>
-      <PropertyRef Name="MaKM" />
-    </Key>
-    <Property Name="MaKM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenKM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="TiLeKM" Type="Double" />
-    <Property Name="NgayBD" Type="DateTime" Precision="0" />
-    <Property Name="NgayKT" Type="DateTime" Precision="0" />
-    <Property Name="pr_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="SanPhams" Relationship="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B" FromRole="KhuyenMai" ToRole="SanPham" />
-  </EntityType>
   <EntityType Name="LoaiSanPham">
     <Key>
       <PropertyRef Name="MaLoai" />
@@ -385,7 +376,7 @@
       <PropertyRef Name="MaSP" />
     </Key>
     <Property Name="MaSP" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="GiaSP" Type="Int32" Nullable="false" />
     <Property Name="MotaSP" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -397,8 +388,8 @@
     <Property Name="tinhTrang" Type="Int32" />
     <NavigationProperty Name="CTHDs" Relationship="BakeryStoreDBModel.FK__CTHD__MaSP__37A5467C" FromRole="SanPham" ToRole="CTHD" />
     <NavigationProperty Name="GioHangs" Relationship="BakeryStoreDBModel.FK_GioHang_SanPham" FromRole="SanPham" ToRole="GioHang" />
-    <NavigationProperty Name="KhuyenMai" Relationship="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B" FromRole="SanPham" ToRole="KhuyenMai" />
     <NavigationProperty Name="LoaiSanPham" Relationship="BakeryStoreDBModel.FK__SanPham__maLoai__3F466844" FromRole="SanPham" ToRole="LoaiSanPham" />
+    <NavigationProperty Name="KhuyenMai" Relationship="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B" FromRole="SanPham" ToRole="KhuyenMai" />
   </EntityType>
   <Association Name="FK__CTHD__MaSP__37A5467C">
     <End Type="BakeryStoreDBModel.SanPham" Role="SanPham" Multiplicity="1" />
@@ -457,18 +448,6 @@
       </Principal>
       <Dependent Role="GioHang">
         <PropertyRef Name="MaSP" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__SanPham__MaKM__3E52440B">
-    <End Type="BakeryStoreDBModel.KhuyenMai" Role="KhuyenMai" Multiplicity="0..1" />
-    <End Type="BakeryStoreDBModel.SanPham" Role="SanPham" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="KhuyenMai">
-        <PropertyRef Name="MaKM" />
-      </Principal>
-      <Dependent Role="SanPham">
-        <PropertyRef Name="MaKM" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -590,14 +569,6 @@
     <Property Type="Int32" Name="MaKH" Nullable="true" />
     <Property Type="Int32" Name="TongTien" Nullable="true" />
   </ComplexType>
-  <ComplexType Name="sp_ds_khuyenMai_Result">
-    <Property Type="Int32" Name="MaKM" Nullable="false" />
-    <Property Type="String" Name="TenKM" Nullable="true" MaxLength="50" />
-    <Property Type="Double" Name="TiLeKM" Nullable="true" />
-    <Property Type="DateTime" Name="NgayBD" Nullable="true" />
-    <Property Type="DateTime" Name="NgayKT" Nullable="true" />
-    <Property Type="String" Name="pr_img" Nullable="true" />
-  </ComplexType>
   <ComplexType Name="sp_dssp_khuyenMai_Result">
     <Property Type="Int32" Name="MaSP" Nullable="false" />
     <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
@@ -611,14 +582,6 @@
     <Property Type="Int32" Name="MaKM" Nullable="true" />
     <Property Type="Int32" Name="tinhTrang" Nullable="true" />
   </ComplexType>
-  <ComplexType Name="sp_detail_khuyenMai_Result">
-    <Property Type="Int32" Name="MaKM" Nullable="false" />
-    <Property Type="String" Name="TenKM" Nullable="true" MaxLength="50" />
-    <Property Type="Double" Name="TiLeKM" Nullable="true" />
-    <Property Type="DateTime" Name="NgayBD" Nullable="true" />
-    <Property Type="DateTime" Name="NgayKT" Nullable="true" />
-    <Property Type="String" Name="pr_img" Nullable="true" />
-  </ComplexType>
   <ComplexType Name="sp_dskhachhang_Result">
     <Property Type="Int32" Name="MaKH" Nullable="false" />
     <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
@@ -626,5 +589,48 @@
     <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="15" />
     <Property Type="DateTime" Name="NgaySinh" Nullable="true" />
     <Property Type="String" Name="TaiKhoan" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <EntityType Name="KhuyenMai">
+    <Key>
+      <PropertyRef Name="MaKM" />
+    </Key>
+    <Property Name="MaKM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenKM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MoTa" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="TiLeKM" Type="Double" />
+    <Property Name="NgayBD" Type="DateTime" Precision="0" />
+    <Property Name="NgayKT" Type="DateTime" Precision="0" />
+    <Property Name="pr_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SanPhams" Relationship="BakeryStoreDBModel.FK__SanPham__MaKM__3E52440B" FromRole="KhuyenMai" ToRole="SanPham" />
+  </EntityType>
+  <Association Name="FK__SanPham__MaKM__3E52440B">
+    <End Type="BakeryStoreDBModel.KhuyenMai" Role="KhuyenMai" Multiplicity="0..1" />
+    <End Type="BakeryStoreDBModel.SanPham" Role="SanPham" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KhuyenMai">
+        <PropertyRef Name="MaKM" />
+      </Principal>
+      <Dependent Role="SanPham">
+        <PropertyRef Name="MaKM" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_detail_khuyenMai_Result">
+    <Property Type="Int32" Name="MaKM" Nullable="false" />
+    <Property Type="String" Name="TenKM" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="MoTa" Nullable="true" MaxLength="500" />
+    <Property Type="Double" Name="TiLeKM" Nullable="true" />
+    <Property Type="DateTime" Name="NgayBD" Nullable="true" />
+    <Property Type="DateTime" Name="NgayKT" Nullable="true" />
+    <Property Type="String" Name="pr_img" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_ds_khuyenMai_Result">
+    <Property Type="Int32" Name="MaKM" Nullable="false" />
+    <Property Type="String" Name="TenKM" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="MoTa" Nullable="true" MaxLength="500" />
+    <Property Type="Double" Name="TiLeKM" Nullable="true" />
+    <Property Type="DateTime" Name="NgayBD" Nullable="true" />
+    <Property Type="DateTime" Name="NgayKT" Nullable="true" />
+    <Property Type="String" Name="pr_img" Nullable="true" />
   </ComplexType>
 </Schema>

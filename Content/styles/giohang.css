@@ -27,9 +27,6 @@
 		height: 60px;
 	}
 
-	.cart-page .checkout {
-		float: right;
-	}
 
 	.cart-page .checkout .total {
 		font-size: 1.5em;
@@ -49,7 +46,6 @@
 		font-weight: bold;
 		color: #FB9333;
 		border: 5px solid #FB9333;
-		float: right;
 	}
 
 .amount {

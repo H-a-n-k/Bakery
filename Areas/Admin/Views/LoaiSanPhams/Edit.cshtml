@@ -41,7 +41,7 @@
 	</div>
 }
 
-<form method="post" action="@Url.Action("Delete", new {id = Model.MaLoai})">
+<form method="post" action="@Url.Action("Delete", new {id = Model.MaLoai})" onsubmit="onDelete(event)">
 	@Html.AntiForgeryToken()
 	<button type="submit" class="btn btn-danger mb-3">Xóa</button>
 </form>
@@ -49,3 +49,10 @@
 <div>
 	@Html.ActionLink("Quay lại", "Index")
 </div>
+
+<script>
+	function onDelete(e) {
+		if (confirm('Xóa loại sản phẩm?')) return;
+		e.preventDefault();
+	}
+</script>

@@ -78,6 +78,7 @@
     </Key>
     <Property Name="MaKM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TenKM" Type="nvarchar" MaxLength="50" />
+    <Property Name="MoTa" Type="nvarchar" MaxLength="500" />
     <Property Name="TiLeKM" Type="float" />
     <Property Name="NgayBD" Type="date" />
     <Property Name="NgayKT" Type="date" />
@@ -105,7 +106,7 @@
       <PropertyRef Name="MaSP" />
     </Key>
     <Property Name="MaSP" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TenSP" Type="nvarchar" MaxLength="50" />
+    <Property Name="TenSP" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="GiaSP" Type="int" Nullable="false" />
     <Property Name="MotaSP" Type="nvarchar" MaxLength="500" />
     <Property Name="img" Type="varchar(max)" />
@@ -117,7 +118,9 @@
     <Property Name="tinhTrang" Type="int" />
   </EntityType>
   <Association Name="FK__CTHD__MaSP__37A5467C">
-    <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
+    <End Role="SanPham" Type="Self.SanPham" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="CTHD" Type="Self.CTHD" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="SanPham">
@@ -129,7 +132,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__HoaDon__MaKH__3D5E1FD2">
-    <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="0..1" />
+    <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="KhachHang">
@@ -165,7 +170,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_CTHD_HoaDon">
-    <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="1" />
+    <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="CTHD" Type="Self.CTHD" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="HoaDon">
@@ -177,7 +184,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_CTHDN_HDN">
-    <End Role="HoaDonNhap" Type="Self.HoaDonNhap" Multiplicity="1" />
+    <End Role="HoaDonNhap" Type="Self.HoaDonNhap" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="CTHDNhap" Type="Self.CTHDNhap" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="HoaDonNhap">
@@ -189,7 +198,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_CTHDNhap_NguyenLieu">
-    <End Role="NguyenLieu" Type="Self.NguyenLieu" Multiplicity="1" />
+    <End Role="NguyenLieu" Type="Self.NguyenLieu" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="CTHDNhap" Type="Self.CTHDNhap" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="NguyenLieu">
@@ -201,7 +212,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="fk_giohang_khachhang">
-    <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />
+    <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="GioHang" Type="Self.GioHang" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="KhachHang">
@@ -213,7 +226,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_GioHang_SanPham">
-    <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
+    <End Role="SanPham" Type="Self.SanPham" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="GioHang" Type="Self.GioHang" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="SanPham">
@@ -239,6 +254,7 @@
     <Parameter Name="batDau" Type="date" Mode="In" />
     <Parameter Name="ketThuc" Type="date" Mode="In" />
     <Parameter Name="img" Type="varchar(max)" Mode="In" />
+    <Parameter Name="mota" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_AnHienSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="masp" Type="int" Mode="In" />
@@ -386,6 +402,8 @@
     <Parameter Name="tiLe" Type="float" Mode="In" />
     <Parameter Name="batDau" Type="date" Mode="In" />
     <Parameter Name="ketThuc" Type="date" Mode="In" />
+    <Parameter Name="mota" Type="nvarchar" Mode="In" />
+    <Parameter Name="pr_img" Type="varchar(max)" Mode="In" />
   </Function>
   <Function Name="sp_update_loaisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id" Type="int" Mode="In" />
