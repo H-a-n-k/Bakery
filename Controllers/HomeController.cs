@@ -1,4 +1,5 @@
 ﻿using Bakery.Models;
+using Bakery.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
@@ -16,8 +17,13 @@ namespace Bakery.Controllers
         public ActionResult Index()
 		{
             ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
-			var danhsach = db.sp_DSSP(count, null, null, null, 4, null, 8).ToList();
-			return View(danhsach);
+			var sps = db.sp_DSSP(count, null, null, null, 4, null, 8).ToList();
+			var kms = db.sp_ds_khuyenMai(false).ToList();
+			var model = new HomeVM();
+			model.sanphams = sps;
+			model.khuyenmais = kms;
+
+			return View(model);
 		}
 
 		[Authorize]

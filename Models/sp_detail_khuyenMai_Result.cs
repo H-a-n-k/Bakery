@@ -15,6 +15,7 @@ namespace Bakery.Models
     {
         public int MaKM { get; set; }
         public string TenKM { get; set; }
+        public string MoTa { get; set; }
         public Nullable<double> TiLeKM { get; set; }
         public Nullable<System.DateTime> NgayBD { get; set; }
         public Nullable<System.DateTime> NgayKT { get; set; }

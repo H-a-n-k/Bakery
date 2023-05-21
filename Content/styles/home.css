@@ -10,6 +10,32 @@
 		transition: all 0.5s ease-in-out;
 	}
 
+		.m-carousel .slider .slide:nth-child(1n) .content-bg {
+			content: url("../imgs/home-slide-bg-1.png");
+		}
+		.m-carousel .slider .slide:nth-child(2n) .content-bg {
+			content: url("../imgs/home-slide-bg-2.png");
+		}
+		.m-carousel .slider .slide:nth-child(3n) .content-bg {
+			content: url("../imgs/home-slide-bg-3.png");
+		}
+		.m-carousel .slider .slide:nth-child(4n) .content-bg {
+			content: url("../imgs/home-slide-bg-4.png");
+		}
+
+		.m-carousel .slider .slide:nth-child(1n) .pager {
+			--btn-color: #5F3E60;
+		}
+		.m-carousel .slider .slide:nth-child(2n) .pager {
+			--btn-color: #050E3C;
+		}
+		.m-carousel .slider .slide:nth-child(3n) .pager {
+			--btn-color: #581B28;
+		}
+		.m-carousel .slider .slide:nth-child(4n) .pager {
+			--btn-color: #00211A;
+		}
+
 		.m-carousel .slider .slide {
 			position: relative;
 			width: 100%;
@@ -18,6 +44,7 @@
 
 			.m-carousel .slider .slide .slide-bg {
 				width: 100%;
+				aspect-ratio: 1459/466;
 			}
 
 			.m-carousel .slider .slide .content {

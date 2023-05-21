@@ -7,22 +7,67 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bakery.Models;
+using Bakery.Models.ViewModels;
 
-namespace Bakery.Areas.Admin.Controllers
+namespace Bakery.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class KhuyenMaisController : Controller
     {
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 
-        // GET: Admin/KhuyenMais
+        // GET: KhuyenMais
         public ActionResult Index()
         {
-            return View(db.sp_ds_khuyenMai(null).ToList());
+            var model = db.sp_ds_khuyenMai(false).ToList();
+            return View(model);
         }
 
-        // GET: Admin/KhuyenMais/Details/5
+        // GET: KhuyenMais/Details/5
         public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var km = db.sp_detail_khuyenMai(id).FirstOrDefault();
+            if (km == null)
+            {
+                return HttpNotFound();
+            }
+
+            var sps = db.sp_dssp_khuyenMai(id).ToList();
+            var model = new CTKMVM();
+            model.sps = sps;
+            model.km = km;
+
+            return View(model);
+        }
+
+        // GET: KhuyenMais/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: KhuyenMais/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "MaKM,TenKM,TiLeKM,NgayBD,NgayKT,pr_img")] KhuyenMai khuyenMai)
+        {
+            if (ModelState.IsValid)
+            {
+                db.KhuyenMais.Add(khuyenMai);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(khuyenMai);
+        }
+
+        // GET: KhuyenMais/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -36,70 +81,23 @@ namespace Bakery.Areas.Admin.Controllers
             return View(khuyenMai);
         }
 
-        // GET: Admin/KhuyenMais/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Admin/KhuyenMais/Create
+        // POST: KhuyenMais/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaKM,TenKM,TiLeKM,NgayBD,NgayKT,pr_img")] KhuyenMai km)
+        public ActionResult Edit([Bind(Include = "MaKM,TenKM,TiLeKM,NgayBD,NgayKT,pr_img")] KhuyenMai khuyenMai)
         {
-            try
+            if (ModelState.IsValid)
             {
-                db.sp_add_khuyenMai(km.TenKM, km.TiLeKM, km.NgayBD, km.NgayKT, km.pr_img);
+                db.Entry(khuyenMai).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception ex) {
-                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
-                return View(km);
-            }
-        }
-
-        // GET: Admin/KhuyenMais/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var khuyenMai = db.sp_detail_khuyenMai(id).FirstOrDefault();
-            if (khuyenMai == null)
-            {
-                return HttpNotFound();
-            }
-
-            var sps = db.sp_dssp_khuyenMai(id).ToList();
-            ViewBag.sps = sps;
             return View(khuyenMai);
         }
 
-        // POST: Admin/KhuyenMais/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(sp_detail_khuyenMai_Result km)
-        {
-            try
-            {
-                db.sp_update_khuyenMai(km.MaKM, km.TenKM, km.TiLeKM, km.NgayBD, km.NgayKT);
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex) {
-                var sps = db.sp_dssp_khuyenMai(km.MaKM).ToList();
-                ViewBag.sps = sps;
-                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
-                return View(km);
-            }
-            
-        }
-
-        // GET: Admin/KhuyenMais/Delete/5
+        // GET: KhuyenMais/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -114,19 +112,15 @@ namespace Bakery.Areas.Admin.Controllers
             return View(khuyenMai);
         }
 
-        // POST: Admin/KhuyenMais/Delete/5
+        // POST: KhuyenMais/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                db.sp_delete_khuyenMai(id);
-                return RedirectToAction("Index");
-            }
-            catch {
-                return RedirectToAction("Index");
-            }
+            KhuyenMai khuyenMai = db.KhuyenMais.Find(id);
+            db.KhuyenMais.Remove(khuyenMai);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

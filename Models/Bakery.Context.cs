@@ -33,11 +33,11 @@ namespace Bakery.Models
         public virtual DbSet<GioHang> GioHangs { get; set; }
         public virtual DbSet<HoaDonNhap> HoaDonNhaps { get; set; }
         public virtual DbSet<KhachHang> KhachHangs { get; set; }
-        public virtual DbSet<KhuyenMai> KhuyenMais { get; set; }
         public virtual DbSet<LoaiSanPham> LoaiSanPhams { get; set; }
         public virtual DbSet<NguyenLieu> NguyenLieux { get; set; }
         public virtual DbSet<SanPham> SanPhams { get; set; }
         public virtual DbSet<HoaDon> HoaDons { get; set; }
+        public virtual DbSet<KhuyenMai> KhuyenMais { get; set; }
     
         public virtual int sp_AnHienSP(Nullable<int> masp)
         {
@@ -558,31 +558,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_update_hoadon", idParameter, ttgParameter, diachiParameter);
         }
     
-        public virtual int sp_add_khuyenMai(string ten, Nullable<double> tiLe, Nullable<System.DateTime> batDau, Nullable<System.DateTime> ketThuc, string img)
-        {
-            var tenParameter = ten != null ?
-                new ObjectParameter("ten", ten) :
-                new ObjectParameter("ten", typeof(string));
-    
-            var tiLeParameter = tiLe.HasValue ?
-                new ObjectParameter("tiLe", tiLe) :
-                new ObjectParameter("tiLe", typeof(double));
-    
-            var batDauParameter = batDau.HasValue ?
-                new ObjectParameter("batDau", batDau) :
-                new ObjectParameter("batDau", typeof(System.DateTime));
-    
-            var ketThucParameter = ketThuc.HasValue ?
-                new ObjectParameter("ketThuc", ketThuc) :
-                new ObjectParameter("ketThuc", typeof(System.DateTime));
-    
-            var imgParameter = img != null ?
-                new ObjectParameter("img", img) :
-                new ObjectParameter("img", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_add_khuyenMai", tenParameter, tiLeParameter, batDauParameter, ketThucParameter, imgParameter);
-        }
-    
         public virtual int sp_delete_khuyenMai(Nullable<int> maKM)
         {
             var maKMParameter = maKM.HasValue ?
@@ -592,15 +567,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_delete_khuyenMai", maKMParameter);
         }
     
-        public virtual ObjectResult<sp_ds_khuyenMai_Result> sp_ds_khuyenMai(Nullable<bool> showEpxired)
-        {
-            var showEpxiredParameter = showEpxired.HasValue ?
-                new ObjectParameter("showEpxired", showEpxired) :
-                new ObjectParameter("showEpxired", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_khuyenMai_Result>("sp_ds_khuyenMai", showEpxiredParameter);
-        }
-    
         public virtual ObjectResult<sp_dssp_khuyenMai_Result> sp_dssp_khuyenMai(Nullable<int> maKM)
         {
             var maKMParameter = maKM.HasValue ?
@@ -608,40 +574,6 @@ namespace Bakery.Models
                 new ObjectParameter("maKM", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dssp_khuyenMai_Result>("sp_dssp_khuyenMai", maKMParameter);
-        }
-    
-        public virtual int sp_update_khuyenMai(Nullable<int> maKM, string ten, Nullable<double> tiLe, Nullable<System.DateTime> batDau, Nullable<System.DateTime> ketThuc)
-        {
-            var maKMParameter = maKM.HasValue ?
-                new ObjectParameter("maKM", maKM) :
-                new ObjectParameter("maKM", typeof(int));
-    
-            var tenParameter = ten != null ?
-                new ObjectParameter("ten", ten) :
-                new ObjectParameter("ten", typeof(string));
-    
-            var tiLeParameter = tiLe.HasValue ?
-                new ObjectParameter("tiLe", tiLe) :
-                new ObjectParameter("tiLe", typeof(double));
-    
-            var batDauParameter = batDau.HasValue ?
-                new ObjectParameter("batDau", batDau) :
-                new ObjectParameter("batDau", typeof(System.DateTime));
-    
-            var ketThucParameter = ketThuc.HasValue ?
-                new ObjectParameter("ketThuc", ketThuc) :
-                new ObjectParameter("ketThuc", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_update_khuyenMai", maKMParameter, tenParameter, tiLeParameter, batDauParameter, ketThucParameter);
-        }
-    
-        public virtual ObjectResult<sp_detail_khuyenMai_Result> sp_detail_khuyenMai(Nullable<int> maKM)
-        {
-            var maKMParameter = maKM.HasValue ?
-                new ObjectParameter("maKM", maKM) :
-                new ObjectParameter("maKM", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_detail_khuyenMai_Result>("sp_detail_khuyenMai", maKMParameter);
         }
     
         public virtual ObjectResult<sp_dskhachhang_Result> sp_dskhachhang(ObjectParameter pageCount, Nullable<bool> isActive, string keyword, Nullable<int> page, Nullable<int> pageLength)
@@ -663,6 +595,86 @@ namespace Bakery.Models
                 new ObjectParameter("pageLength", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dskhachhang_Result>("sp_dskhachhang", pageCount, isActiveParameter, keywordParameter, pageParameter, pageLengthParameter);
+        }
+    
+        public virtual int sp_add_khuyenMai(string ten, Nullable<double> tiLe, Nullable<System.DateTime> batDau, Nullable<System.DateTime> ketThuc, string img, string mota)
+        {
+            var tenParameter = ten != null ?
+                new ObjectParameter("ten", ten) :
+                new ObjectParameter("ten", typeof(string));
+    
+            var tiLeParameter = tiLe.HasValue ?
+                new ObjectParameter("tiLe", tiLe) :
+                new ObjectParameter("tiLe", typeof(double));
+    
+            var batDauParameter = batDau.HasValue ?
+                new ObjectParameter("batDau", batDau) :
+                new ObjectParameter("batDau", typeof(System.DateTime));
+    
+            var ketThucParameter = ketThuc.HasValue ?
+                new ObjectParameter("ketThuc", ketThuc) :
+                new ObjectParameter("ketThuc", typeof(System.DateTime));
+    
+            var imgParameter = img != null ?
+                new ObjectParameter("img", img) :
+                new ObjectParameter("img", typeof(string));
+    
+            var motaParameter = mota != null ?
+                new ObjectParameter("mota", mota) :
+                new ObjectParameter("mota", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_add_khuyenMai", tenParameter, tiLeParameter, batDauParameter, ketThucParameter, imgParameter, motaParameter);
+        }
+    
+        public virtual ObjectResult<sp_detail_khuyenMai_Result> sp_detail_khuyenMai(Nullable<int> maKM)
+        {
+            var maKMParameter = maKM.HasValue ?
+                new ObjectParameter("maKM", maKM) :
+                new ObjectParameter("maKM", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_detail_khuyenMai_Result>("sp_detail_khuyenMai", maKMParameter);
+        }
+    
+        public virtual ObjectResult<sp_ds_khuyenMai_Result> sp_ds_khuyenMai(Nullable<bool> showEpxired)
+        {
+            var showEpxiredParameter = showEpxired.HasValue ?
+                new ObjectParameter("showEpxired", showEpxired) :
+                new ObjectParameter("showEpxired", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ds_khuyenMai_Result>("sp_ds_khuyenMai", showEpxiredParameter);
+        }
+    
+        public virtual int sp_update_khuyenMai(Nullable<int> maKM, string ten, Nullable<double> tiLe, Nullable<System.DateTime> batDau, Nullable<System.DateTime> ketThuc, string mota, string pr_img)
+        {
+            var maKMParameter = maKM.HasValue ?
+                new ObjectParameter("maKM", maKM) :
+                new ObjectParameter("maKM", typeof(int));
+    
+            var tenParameter = ten != null ?
+                new ObjectParameter("ten", ten) :
+                new ObjectParameter("ten", typeof(string));
+    
+            var tiLeParameter = tiLe.HasValue ?
+                new ObjectParameter("tiLe", tiLe) :
+                new ObjectParameter("tiLe", typeof(double));
+    
+            var batDauParameter = batDau.HasValue ?
+                new ObjectParameter("batDau", batDau) :
+                new ObjectParameter("batDau", typeof(System.DateTime));
+    
+            var ketThucParameter = ketThuc.HasValue ?
+                new ObjectParameter("ketThuc", ketThuc) :
+                new ObjectParameter("ketThuc", typeof(System.DateTime));
+    
+            var motaParameter = mota != null ?
+                new ObjectParameter("mota", mota) :
+                new ObjectParameter("mota", typeof(string));
+    
+            var pr_imgParameter = pr_img != null ?
+                new ObjectParameter("pr_img", pr_img) :
+                new ObjectParameter("pr_img", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_update_khuyenMai", maKMParameter, tenParameter, tiLeParameter, batDauParameter, ketThucParameter, motaParameter, pr_imgParameter);
         }
     }
 }
