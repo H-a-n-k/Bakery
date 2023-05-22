@@ -72,33 +72,33 @@
 			<i>Không có sản phẩm</i>
 		</tr>
 	} else { 
-		<tr class="table-info row">
-			<th class="col-1">
-				Hình ảnh
-			</th>
-			<th class="col-2">
-				Tên SP
-			</th>
-			<th class="col-1">
-				Đơn giá
-			</th>
-			<th class="col-3">
-				Mô tả
-			</th>
-			<th class="col-1">
-				Số sao
-			</th>
-			<th class="col-1">
-				Số đánh giá
-			</th>
-			<th class="col-1">
-				Số lượng
-			</th>
-			<th class="col-1">
-				Loại SP
-			</th>
-			<th class="col-1"></th>
-		</tr>
+<tr class="table-info row">
+	<th class="col-1">
+		Hình ảnh
+	</th>
+	<th class="col-1">
+		Mã sp
+	</th>
+	<th class="col-3">
+		Tên SP
+	</th>
+	<th class="col-1">
+		Đơn giá
+	</th>
+	<th class="col-1">
+		Số sao
+	</th>
+	<th class="col-1">
+		Số đánh giá
+	</th>
+	<th class="col-1">
+		Số lượng
+	</th>
+	<th class="col-2">
+		Loại SP
+	</th>
+	<th class="col-1"></th>
+</tr>
 	}
 	
 	@foreach (var item in Model)
@@ -107,14 +107,23 @@
 			<td class="col-1">
 				<img src="@item.img" style="width: 100%; aspect-ratio: 1/1" />
 			</td>
-			<td class="col-2">
+			<td class="col-1">
+				@item.MaSP
+			</td>
+			<td class="col-3">
 				@Html.DisplayFor(modelItem => item.TenSP)
 			</td>
 			<td class="col-1">
-				@string.Format("{0:N0}", item.GiaSP) đ
-			</td>
-			<td class="col-3">
-				@Html.DisplayFor(modelItem => item.MotaSP)
+				@if (item.TiLeKM.HasValue)
+				{
+					<del>@string.Format("{0:N0}", item.GiaSP) đ</del>
+					<br />
+					<text>@string.Format("{0:N0}", item.GiaSP * (1 - item.TiLeKM)) đ</text>
+				}
+				else
+				{
+					<text>@string.Format("{0:N0}", item.GiaSP) đ</text>
+				}
 			</td>
 			<td class="col-1">
 				@item.Sao.ToString("#.#")
@@ -125,7 +134,7 @@
 			<td class="col-1">
 				@Html.DisplayFor(modelItem => item.SoluongSP)
 			</td>
-			<td class="col-1">
+			<td class="col-2">
 				@Html.DisplayFor(modelItem => item.TenLoai)
 			</td>
 			<td class="col-1">
@@ -135,8 +144,8 @@
 					</svg>
 				</a>
 				@*@Html.ActionLink("Edit", "Edit", new { id = item.MaSP }) |
-					@Html.ActionLink("Details", "Details", new { id = item.MaSP }) |
-					@Html.ActionLink("Delete", "Delete", new { id = item.MaSP })*@
+			@Html.ActionLink("Details", "Details", new { id = item.MaSP }) |
+			@Html.ActionLink("Delete", "Delete", new { id = item.MaSP })*@
 			</td>
 		</tr>
 	}

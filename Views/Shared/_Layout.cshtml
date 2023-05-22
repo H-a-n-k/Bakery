@@ -47,10 +47,10 @@
 
 				@if (Session["Role"] == "Customer" && Session["CustomerID"] != null)
 				{
-					<a href="@Url.Action("Index", "GioHangs", new { maKh = Session["CustomerID"] })">
+					<a href="@Url.Action("Index", "GioHangs")">
 						<img src="~/Content/imgs/cart-icon.png" alt="Alternate Text" title="Giỏ hàng" class="icon" />
 					</a>
-					<a href="@Url.Action("Details", "KhachHangs", new { maKh = Session["CustomerID"] })">
+					<a href="@Url.Action("Details", "KhachHangs")">
 						<img src="~/Content/imgs/user-icon.png" alt="Alternate Text" title="Tài khoản" class="icon" />
 					</a>
 				}

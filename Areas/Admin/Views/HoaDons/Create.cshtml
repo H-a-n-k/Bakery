@@ -1,24 +1,52 @@
-﻿@model Bakery.Models.HoaDon
+﻿@model Bakery.Models.ViewModels.ThemHDVM
 
 @{
-    ViewBag.Title = "Create";
+	ViewBag.Title = "Create";
 }
 
 <h2>Tạo mới</h2>
-<hr />
 <div>
 	@Html.ActionLink("Quay lại", "Index")
 </div>
-<button class="btn btn-primary mt-3">Tạo hóa đơn</button>
 <hr />
 <div>Ngày hóa đơn: @DateTime.Today.ToShortDateString()</div>
 <div>Tổng tiền: <span id="total">0</span></div>
 
-<hr />
-<h3>Danh sách sản phẩm:</h3>
+<form method="post" action="AddProduct">
+	<div class="input-group mt-3">
+		<span class="input-group-text" id="basic-addon1">ID</span>
+		<input type="text" class="form-control" name="id">
+		<button class="btn btn-primary">Thêm sản phẩm</button>
+	</div>
+
+	<hr />
+	<h3>Danh sách sản phẩm:</h3>
+	@if (Model != null && Model.sps != null)
+	{
+		for (int i = 0; i < Model.sps.Count(); i++)
+		{
+			@Html.HiddenFor(item => Model.sps[i].MaSP)
+			@Html.HiddenFor(item => Model.sps[i].TenSP)
+			@Html.HiddenFor(item => Model.sps[i].GiaSP)
+			@Html.HiddenFor(item => Model.sps[i].TiLeKM)
+			@Html.HiddenFor(item => Model.sps[i].SoluongSP)
+
+			<div>
+				<span>@Model.sps[i].TenSP</span> |
+				<span>@Model.sps[i].GiaSP</span> |
+				<span>
+					@Html.EditorFor(item => Model.sps[i].SoLuong, 
+						 new { htmlAttributes = new { min = 1, @Value = Model.sps[i].SoLuong.HasValue? Model.sps[i].SoLuong.Value : 1 } })
+				</span> |
+				<span>@Model.sps[i].TiLeKM</span> |
+			</div>
+		}
+	}
+</form>
 
 <hr />
+<button class="btn btn-primary mt-3">Tạo hóa đơn</button>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jqueryval")
 }
