@@ -19,14 +19,14 @@ namespace Bakery.Controllers
 			return RedirectToAction("SignIn");
         }
 
-		public ActionResult SignIn()
+		public ActionResult SignIn(string ReturnUrl)
 		{
-
-			return View();
+			ViewBag.ReturnUrl = ReturnUrl;
+            return View();
 		}
 
 		[HttpPost]
-		public ActionResult SignIn(string user, string pass)
+		public ActionResult SignIn(string user, string pass, string ReturnUrl)
 		{
 			var kh = db.sp_khachdangnhap(user, pass).SingleOrDefault();
 			if (kh != null)
@@ -35,12 +35,14 @@ namespace Bakery.Controllers
 				if (kh.QuyenQuanTri.Value)
 				{
 					Session["Role"] = "Admin";
+					if (ReturnUrl != null) return Redirect(ReturnUrl);
 					return RedirectToAction("Index", "SanPham", new { area = "Admin" });
 				}
 				else {
 					Session["Role"] = "Customer";
 					Session["CustomerID"] = kh.MaKH;
-					return RedirectToAction("Index", "Home");
+                    if (ReturnUrl != null) return Redirect(ReturnUrl);
+                    return RedirectToAction("Index", "Home");
 				}
 			}
 			ViewBag.ErrorMsg = "Tài khoản hoặc mật khẩu sai";

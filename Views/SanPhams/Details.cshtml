@@ -61,7 +61,7 @@
 				else
 				{
 					<div>
-						<span>Vui lòng</span> <a href="/Auth/SignIn" style="color: blue">đăng nhập</a> <span>để mua hàng</span>
+						<span>Vui lòng</span> <a href=@Url.Action("SignIn", "Auth", new { ReturnUrl = Request.Url.ToString()}) style="color: blue">đăng nhập</a> <span>để mua hàng</span>
 					</div>
 				}
 				<div class="desc">@Model.CTSP.MotaSP</div>

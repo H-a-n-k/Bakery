@@ -11,7 +11,7 @@
 <div class="login-page">
 	<div class="main">
 		<div class="title">ĐĂNG NHẬP</div>
-		@using (Html.BeginForm("SignIn", "Auth", FormMethod.Post))
+		@using (Html.BeginForm("SignIn", "Auth", new { ReturnUrl = ViewBag.ReturnUrl } , FormMethod.Post))
 		{
 			<label>Tài khoản</label>
 			<input type="text" name="user" />

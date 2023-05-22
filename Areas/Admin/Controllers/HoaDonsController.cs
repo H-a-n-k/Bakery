@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bakery.Models;
+using Bakery.Models.ViewModels;
 
 namespace Bakery.Areas.Admin.Controllers
 {
@@ -40,7 +41,6 @@ namespace Bakery.Areas.Admin.Controllers
         // GET: Admin/HoaDons/Create
         public ActionResult Create()
         {
-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "TenKH");
             return View();
         }
 
@@ -49,17 +49,28 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaHD,NgayHD,TinhTrangGiao,DiaChiGiao,MaKH,TongTien")] HoaDon hoaDon)
+        public ActionResult Create(ThemHDVM model)
         {
             if (ModelState.IsValid)
             {
-                db.HoaDons.Add(hoaDon);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+                //return RedirectToAction("Index");
+                return View(model);
             }
 
-            ViewBag.MaKH = new SelectList(db.KhachHangs, "MaKH", "TenKH", hoaDon.MaKH);
-            return View(hoaDon);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddProduct(ThemHDVM model)
+        {
+            var sp = db.sp_ChiTietSP(model.id, null).FirstOrDefault();
+            var sps = model.sps;
+            if (sps == null) sps = new List<sp_ChiTietSP_Result>() { sp };
+            else if (sp != null) sps = sps.Prepend(sp).ToList();
+            model.sps = sps;
+
+            return View("Create", model);
         }
 
         // GET: Admin/HoaDons/Edit/5

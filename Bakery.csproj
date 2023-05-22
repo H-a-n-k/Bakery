@@ -251,6 +251,7 @@
     <Compile Include="Models\ViewModels\CTSanPhamVM.cs" />
     <Compile Include="Models\ViewModels\HomeVM.cs" />
     <Compile Include="Models\ViewModels\SignUpVM.cs" />
+    <Compile Include="Models\ViewModels\ThemHDVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
