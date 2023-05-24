@@ -325,8 +325,12 @@
   <Function Name="sp_ds_loaisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="sp_ds_nguyenlieu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="sp_dshoadon" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="totalPage" Type="int" Mode="InOut" />
+    <Parameter Name="page" Type="int" Mode="In" />
+    <Parameter Name="pageLimit" Type="int" Mode="In" />
     <Parameter Name="id" Type="int" Mode="In" />
     <Parameter Name="ngay" Type="date" Mode="In" />
+    <Parameter Name="tinhtrang" Type="bit" Mode="In" />
   </Function>
   <Function Name="sp_dskhachhang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="pageCount" Type="int" Mode="InOut" />

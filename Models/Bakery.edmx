@@ -330,8 +330,12 @@
         <Function Name="sp_ds_loaisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ds_nguyenlieu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_dshoadon" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="totalPage" Type="int" Mode="InOut" />
+          <Parameter Name="page" Type="int" Mode="In" />
+          <Parameter Name="pageLimit" Type="int" Mode="In" />
           <Parameter Name="id" Type="int" Mode="In" />
           <Parameter Name="ngay" Type="date" Mode="In" />
+          <Parameter Name="tinhtrang" Type="bit" Mode="In" />
         </Function>
         <Function Name="sp_dskhachhang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="pageCount" Type="int" Mode="InOut" />
@@ -639,10 +643,6 @@
             <Parameter Name="makh" Mode="In" Type="Int32" />
             <Parameter Name="limit" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_dshoadon" ReturnType="Collection(BakeryStoreDBModel.sp_dshoadon_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
-            <Parameter Name="ngay" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="sp_ds_cthd" ReturnType="Collection(BakeryStoreDBModel.sp_ds_cthd_Result)">
           <Parameter Name="mahd" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -722,6 +722,14 @@
             <Parameter Name="ketThuc" Mode="In" Type="DateTime" />
             <Parameter Name="mota" Mode="In" Type="String" />
             <Parameter Name="pr_img" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dshoadon" ReturnType="Collection(BakeryStoreDBModel.sp_dshoadon_Result)">
+            <Parameter Name="totalPage" Mode="InOut" Type="Int32" />
+            <Parameter Name="page" Mode="In" Type="Int32" />
+            <Parameter Name="pageLimit" Mode="In" Type="Int32" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="ngay" Mode="In" Type="DateTime" />
+            <Parameter Name="tinhtrang" Mode="In" Type="Boolean" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_ds_nguyenlieu_Result">
@@ -992,14 +1000,6 @@
           <Property Type="Int32" Name="MaKH" Nullable="true" />
           <Property Type="Int32" Name="TongTien" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_dshoadon_Result">
-          <Property Type="Int32" Name="MaHD" Nullable="false" />
-          <Property Type="DateTime" Name="NgayHD" Nullable="true" />
-          <Property Type="Boolean" Name="TinhTrangGiao" Nullable="true" />
-          <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="MaKH" Nullable="true" />
-          <Property Type="Int32" Name="TongTien" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="sp_ds_cthd_Result">
           <Property Type="Int32" Name="MaSP" Nullable="false" />
           <Property Type="Int32" Name="MaHD" Nullable="false" />
@@ -1116,6 +1116,14 @@
           <Property Type="DateTime" Name="NgayBD" Nullable="true" />
           <Property Type="DateTime" Name="NgayKT" Nullable="true" />
           <Property Type="String" Name="pr_img" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_dshoadon_Result">
+          <Property Type="Int32" Name="MaHD" Nullable="false" />
+          <Property Type="DateTime" Name="NgayHD" Nullable="true" />
+          <Property Type="Boolean" Name="TinhTrangGiao" Nullable="true" />
+          <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="MaKH" Nullable="true" />
+          <Property Type="Int32" Name="TongTien" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1320,18 +1328,6 @@
           <FunctionImportMapping FunctionImportName="sp_add_CTHD" FunctionName="BakeryStoreDBModel.Store.sp_add_CTHD" />
           <FunctionImportMapping FunctionImportName="sp_calcTotal_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_calcTotal_gioHang" />
           <FunctionImportMapping FunctionImportName="sp_thanhToan" FunctionName="BakeryStoreDBModel.Store.sp_thanhToan" />
-          <FunctionImportMapping FunctionImportName="sp_dshoadon" FunctionName="BakeryStoreDBModel.Store.sp_dshoadon">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_dshoadon_Result">
-                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
-                <ScalarProperty Name="NgayHD" ColumnName="NgayHD" />
-                <ScalarProperty Name="TinhTrangGiao" ColumnName="TinhTrangGiao" />
-                <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
-                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
-                <ScalarProperty Name="TongTien" ColumnName="TongTien" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_ds_cthd" FunctionName="BakeryStoreDBModel.Store.sp_ds_cthd">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_ds_cthd_Result">
@@ -1479,6 +1475,18 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_update_khuyenMai" FunctionName="BakeryStoreDBModel.Store.sp_update_khuyenMai" />
+          <FunctionImportMapping FunctionImportName="sp_dshoadon" FunctionName="BakeryStoreDBModel.Store.sp_dshoadon">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_dshoadon_Result">
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+                <ScalarProperty Name="NgayHD" ColumnName="NgayHD" />
+                <ScalarProperty Name="TinhTrangGiao" ColumnName="TinhTrangGiao" />
+                <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="TongTien" ColumnName="TongTien" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

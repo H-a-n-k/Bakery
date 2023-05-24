@@ -19,7 +19,6 @@ namespace Bakery.Areas.Admin.Controllers
         // GET: Admin/SanPhams
         public ActionResult Index(string keyword, int? cate, int? page = 1, bool? active = true)
         {
-            var sanPhams = db.SanPhams.Include(s => s.KhuyenMai).Include(s => s.LoaiSanPham);
             ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
             var list = db.sp_DSSP(count, active, keyword, cate, null, page, 20).ToList();
 

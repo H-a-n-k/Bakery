@@ -413,19 +413,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_xemLichSuMua_Result>("sp_xemLichSuMua", makhParameter, limitParameter);
         }
     
-        public virtual ObjectResult<sp_dshoadon_Result> sp_dshoadon(Nullable<int> id, Nullable<System.DateTime> ngay)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            var ngayParameter = ngay.HasValue ?
-                new ObjectParameter("ngay", ngay) :
-                new ObjectParameter("ngay", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dshoadon_Result>("sp_dshoadon", idParameter, ngayParameter);
-        }
-    
         public virtual ObjectResult<sp_ds_cthd_Result> sp_ds_cthd(Nullable<int> mahd)
         {
             var mahdParameter = mahd.HasValue ?
@@ -675,6 +662,31 @@ namespace Bakery.Models
                 new ObjectParameter("pr_img", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_update_khuyenMai", maKMParameter, tenParameter, tiLeParameter, batDauParameter, ketThucParameter, motaParameter, pr_imgParameter);
+        }
+    
+        public virtual ObjectResult<sp_dshoadon_Result> sp_dshoadon(ObjectParameter totalPage, Nullable<int> page, Nullable<int> pageLimit, Nullable<int> id, Nullable<System.DateTime> ngay, Nullable<bool> tinhtrang)
+        {
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("page", page) :
+                new ObjectParameter("page", typeof(int));
+    
+            var pageLimitParameter = pageLimit.HasValue ?
+                new ObjectParameter("pageLimit", pageLimit) :
+                new ObjectParameter("pageLimit", typeof(int));
+    
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var ngayParameter = ngay.HasValue ?
+                new ObjectParameter("ngay", ngay) :
+                new ObjectParameter("ngay", typeof(System.DateTime));
+    
+            var tinhtrangParameter = tinhtrang.HasValue ?
+                new ObjectParameter("tinhtrang", tinhtrang) :
+                new ObjectParameter("tinhtrang", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dshoadon_Result>("sp_dshoadon", totalPage, pageParameter, pageLimitParameter, idParameter, ngayParameter, tinhtrangParameter);
         }
     }
 }
