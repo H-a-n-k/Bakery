@@ -155,10 +155,6 @@
       <Parameter Name="makh" Mode="In" Type="Int32" />
       <Parameter Name="limit" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_dshoadon" ReturnType="Collection(BakeryStoreDBModel.sp_dshoadon_Result)">
-      <Parameter Name="id" Mode="In" Type="Int32" />
-      <Parameter Name="ngay" Mode="In" Type="DateTime" />
-    </FunctionImport>
     <FunctionImport Name="sp_ds_cthd" ReturnType="Collection(BakeryStoreDBModel.sp_ds_cthd_Result)">
       <Parameter Name="mahd" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -238,6 +234,14 @@
       <Parameter Name="ketThuc" Mode="In" Type="DateTime" />
       <Parameter Name="mota" Mode="In" Type="String" />
       <Parameter Name="pr_img" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dshoadon" ReturnType="Collection(BakeryStoreDBModel.sp_dshoadon_Result)">
+      <Parameter Name="totalPage" Mode="InOut" Type="Int32" />
+      <Parameter Name="page" Mode="In" Type="Int32" />
+      <Parameter Name="pageLimit" Mode="In" Type="Int32" />
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="ngay" Mode="In" Type="DateTime" />
+      <Parameter Name="tinhtrang" Mode="In" Type="Boolean" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_ds_nguyenlieu_Result">
@@ -508,14 +512,6 @@
     <Property Type="Int32" Name="MaKH" Nullable="true" />
     <Property Type="Int32" Name="TongTien" Nullable="true" />
   </ComplexType>
-  <ComplexType Name="sp_dshoadon_Result">
-    <Property Type="Int32" Name="MaHD" Nullable="false" />
-    <Property Type="DateTime" Name="NgayHD" Nullable="true" />
-    <Property Type="Boolean" Name="TinhTrangGiao" Nullable="true" />
-    <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="MaKH" Nullable="true" />
-    <Property Type="Int32" Name="TongTien" Nullable="true" />
-  </ComplexType>
   <ComplexType Name="sp_ds_cthd_Result">
     <Property Type="Int32" Name="MaSP" Nullable="false" />
     <Property Type="Int32" Name="MaHD" Nullable="false" />
@@ -632,5 +628,13 @@
     <Property Type="DateTime" Name="NgayBD" Nullable="true" />
     <Property Type="DateTime" Name="NgayKT" Nullable="true" />
     <Property Type="String" Name="pr_img" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_dshoadon_Result">
+    <Property Type="Int32" Name="MaHD" Nullable="false" />
+    <Property Type="DateTime" Name="NgayHD" Nullable="true" />
+    <Property Type="Boolean" Name="TinhTrangGiao" Nullable="true" />
+    <Property Type="String" Name="DiaChiGiao" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="MaKH" Nullable="true" />
+    <Property Type="Int32" Name="TongTien" Nullable="true" />
   </ComplexType>
 </Schema>

@@ -308,3 +308,12 @@ table svg {
 table .row:hover svg {
 	display: inline;
 }
+
+.pager .selected {
+	color: blue;
+	text-decoration: underline;
+}
+
+.pager span {
+	cursor: pointer;
+}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,9 +18,11 @@ namespace Bakery.Areas.Admin.Controllers
         private BakeryStoreDBEntities db = new BakeryStoreDBEntities();
 
         // GET: Admin/HoaDons
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, bool? active = null)
         {
-            var hoaDons = db.sp_dshoadon(null, null).ToList();
+            ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
+            var hoaDons = db.sp_dshoadon(count, page, 20, null, null, active).ToList();
+            ViewBag.PageCount = Convert.ToInt32(count.Value);
             return View(hoaDons);
         }
 

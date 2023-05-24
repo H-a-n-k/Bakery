@@ -40,7 +40,8 @@ namespace Bakery.Controllers
             ctkh.kh = khachHang;
 
             var hds = new List<CTHDVM>();
-            var dshd = db.sp_dshoadon(id, null).ToList();
+            ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
+            var dshd = db.sp_dshoadon(count, null, 1000, id, null, null).ToList();
             foreach (var x in dshd) {
                 var cthds = db.sp_ds_cthd(x.MaHD).ToList();
                 hds.Add(new CTHDVM() { hd = x, cthds = cthds });
