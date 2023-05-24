@@ -74,11 +74,12 @@
 	} else { 
 <tr class="table-info row">
 	<th class="col-1">
-		Hình ảnh
-	</th>
-	<th class="col-1">
 		Mã sp
 	</th>
+	<th class="col-1">
+		Hình ảnh
+	</th>
+	
 	<th class="col-3">
 		Tên SP
 	</th>
@@ -105,10 +106,10 @@
 	{
 		<tr class="row">
 			<td class="col-1">
-				<img src="@item.img" style="width: 100%; aspect-ratio: 1/1" />
+				@item.MaSP
 			</td>
 			<td class="col-1">
-				@item.MaSP
+				<img src="@item.img" style="width: 100%; aspect-ratio: 1/1" />
 			</td>
 			<td class="col-3">
 				@Html.DisplayFor(modelItem => item.TenSP)

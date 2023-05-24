@@ -107,7 +107,6 @@
 			for (let i = 0; i < items.length; i++) {
 				let price = $(`.item[data-ind='${i}'] .price`).data('val');
 				let quant = $(`.item[data-ind='${i}'] .quantity`).val();
-				console.log(items);
 
 				total += price * quant;
 				$(`.item[data-ind='${i}'] .sum`).html(numberWithCommas(price * quant) + 'đ');

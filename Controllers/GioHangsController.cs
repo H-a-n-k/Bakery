@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Bakery.Models;
 using Microsoft.Ajax.Utilities;
@@ -63,8 +64,10 @@ namespace Bakery.Controllers
             {
                 db.sp_update_gioHang(makh, masp, sl);
             }
-            catch (Exception e) {
-				return new EmptyResult();
+            catch (Exception ex) {
+                HttpContext.Response.StatusCode = 400;
+                return Json(new { ErrorMsg = ex.InnerException.Message.Split('\r')[0] });
+                //return Json(ex.InnerException.Message.Split('\r')[0]);
 			}
             return new EmptyResult();
 		}

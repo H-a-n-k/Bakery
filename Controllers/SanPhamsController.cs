@@ -33,7 +33,7 @@ namespace Bakery.Controllers
 			ViewBag.maLoai = new SelectList(db.sp_ds_loaisp(), "MaLoai", "TenLoai");
             ViewBag.loai = db.sp_ds_loaisp().ToList();
 			return View(danhsach);
-		}
+        }
 
 		// GET: SanPhams/Details/5
 		public ActionResult Details(int? id)
