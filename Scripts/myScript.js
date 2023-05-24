@@ -43,14 +43,18 @@ function onQuantityKeydown(event) {
 	if (event.keyCode != 8 && event.keyCode < 48 || event.keyCode > 57) {
 		event.preventDefault();
 		return false;
-	}
+    }
 }
 
 function onCartQuantityChange(event, masp) {
 	let val = event.target.value;
-	if (isNaN(val) || val == "") event.target.value = 1;
+    if (isNaN(val) || val == "") event.target.value = 1;
+    if (parseInt(event.target.value) > parseInt(event.target.max)) event.target.value = event.target.max;
 
-	$.post('/giohangs/UpdateQuantity', { masp, sl: event.target.value });
+    $.post('/giohangs/UpdateQuantity', { masp, sl: event.target.value }).fail((xhr, status, error) => {
+        alert('Số lượng sản phẩm có thay đổi')
+        window.location.reload();
+    })
 }
 
 function onQuantityChange(event) {

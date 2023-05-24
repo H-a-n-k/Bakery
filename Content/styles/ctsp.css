@@ -196,4 +196,7 @@
 			.product-detail-page .reviews .right .review .comment {
 				flex: 1;
 				overflow: auto;
+				max-width: 200px;
+				overflow-wrap: break-word;
+				word-wrap: break-word;
 			}

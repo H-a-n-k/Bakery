@@ -38,32 +38,44 @@
 
 				</div>
 				<p><i>(Còn lại: @Model.CTSP.SoluongSP sản phẩm)</i></p>
-				@if (Session["CustomerID"] != null)
+
+				@if (Model.CTSP.SoluongSP < 1)
 				{
-					if (Model.CTSP.SoLuong.HasValue)
-					{
-						<div class="quantity">
-							<b>Đã thêm vào giỏ:</b>
-							<span class="btn" onclick="addQuantity(-1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">–</span>
-							<span class="number">@(Math.Min(Model.CTSP.SoLuong.Value, Model.CTSP.SoluongSP))</span>
-							<span class="btn" onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">+</span>
-							<span class="btn remove" onclick="removeItem(@Model.CTSP.MaSP)">Hủy</span>
-						</div>
-					}
-					else
-					{
-						<span class="number hidden">0</span>
-						<div class="add"  onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">
-							Thêm vào giỏ hàng
-						</div>
-					}
+					<div class="btn btn-secondary mb-1 disabled">
+						Hết hàng
+					</div>
 				}
 				else
 				{
-					<div>
-						<span>Vui lòng</span> <a href=@Url.Action("SignIn", "Auth", new { ReturnUrl = Request.Url.ToString()}) style="color: blue">đăng nhập</a> <span>để mua hàng</span>
-					</div>
+					if (Session["CustomerID"] != null)
+					{
+						if (Model.CTSP.SoLuong.HasValue)
+						{
+							<div class="quantity">
+								<b>Đã thêm vào giỏ:</b>
+								<span class="btn" onclick="addQuantity(-1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">–</span>
+								<span class="number">@(Math.Min(Model.CTSP.SoLuong.Value, Model.CTSP.SoluongSP))</span>
+								<span class="btn" onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">+</span>
+								<span class="btn remove" onclick="removeItem(@Model.CTSP.MaSP)">Hủy</span>
+							</div>
+						}
+						else
+						{
+							<span class="number hidden">0</span>
+							<div class="add" onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">
+								Thêm vào giỏ hàng
+							</div>
+
+						}
+					}
+					else
+					{
+						<div>
+							<span>Vui lòng</span> <a href=@Url.Action("SignIn", "Auth", new { ReturnUrl = Request.Url.ToString()}) style="color: blue">đăng nhập</a> <span>để mua hàng</span>
+						</div>
+					}
 				}
+
 				<div class="desc">@Model.CTSP.MotaSP</div>
 			</div>
 			<div class="right" style="--bg:url('@Model.CTSP.img')">

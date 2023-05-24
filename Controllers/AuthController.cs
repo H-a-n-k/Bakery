@@ -28,26 +28,35 @@ namespace Bakery.Controllers
 		[HttpPost]
 		public ActionResult SignIn(string user, string pass, string ReturnUrl)
 		{
-			var kh = db.sp_khachdangnhap(user, pass).SingleOrDefault();
-			if (kh != null)
+			try
 			{
-				FormsAuthentication.SetAuthCookie(user, false);
-				if (kh.QuyenQuanTri.Value)
-				{
-					Session["Role"] = "Admin";
-					if (ReturnUrl != null) return Redirect(ReturnUrl);
-					return RedirectToAction("Index", "SanPham", new { area = "Admin" });
-				}
-				else {
-					Session["Role"] = "Customer";
-					Session["CustomerID"] = kh.MaKH;
-                    if (ReturnUrl != null) return Redirect(ReturnUrl);
-                    return RedirectToAction("Index", "Home");
-				}
-			}
-			ViewBag.ErrorMsg = "Tài khoản hoặc mật khẩu sai";
-			return View();
-		}
+                var kh = db.sp_khachdangnhap(user, pass).SingleOrDefault();
+                if (kh != null)
+                {
+                    FormsAuthentication.SetAuthCookie(user, false);
+                    if (kh.QuyenQuanTri.Value)
+                    {
+                        Session["Role"] = "Admin";
+                        if (ReturnUrl != null) return Redirect(ReturnUrl);
+                        return RedirectToAction("Index", "SanPham", new { area = "Admin" });
+                    }
+                    else
+                    {
+                        Session["Role"] = "Customer";
+                        Session["CustomerID"] = kh.MaKH;
+                        if (ReturnUrl != null) return Redirect(ReturnUrl);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+                return View();
+            }
+			catch (Exception ex) {
+                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
+                return View();
+            }
+
+        }
 
 		public ActionResult SignOut()
 		{
