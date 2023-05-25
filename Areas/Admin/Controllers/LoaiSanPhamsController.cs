@@ -55,8 +55,9 @@ namespace Bakery.Areas.Admin.Controllers
                 db.sp_them_loaisp(lsp.TenLoai, lsp.cate_img);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
                 return View(lsp);
             }
         }
@@ -81,14 +82,15 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaLoai,TenLoai,cate_img")] LoaiSanPham lsp)
+        public ActionResult Edit([Bind(Include = "MaLoai,TenLoai,cate_img")] sp_detail_loaisp_Result lsp)
         {
             try
             {
                 db.sp_update_loaisp(lsp.MaLoai, lsp.TenLoai, lsp.cate_img);
                 return RedirectToAction("Index");
             }
-            catch {
+            catch (Exception ex) {
+                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
                 return View(lsp);
             }
         }

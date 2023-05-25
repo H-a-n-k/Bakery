@@ -28,6 +28,15 @@ namespace Bakery.Areas.Admin.Controllers
             return View(list);
         }
 
+        public ActionResult GetHints(string keyword)
+        {
+            ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
+            var list = db.sp_DSSP(count, true, keyword, null, null, 1, 20).ToList();
+
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Admin/SanPhams/Details/5
         public ActionResult Details(int? id)
         {

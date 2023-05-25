@@ -36,7 +36,11 @@
 	<div class="form-group">
 		<label for="NgayBD">Từ ngày</label>
 		<div class="col-md-10">
-			@Html.TextBoxFor(model => model.NgayBD.Value.Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @Name = "NgayBD" })
+			@if (Model.NgayBD.HasValue) {
+				<span>@Html.TextBoxFor(model => model.NgayBD.Value.Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @Name = "NgayBD" })</span>
+			} else {
+				<span>@Html.TextBoxFor(model => model.NgayBD, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @Name = "NgayBD" })</span>
+			}
 			@Html.ValidationMessageFor(model => model.NgayBD, "", new { @class = "text-danger" })
 		</div>
 	</div>
@@ -44,7 +48,11 @@
 	<div class="form-group">
 		<label for="NgayKT">Đến ngày</label>
 		<div class="col-md-10">
-			@Html.TextBoxFor(model => model.NgayKT.Value.Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @Name = "NgayKT" })
+			@if (Model.NgayKT.HasValue) {
+				<span>@Html.TextBoxFor(model => model.NgayKT.Value.Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @Name = "NgayKT" })</span>
+			} else {
+				<span>@Html.TextBoxFor(model => model.NgayKT, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @Name = "NgayKT" })</span>
+			}
 			@Html.ValidationMessageFor(model => model.NgayKT, "", new { @class = "text-danger" })
 		</div>
 	</div>

@@ -64,18 +64,6 @@ namespace Bakery.Areas.Admin.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult AddProduct(ThemHDVM model)
-        {
-            var sp = db.sp_ChiTietSP(model.id, null).FirstOrDefault();
-            var sps = model.sps;
-            if (sps == null) sps = new List<sp_ChiTietSP_Result>() { sp };
-            else if (sp != null) sps = sps.Prepend(sp).ToList();
-            model.sps = sps;
-
-            return View("Create", model);
-        }
-
         // GET: Admin/HoaDons/Edit/5
         public ActionResult Edit(int? id)
         {

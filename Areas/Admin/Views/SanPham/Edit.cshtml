@@ -20,7 +20,6 @@
 		<label for="TenSP">Tên SP</label>
 		<div class="col-md-10">
 			@Html.EditorFor(model => model.TenSP, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.TenSP, "", new { @class = "text-danger" })
 		</div>
 	</div>
 
@@ -28,7 +27,6 @@
 		<label for="GiaSP">Giá</label>
 		<div class="col-md-10">
 			@Html.EditorFor(model => model.GiaSP, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.GiaSP, "", new { @class = "text-danger" })
 		</div>
 	</div>
 
@@ -36,7 +34,6 @@
 		<label for="MotaSP">Mô tả</label>
 		<div class="col-md-10">
 			@Html.EditorFor(model => model.MotaSP, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.MotaSP, "", new { @class = "text-danger" })
 		</div>
 	</div>
 
@@ -44,7 +41,6 @@
 		<label for="img">Hình ảnh</label>
 		<div class="col-md-10">
 			@Html.EditorFor(model => model.img, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.img, "", new { @class = "text-danger" })
 		</div>
 	</div>
 
@@ -52,7 +48,6 @@
 		<label for="Sao">Số sao</label>
 		<div class="col-md-10">
 			@Html.EditorFor(model => model.Sao, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.Sao, "", new { @class = "text-danger" })
 		</div>
 	</div>
 
@@ -60,7 +55,6 @@
 		<label for="SoLuotDanhGia">Số đánh giá</label>
 		<div class="col-md-10">
 			@Html.EditorFor(model => model.SoLuotDanhGia, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.SoLuotDanhGia, "", new { @class = "text-danger" })
 		</div>
 	</div>
 
@@ -68,7 +62,6 @@
 		<label for="SoluongSP">Số lượng</label>
 		<div class="col-md-10">
 			@Html.EditorFor(model => model.SoluongSP, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.SoluongSP, "", new { @class = "text-danger" })
 		</div>
 	</div>
 
@@ -76,7 +69,6 @@
 		<label for="maLoai">Loại SP</label>
 		<div class="col-md-10">
 			@Html.DropDownList("maLoai", null, htmlAttributes: new { @class = "form-control" })
-			@Html.ValidationMessageFor(model => model.MaLoai, "", new { @class = "text-danger" })
 		</div>
 	</div>
 
@@ -84,7 +76,6 @@
 		<label for="MaKM">Khuyến mãi</label>
 		<div class="col-md-10">
 			@Html.DropDownList("MaKM", null, "Không", htmlAttributes: new { @class = "form-control" })
-			@Html.ValidationMessageFor(model => model.MaKM, "", new { @class = "text-danger" })
 		</div>
 	</div>
 
@@ -92,7 +83,6 @@
 		<label for="tinhTrang">Tình trạng</label>
 		<div class="col-md-10">
 			@Html.DropDownList("tinhTrang", null, htmlAttributes: new { @class = "form-control" })
-			@Html.ValidationMessageFor(model => model.tinhTrang, "", new { @class = "text-danger" })
 		</div>
 	</div>
 

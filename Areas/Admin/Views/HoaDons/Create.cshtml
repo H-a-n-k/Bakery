@@ -12,36 +12,21 @@
 <div>Ngày hóa đơn: @DateTime.Today.ToShortDateString()</div>
 <div>Tổng tiền: <span id="total">0</span></div>
 
+<hr />
+<div class="input-group mb-3">
+	<span class="input-group-text" id="basic-addon1">Tìm sản phẩm</span>
+	<button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+	</button>
+	<ul class="dropdown-menu" id="hints" style="width: 300px;">
+		@*<li class="dropdown-item btn">Act</li>*@
+	</ul>
+	<input type="text" class="form-control" placeholder="Nhập tên hoặc id sản phẩm" onkeyup="onSearchChange(event)">
+	<button class="btn btn-primary">Tìm</button>
+</div>
+
+<hr />
+<h3>Danh sách sản phẩm:</h3>
 <form method="post" action="AddProduct">
-	<div class="input-group mt-3">
-		<span class="input-group-text" id="basic-addon1">ID</span>
-		<input type="text" class="form-control" name="id">
-		<button class="btn btn-primary">Thêm sản phẩm</button>
-	</div>
-
-	<hr />
-	<h3>Danh sách sản phẩm:</h3>
-	@if (Model != null && Model.sps != null)
-	{
-		for (int i = 0; i < Model.sps.Count(); i++)
-		{
-			@Html.HiddenFor(item => Model.sps[i].MaSP)
-			@Html.HiddenFor(item => Model.sps[i].TenSP)
-			@Html.HiddenFor(item => Model.sps[i].GiaSP)
-			@Html.HiddenFor(item => Model.sps[i].TiLeKM)
-			@Html.HiddenFor(item => Model.sps[i].SoluongSP)
-
-			<div>
-				<span>@Model.sps[i].TenSP</span> |
-				<span>@Model.sps[i].GiaSP</span> |
-				<span>
-					@Html.EditorFor(item => Model.sps[i].SoLuong, 
-						 new { htmlAttributes = new { min = 1, @Value = Model.sps[i].SoLuong.HasValue? Model.sps[i].SoLuong.Value : 1 } })
-				</span> |
-				<span>@Model.sps[i].TiLeKM</span> |
-			</div>
-		}
-	}
 </form>
 
 <hr />
@@ -49,4 +34,43 @@
 
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
+
+	<script>
+		let keyword = '';
+		let searchDebounce = null;
+		let hints = [];
+
+		function onSearchChange(e) {
+			showHints();
+			$(e.target).focus();
+			if (keyword == e.currentTarget.value) return;
+			keyword = e.currentTarget.value;
+			//if (!keyword || keyword == '') return;
+
+			if (searchDebounce) clearTimeout(searchDebounce);
+			searchDebounce = setTimeout(() => {
+				$.get('/Admin/sanpham/gethints?keyword=' + keyword, (data) => {
+					hints = data;
+					let html = '';
+					for (let i = 0; i < data.length; i++) {
+						var x = data[i];
+						html += `
+						<li class="dropdown-item btn" onclick="selectHint(${i})">
+							<b>#${x.MaSP}</b> ${x.TenSP}
+						</li>`
+					}
+
+					$('#hints').html(html);
+				})
+			}, 300)
+		}
+
+		function showHints() {
+			$('.dropdown-toggle').click();
+		}
+
+		function selectHint(i) {
+			console.log(hints[i]);
+		}
+	</script>
 }
