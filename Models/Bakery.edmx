@@ -557,9 +557,6 @@
             <Parameter Name="page" Mode="In" Type="Int32" />
             <Parameter Name="pagelength" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_XemDanhGiaSP" ReturnType="Collection(BakeryStoreDBModel.sp_XemDanhGiaSP_Result)">
-          <Parameter Name="masp" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="sp_dkytaikhoan">
             <Parameter Name="ten" Mode="In" Type="String" />
             <Parameter Name="gioi" Mode="In" Type="Int32" />
@@ -731,6 +728,9 @@
             <Parameter Name="ngay" Mode="In" Type="DateTime" />
             <Parameter Name="tinhtrang" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="sp_XemDanhGiaSP" ReturnType="Collection(BakeryStoreDBModel.sp_XemDanhGiaSP_Result)">
+            <Parameter Name="masp" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_ds_nguyenlieu_Result">
           <Property Type="String" Name="TenNguyenLieu" Nullable="true" MaxLength="50" />
@@ -764,11 +764,6 @@
           <Property Type="DateTime" Name="NgayBD" Nullable="true" />
           <Property Type="DateTime" Name="NgayKT" Nullable="true" />
           <Property Type="Double" Name="TiLeKM" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_XemDanhGiaSP_Result">
-          <Property Type="Int32" Name="SoSaoDanhGia" Nullable="true" />
-          <Property Type="String" Name="NoiDungDanhGia" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="TaiKhoan" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="sp_khachdangnhap_Result">
           <Property Type="Int32" Name="MaKH" Nullable="false" />
@@ -1125,6 +1120,11 @@
           <Property Type="Int32" Name="MaKH" Nullable="true" />
           <Property Type="Int32" Name="TongTien" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="sp_XemDanhGiaSP_Result">
+          <Property Type="Int32" Name="SoSaoDanhGia" Nullable="true" />
+          <Property Type="String" Name="NoiDungDanhGia" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1189,15 +1189,6 @@
                 <ScalarProperty Name="NgayBD" ColumnName="NgayBD" />
                 <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
                 <ScalarProperty Name="TiLeKM" ColumnName="TiLeKM" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_XemDanhGiaSP" FunctionName="BakeryStoreDBModel.Store.sp_XemDanhGiaSP">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_XemDanhGiaSP_Result">
-                <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
-                <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
-                <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1484,6 +1475,15 @@
                 <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
                 <ScalarProperty Name="MaKH" ColumnName="MaKH" />
                 <ScalarProperty Name="TongTien" ColumnName="TongTien" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_XemDanhGiaSP" FunctionName="BakeryStoreDBModel.Store.sp_XemDanhGiaSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_XemDanhGiaSP_Result">
+                <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
+                <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
+                <ScalarProperty Name="TenKH" ColumnName="TenKH" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

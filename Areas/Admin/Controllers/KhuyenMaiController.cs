@@ -18,6 +18,9 @@ namespace Bakery.Areas.Admin.Controllers
         // GET: Admin/KhuyenMais
         public ActionResult Index()
         {
+            ViewBag.ToastHeader = TempData["ToastHeader"];
+            ViewBag.ToastBody = TempData["ToastBody"];
+            ViewBag.ToastTheme = TempData["ToastTheme"];
             return View(db.sp_ds_khuyenMai(null).ToList());
         }
 
@@ -52,6 +55,7 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_add_khuyenMai(km.TenKM, km.TiLeKM, km.NgayBD, km.NgayKT, km.pr_img, km.MoTa);
+                TempData["ToastHeader"] = "Đã thêm khuyến mãi";
                 return RedirectToAction("Index");
             }
             catch (Exception ex) {
@@ -88,6 +92,7 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_update_khuyenMai(km.MaKM, km.TenKM, km.TiLeKM, km.NgayBD, km.NgayKT, km.MoTa, km.pr_img);
+                TempData["ToastHeader"] = "Đã cập nhật khuyến mãi";
                 return RedirectToAction("Index");
             }
             catch (Exception ex) {
@@ -122,6 +127,7 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_delete_khuyenMai(id);
+                TempData["ToastHeader"] = "Đã xóa khuyến mãi";
                 return RedirectToAction("Index");
             }
             catch {

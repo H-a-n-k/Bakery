@@ -22,7 +22,11 @@ namespace Bakery.Areas.Admin.Controllers
         {
             ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
             var hoaDons = db.sp_dshoadon(count, page, 20, null, null, active).ToList();
+
             ViewBag.PageCount = Convert.ToInt32(count.Value);
+            ViewBag.ToastHeader = TempData["ToastHeader"];
+            ViewBag.ToastBody = TempData["ToastBody"];
+            ViewBag.ToastTheme = TempData["ToastTheme"];
             return View(hoaDons);
         }
 
@@ -52,11 +56,10 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ThemHDVM model)
+        public ActionResult Create(List<CTHD> model)
         {
             if (ModelState.IsValid)
             {
-
                 //return RedirectToAction("Index");
                 return View(model);
             }
@@ -100,6 +103,7 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_update_hoadon(hoaDon.MaHD, hoaDon.TinhTrangGiao, hoaDon.DiaChiGiao);
+                TempData["ToastHeader"] = "Đã cập nhật hóa đơn";
                 return RedirectToAction("Index");
             }
             catch {
@@ -134,10 +138,19 @@ namespace Bakery.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            HoaDon hoaDon = db.HoaDons.Find(id);
-            db.HoaDons.Remove(hoaDon);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                HoaDon hoaDon = db.HoaDons.Find(id);
+                db.HoaDons.Remove(hoaDon);
+                db.SaveChanges();
+                TempData["ToastHeader"] = "Đã xóa hóa đơn";
+                return RedirectToAction("Index");
+            }
+            catch {
+                TempData["ToastHeader"] = "Có lỗi xảy ra";
+                TempData["ToastTheme"] = "Danger";
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)

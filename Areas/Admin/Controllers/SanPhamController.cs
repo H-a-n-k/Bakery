@@ -23,8 +23,12 @@ namespace Bakery.Areas.Admin.Controllers
             var list = db.sp_DSSP(count, active, keyword, cate, null, page, 20).ToList();
 
             var cates = db.sp_ds_loaisp().ToList();
+
             ViewBag.cates = cates;
             ViewBag.PageCount = Convert.ToInt32(count.Value);
+            ViewBag.ToastHeader = TempData["ToastHeader"];
+            ViewBag.ToastBody = TempData["ToastBody"];
+            ViewBag.ToastTheme = TempData["ToastTheme"];
             return View(list);
         }
 
@@ -70,6 +74,8 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_ThemSP(sanPham.TenSP, sanPham.GiaSP, sanPham.MotaSP, sanPham.img, sanPham.maLoai, sanPham.SoluongSP);
+
+                TempData["ToastHeader"] = "Đã thêm sản phẩm";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -114,6 +120,7 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_SuaSP(sanPham.MaSP, sanPham.TenSP, sanPham.GiaSP, sanPham.MotaSP, sanPham.img, sanPham.Sao, sanPham.SoLuotDanhGia, sanPham.MaLoai, sanPham.SoluongSP, sanPham.MaKM, sanPham.tinhTrang);
+                TempData["ToastHeader"] = "Đã cập nhật sản phẩm";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -151,10 +158,19 @@ namespace Bakery.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SanPham sanPham = db.SanPhams.Find(id);
-            db.SanPhams.Remove(sanPham);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                SanPham sanPham = db.SanPhams.Find(id);
+                db.SanPhams.Remove(sanPham);
+                db.SaveChanges();
+                TempData["ToastHeader"] = "Đã xóa sản phẩm";
+                return RedirectToAction("Index");
+            }
+            catch {
+                TempData["ToastHeader"] = "Có lỗi xảy ra";
+                TempData["ToastTheme"] = "Danger";
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)

@@ -267,15 +267,6 @@ namespace Bakery.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DSSP_Result>("sp_DSSP", totalPage, tinhtrangParameter, keywordParameter, maloaiParameter, orderOptParameter, pageParameter, pagelengthParameter);
         }
     
-        public virtual ObjectResult<sp_XemDanhGiaSP_Result> sp_XemDanhGiaSP(Nullable<int> masp)
-        {
-            var maspParameter = masp.HasValue ?
-                new ObjectParameter("masp", masp) :
-                new ObjectParameter("masp", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_XemDanhGiaSP_Result>("sp_XemDanhGiaSP", maspParameter);
-        }
-    
         public virtual int sp_dkytaikhoan(string ten, Nullable<int> gioi, string sdt, Nullable<System.DateTime> ngaysinh, string tk, string mk)
         {
             var tenParameter = ten != null ?
@@ -687,6 +678,15 @@ namespace Bakery.Models
                 new ObjectParameter("tinhtrang", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dshoadon_Result>("sp_dshoadon", totalPage, pageParameter, pageLimitParameter, idParameter, ngayParameter, tinhtrangParameter);
+        }
+    
+        public virtual ObjectResult<sp_XemDanhGiaSP_Result> sp_XemDanhGiaSP(Nullable<int> masp)
+        {
+            var maspParameter = masp.HasValue ?
+                new ObjectParameter("masp", masp) :
+                new ObjectParameter("masp", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_XemDanhGiaSP_Result>("sp_XemDanhGiaSP", maspParameter);
         }
     }
 }

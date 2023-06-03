@@ -19,6 +19,10 @@ namespace Bakery.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var list = db.sp_ds_loaisp().ToList();
+
+            ViewBag.ToastHeader = TempData["ToastHeader"];
+            ViewBag.ToastBody = TempData["ToastBody"];
+            ViewBag.ToastTheme = TempData["ToastTheme"];
             return View(list);
         }
 
@@ -53,6 +57,8 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_them_loaisp(lsp.TenLoai, lsp.cate_img);
+
+                TempData["ToastHeader"] = "Đã thêm loại sản phẩm";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -87,6 +93,7 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_update_loaisp(lsp.MaLoai, lsp.TenLoai, lsp.cate_img);
+                TempData["ToastHeader"] = "Đã cập nhật loại sản phẩm";
                 return RedirectToAction("Index");
             }
             catch (Exception ex) {
@@ -118,6 +125,7 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_delete_loaisp(id);
+                TempData["ToastHeader"] = "Đã xóa loại sản phẩm";
                 return RedirectToAction("Index");
             }
             catch {

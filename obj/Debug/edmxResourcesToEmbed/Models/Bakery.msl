@@ -62,15 +62,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_XemDanhGiaSP" FunctionName="BakeryStoreDBModel.Store.sp_XemDanhGiaSP">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_XemDanhGiaSP_Result">
-          <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
-          <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
-          <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_dkytaikhoan" FunctionName="BakeryStoreDBModel.Store.sp_dkytaikhoan" />
     <FunctionImportMapping FunctionImportName="sp_add_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_add_gioHang" />
     <FunctionImportMapping FunctionImportName="sp_update_gioHang" FunctionName="BakeryStoreDBModel.Store.sp_update_gioHang" />
@@ -354,6 +345,15 @@
           <ScalarProperty Name="DiaChiGiao" ColumnName="DiaChiGiao" />
           <ScalarProperty Name="MaKH" ColumnName="MaKH" />
           <ScalarProperty Name="TongTien" ColumnName="TongTien" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_XemDanhGiaSP" FunctionName="BakeryStoreDBModel.Store.sp_XemDanhGiaSP">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_XemDanhGiaSP_Result">
+          <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
+          <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
+          <ScalarProperty Name="TenKH" ColumnName="TenKH" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

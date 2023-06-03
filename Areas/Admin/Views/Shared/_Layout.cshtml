@@ -46,16 +46,18 @@
 		</div>
 	</nav>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
+	<div class="container body-content">
+		@RenderBody()
+		@Html.Partial("~/Views/Shared/Partials/Toast.cshtml")
+		<hr />
 		<footer>
 			© Copyright yellokitchen
 		</footer>
-    </div>
+	</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/myScripts")
+	@RenderSection("scripts", required: false)
 </body>
 </html>

@@ -30,7 +30,11 @@ namespace Bakery.Controllers
             int? makh = GetCustomerID(Session);
 			if (makh == null) return RedirectToAction("SignIn", "Auth");
 
-			var gioHangs = db.sp_ds_gioHang(makh);
+            var gioHangs = db.sp_ds_gioHang(makh);
+
+            ViewBag.ToastHeader = TempData["ToastHeader"];
+            ViewBag.ToastBody = TempData["ToastBody"];
+            ViewBag.ToastTheme = TempData["ToastTheme"];
             return View(gioHangs.ToList());
         }
 
@@ -44,12 +48,17 @@ namespace Bakery.Controllers
             {
                 db.sp_thanhToan(makh, addr);
                 db.sp_delete_gioHang(makh, null);
+                TempData["ToastHeader"] = "Mua hàng thành công!";
+                TempData["ToastBody"] = "Cảm ơn quý khách đã ủng hộ";
+                return RedirectToAction("Index");
             }
             catch (Exception e) {
-				return RedirectToAction("Index");
-			}
-            //return Json(new { success = true });
-            return RedirectToAction("Index");
+                TempData["ToastHeader"] = "Có lỗi xảy ra!!";
+                TempData["ToastBody"] = "Vui lòng thử lại";
+                TempData["ToastTheme"] = "Danger";
+                return RedirectToAction("Index");
+            }
+            
 		}
         //sua calc tong, addcthd
 		[HttpPost]
