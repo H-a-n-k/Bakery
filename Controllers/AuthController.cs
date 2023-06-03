@@ -37,7 +37,6 @@ namespace Bakery.Controllers
                     if (kh.QuyenQuanTri.Value)
                     {
                         Session["Role"] = "Admin";
-                        if (ReturnUrl != null) return Redirect(ReturnUrl);
                         return RedirectToAction("Index", "SanPham", new { area = "Admin" });
                     }
                     else

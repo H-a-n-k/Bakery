@@ -22,7 +22,11 @@ namespace Bakery.Areas.Admin.Controllers
         {
             ObjectParameter count = new ObjectParameter("pageCount", typeof(Int32));
             var list = db.sp_dskhachhang(count, active, keyword, page, 20).ToList();
+
             ViewBag.PageCount = Convert.ToInt32(count.Value);
+            ViewBag.ToastHeader = TempData["ToastHeader"];
+            ViewBag.ToastBody = TempData["ToastBody"];
+            ViewBag.ToastTheme = TempData["ToastTheme"];
             return View(list);
         }
 
@@ -37,12 +41,12 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_deletekhachhang(id);
+                TempData["ToastHeader"] = "Đã cập nhật trạng thái tài khoản";
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
                 return RedirectToAction("Index");
-
             }
 
         }

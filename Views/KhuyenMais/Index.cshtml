@@ -19,8 +19,14 @@
 
 <div class="m-container">
 
-	<h2 class="mb-4 mt-4">Các chương trình khuyến mãi đang áp dụng:</h2>
-
+	@if (Model.Count() < 1)
+	{
+		<h2>Hiện tại cửa hàng không có khuyến mãi nào</h2>
+		<p>Mua nhiều vô, cửa hàng giàu rồi khuyến mãi cho</p>
+	}
+	else { 
+		<h2 class="mb-4 mt-4">Các chương trình khuyến mãi đang áp dụng:</h2>
+	}
 	@foreach (var item in Model)
 	{
 		<div class="row pt-3 pb-3 pr_item">

@@ -19,6 +19,10 @@ namespace Bakery.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var list = db.sp_ds_loaisp().ToList();
+
+            ViewBag.ToastHeader = TempData["ToastHeader"];
+            ViewBag.ToastBody = TempData["ToastBody"];
+            ViewBag.ToastTheme = TempData["ToastTheme"];
             return View(list);
         }
 
@@ -53,10 +57,13 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_them_loaisp(lsp.TenLoai, lsp.cate_img);
+
+                TempData["ToastHeader"] = "Đã thêm loại sản phẩm";
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
                 return View(lsp);
             }
         }
@@ -81,14 +88,16 @@ namespace Bakery.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaLoai,TenLoai,cate_img")] LoaiSanPham lsp)
+        public ActionResult Edit([Bind(Include = "MaLoai,TenLoai,cate_img")] sp_detail_loaisp_Result lsp)
         {
             try
             {
                 db.sp_update_loaisp(lsp.MaLoai, lsp.TenLoai, lsp.cate_img);
+                TempData["ToastHeader"] = "Đã cập nhật loại sản phẩm";
                 return RedirectToAction("Index");
             }
-            catch {
+            catch (Exception ex) {
+                ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
                 return View(lsp);
             }
         }
@@ -116,6 +125,7 @@ namespace Bakery.Areas.Admin.Controllers
             try
             {
                 db.sp_delete_loaisp(id);
+                TempData["ToastHeader"] = "Đã xóa loại sản phẩm";
                 return RedirectToAction("Index");
             }
             catch {

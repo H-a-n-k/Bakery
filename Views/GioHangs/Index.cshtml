@@ -77,7 +77,8 @@
 				</div>
 			</div>
 		}
-		else { 
+		else
+		{
 			<div class="empty">
 				<div>
 					<h2>Giỏ hàng của bạn đang bị <span class="sp">trống</span></h2>
@@ -89,6 +90,7 @@
 
 	</div>
 </div>
+
 
 @section scripts {
 	<script>
@@ -112,7 +114,7 @@
 				$(`.item[data-ind='${i}'] .sum`).html(numberWithCommas(price * quant) + 'đ');
 			}
 
-			$('#total').html(numberWithCommas(total)+ 'đ');
+			$('#total').html(numberWithCommas(total) + 'đ');
 		}
 
 		function removeItem(masp) {

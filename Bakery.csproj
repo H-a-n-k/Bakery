@@ -141,6 +141,7 @@
     <Compile Include="Controllers\KhachHangsController.cs" />
     <Compile Include="Controllers\KhuyenMaisController.cs" />
     <Compile Include="Controllers\LoaiSanPhamsController.cs" />
+    <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\SanPhamsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -389,6 +390,9 @@
     <Content Include="Views\KhuyenMais\Details.cshtml" />
     <Content Include="Views\KhuyenMais\Edit.cshtml" />
     <Content Include="Views\KhuyenMais\Index.cshtml" />
+    <Content Include="Views\Shared\Partials\Account.cshtml" />
+    <Content Include="Views\Shared\Partials\Cart.cshtml" />
+    <Content Include="Views\Shared\Partials\Toast.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

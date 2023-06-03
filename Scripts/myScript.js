@@ -40,16 +40,21 @@ $('.dialog-wrapper').on('click', (e) => {
 
 //numeric input
 function onQuantityKeydown(event) {
-	if (event.keyCode != 8 && event.keyCode < 48 || event.keyCode > 57) {
-		event.preventDefault();
-		return false;
+    var key = event.keyCode;
+    //accept only backspace, 0-9, arrows, del
+    if (key != 8 && (key < 48 || key > 57) && (key < 37 || key > 40) && key != 46) {
+        event.preventDefault();
+        return false;
     }
 }
 
 function onCartQuantityChange(event, masp) {
-	let val = event.target.value;
-    if (isNaN(val) || val == "") event.target.value = 1;
-    if (parseInt(event.target.value) > parseInt(event.target.max)) event.target.value = event.target.max;
+    let val = event.target.value;
+    val = val.replace(/[^0-9]/g, '');
+    if (isNaN(val) || val == "") val = 1;
+    if (parseInt(val) > parseInt(event.target.max)) val = event.target.max;
+
+    if (val != event.target.value) event.target.value = val;
 
     $.post('/giohangs/UpdateQuantity', { masp, sl: event.target.value }).fail((xhr, status, error) => {
         alert('Số lượng sản phẩm có thay đổi')
@@ -62,3 +67,12 @@ function onQuantityChange(event) {
 	if (isNaN(val) || val == "") event.target.value = 1;
 }
 //end numeric input
+
+//show toast
+(function showToast() {
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl)
+    })
+    toastList.forEach(toast => toast.show())
+})();

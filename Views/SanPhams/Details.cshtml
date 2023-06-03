@@ -54,7 +54,7 @@
 							<div class="quantity">
 								<b>Đã thêm vào giỏ:</b>
 								<span class="btn" onclick="addQuantity(-1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">–</span>
-								<span class="number">@(Math.Min(Model.CTSP.SoLuong.Value, Model.CTSP.SoluongSP))</span>
+								<span class="number">@(Model.CTSP.SoLuong.Value)</span>
 								<span class="btn" onclick="addQuantity(1, @Model.CTSP.MaSP, @Model.CTSP.SoluongSP)">+</span>
 								<span class="btn remove" onclick="removeItem(@Model.CTSP.MaSP)">Hủy</span>
 							</div>
@@ -104,10 +104,14 @@
 
 						<div>
 							<span class="btn prev disabled" onclick="changePage(-1)">
-								<img src="https://flaticons.net/icon.php?slug_category=mobile-application&slug_icon=left-arrow" alt="" class="icon">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon">
+									<path style="fill: white;" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+								</svg>
 							</span>
 							<span class="btn next" onclick="changePage(1)">
-								<img src="https://www.torproject.org/static/fonts/fontawesome/png/white/solid/arrow-right.png" alt="" class="icon">
+								<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512" class="icon">
+									<path style="fill: white;" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+								</svg>
 							</span>
 						</div>
 					</div>
@@ -117,7 +121,7 @@
 					@foreach (var x in Model.DanhGia)
 					{
 						<div class="review">
-							<div class="name">@x.TaiKhoan</div>
+							<div class="name" title="@x.TenKH">@x.TenKH</div>
 							<div class="rate">
 								@*<img class="icon" src="https://www.iconarchive.com/download/i103490/paomedia/small-n-flat/star.ico" alt="">
 								@x.SoSaoDanhGia*@
@@ -209,11 +213,15 @@
 			}
 
 			quantityUpdating = true;
-			$.post(url, param, ()=>{
-				$('.number').html(slm);
-				quantityUpdating = false;
-				if (sl == 1 && slm == 1) window.location.reload();
-			});
+			$.post(url, param)
+				.done(() => {
+					$('.number').html(slm);
+					quantityUpdating = false;
+					if (sl == 1 && slm == 1) window.location.reload();
+				})
+				.fail((xhr, status, err) => {
+					window.location.reload();
+				});
 		}
 	</script>
 }

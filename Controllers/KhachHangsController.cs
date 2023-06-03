@@ -48,6 +48,9 @@ namespace Bakery.Controllers
             }
             ctkh.hds = hds;
 
+            ViewBag.ToastHeader = TempData["ToastHeader"];
+            ViewBag.ToastBody = TempData["ToastBody"];
+            ViewBag.ToastTheme = TempData["ToastTheme"];
             return View(ctkh);
         }
 
@@ -89,11 +92,16 @@ namespace Bakery.Controllers
                 {
                     db.sp_danhGiaSP(x.MaHD, x.MaSP, x.SoSaoDanhGia, x.NoiDungDanhGia);
                 }
+
+                TempData["ToastHeader"] = "Đã gửi đánh giá";
+                return RedirectToAction("Details");
             }
             catch (Exception e) {
+                TempData["ToastHeader"] = "Có lỗi xảy ra!!";
+                TempData["ToastBody"] = "Vui lòng thử lại";
+                TempData["ToastTheme"] = "Danger";
                 return RedirectToAction("Details");
 			}
-            return RedirectToAction("Details");
         }
 
 		protected override void Dispose(bool disposing)

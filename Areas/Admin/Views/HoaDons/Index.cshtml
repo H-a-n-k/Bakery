@@ -23,6 +23,8 @@
 
 <h2>Danh sách hóa đơn</h2>
 
+<button type="button" class="btn btn-primary mt-3">@Html.ActionLink("Tạo mới", "Create")</button>
+
 <form method="get" action="" id="search-frm">
 	<input type="number" id="page-number" name="page" value="1" hidden />
 	<div class="row mt-4 search">
@@ -38,7 +40,6 @@
 	</div>
 </form>
 
-@*<button type="button" class="btn btn-primary mt-3">@Html.ActionLink("Tạo mới", "Create")</button>*@
 <table class="table mt-3">
 	<tr class="table-info row">
 		<th class="col-2">

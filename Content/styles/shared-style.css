@@ -260,12 +260,19 @@ a:hover {
 				outline: none;
 			}
 
-.footer {
-	min-height: 10vh;
-	border-top: 1px solid black;
-	display: flex;
-	justify-content: center;
-}
+	.m-nav .right .username {
+		white-space: nowrap;
+		max-width: 80px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.footer {
+		min-height: 10vh;
+		border-top: 1px solid black;
+		display: flex;
+		justify-content: center;
+	}
 
 	.footer .sections {
 		display: grid;

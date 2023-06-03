@@ -180,6 +180,10 @@
 			.product-detail-page .reviews .right .review .name {
 				font-size: 1.2em;
 				font-weight: bold;
+				max-width: 200px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 
 			.product-detail-page .reviews .right .review .rate {

@@ -15,6 +15,6 @@ namespace Bakery.Models
     {
         public Nullable<int> SoSaoDanhGia { get; set; }
         public string NoiDungDanhGia { get; set; }
-        public string TaiKhoan { get; set; }
+        public string TenKH { get; set; }
     }
 }
