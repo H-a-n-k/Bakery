@@ -688,5 +688,35 @@ namespace Bakery.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_XemDanhGiaSP_Result>("sp_XemDanhGiaSP", maspParameter);
         }
+    
+        public virtual int sp_tongHoaDon(Nullable<int> mahd)
+        {
+            var mahdParameter = mahd.HasValue ?
+                new ObjectParameter("mahd", mahd) :
+                new ObjectParameter("mahd", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_tongHoaDon", mahdParameter);
+        }
+    
+        public virtual ObjectResult<sp_popular_Result> sp_popular(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, Nullable<bool> rev, Nullable<int> limit)
+        {
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("fromDate", fromDate) :
+                new ObjectParameter("fromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("toDate", toDate) :
+                new ObjectParameter("toDate", typeof(System.DateTime));
+    
+            var revParameter = rev.HasValue ?
+                new ObjectParameter("rev", rev) :
+                new ObjectParameter("rev", typeof(bool));
+    
+            var limitParameter = limit.HasValue ?
+                new ObjectParameter("limit", limit) :
+                new ObjectParameter("limit", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_popular_Result>("sp_popular", fromDateParameter, toDateParameter, revParameter, limitParameter);
+        }
     }
 }

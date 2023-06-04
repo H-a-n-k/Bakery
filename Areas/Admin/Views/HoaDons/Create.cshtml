@@ -17,11 +17,11 @@
 	<span class="input-group-text" id="basic-addon1">Tìm sản phẩm</span>
 	<button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
 	</button>
-	<ul class="dropdown-menu" id="hints" style="width: 300px;">
+	<ul class="dropdown-menu" id="hints" style="width: 360px; max-height: 200px; overflow: auto">
 		<i class="ps-3">...</i>
 		@*<li class="dropdown-item btn">Act</li>*@
 	</ul>
-	<input type="text" id="search-inp" class="form-control" placeholder="Nhập tên sản phẩm" onkeyup="onSearchChange(event)">
+	<input type="text" id="search-inp" class="form-control" placeholder="Nhập tên hoặc mã sản phẩm" onkeyup="onSearchChange(event)">
 	<button class="btn btn-primary" onclick="onSearch()">Tìm</button>
 </div>
 <div class="row" id="selected-product">

@@ -58,13 +58,36 @@ namespace Bakery.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(List<CTHD> model)
         {
-            if (ModelState.IsValid)
-            {
-                //return RedirectToAction("Index");
-                return View(model);
-            }
+            using (var tran = db.Database.BeginTransaction()) {
+                try
+                {
+                    var hd = db.HoaDons.Add(new HoaDon() { NgayHD = DateTime.Now, TinhTrangGiao = true });
+                    db.SaveChanges();
+                    int id = hd.MaHD;
+                    //db.sp_createhoadon(null, null);
+                    //var hd = db.HoaDons.OrderByDescending(x => x.MaHD).FirstOrDefault();
+                    //int id = (hd == null) ? 1 : hd.MaHD;
+                    foreach (var x in model) {
+                        db.sp_add_CTHD(id, x.MaSP, x.SoLuong);
+                    }
+                    db.sp_tongHoaDon(id);
 
-            return View(model);
+                    tran.Commit();
+                    TempData["ToastHeader"] = "Đã tạo hóa đơn mới";
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    ViewBag.ToastHeader = "Có lỗi xảy ra";
+                    ViewBag.ToastBody = "Vui lòng thử lại";
+                    ViewBag.ToastTheme = "Danger";
+                    return View(model);
+                }
+                finally {
+                    tran.Dispose();
+                }
+            }
+              
         }
 
         // GET: Admin/HoaDons/Edit/5

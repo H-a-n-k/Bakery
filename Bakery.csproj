@@ -130,6 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashBoardController.cs" />
     <Compile Include="Areas\Admin\Controllers\HoaDonsController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
@@ -236,6 +237,9 @@
     <Compile Include="Models\sp_khachdangnhap_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_popular_Result.cs">
+      <DependentUpon>Bakery.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_profilekhachhang_Result.cs">
       <DependentUpon>Bakery.tt</DependentUpon>
     </Compile>
@@ -250,6 +254,7 @@
     <Compile Include="Models\ViewModels\CTKHVM.cs" />
     <Compile Include="Models\ViewModels\CTKMVM.cs" />
     <Compile Include="Models\ViewModels\CTSanPhamVM.cs" />
+    <Compile Include="Models\ViewModels\DashBoardVM.cs" />
     <Compile Include="Models\ViewModels\HomeVM.cs" />
     <Compile Include="Models\ViewModels\SignUpVM.cs" />
     <Compile Include="Models\ViewModels\ThemHDVM.cs" />
@@ -334,6 +339,7 @@
     <Content Include="Areas\Admin\Views\KhuyenMai\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMai\Index.cshtml" />
     <Content Include="Content\fonts\poppins.ttf" />
+    <Content Include="Areas\Admin\Views\DashBoard\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
