@@ -34,9 +34,12 @@ namespace Bakery.Areas.Admin.Controllers
 
         public ActionResult GetHints(string keyword)
         {
-            ObjectParameter count = new ObjectParameter("totalPage", typeof(Int32));
-            var list = db.sp_DSSP(count, true, keyword, null, null, 1, 20).ToList();
-
+            var sps = from sp in db.SanPhams
+                      where sp.tinhTrang == 1
+                      from km in db.KhuyenMais.Where(x => x.MaKM == sp.MaKM && x.NgayKT.HasValue && x.NgayKT.Value > DateTime.Now).DefaultIfEmpty()
+                      select new { sp.MaSP, sp.TenSP, sp.SoluongSP, sp.img, sp.GiaSP, km.TiLeKM };
+            var list = sps.Where(x => x.MaSP.ToString().StartsWith(keyword) || x.TenSP.ToLower().Contains(keyword.ToLower()))
+                .Take(20).ToList();
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -81,6 +84,7 @@ namespace Bakery.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 ViewBag.ErrorMsg = ex.InnerException.Message.Split('\r')[0];
+                if (sanPham.TenSP == null) ViewBag.ErrorMsg = "Tên không được bỏ trống";
                 ViewBag.MaKM = new SelectList(db.KhuyenMais, "MaKM", "TenKM", sanPham.MaKM);
                 ViewBag.maLoai = new SelectList(db.LoaiSanPhams, "MaLoai", "TenLoai", sanPham.maLoai);
                 return View(sanPham);

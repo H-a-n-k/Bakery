@@ -357,5 +357,15 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_tongHoaDon" FunctionName="BakeryStoreDBModel.Store.sp_tongHoaDon" />
+    <FunctionImportMapping FunctionImportName="sp_popular" FunctionName="BakeryStoreDBModel.Store.sp_popular">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_popular_Result">
+          <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+          <ScalarProperty Name="TenSP" ColumnName="TenSP" />
+          <ScalarProperty Name="c" ColumnName="c" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

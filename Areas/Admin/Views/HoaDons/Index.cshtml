@@ -67,7 +67,7 @@
 				@(item.TinhTrangGiao.HasValue && item.TinhTrangGiao.Value? "Đã giao" : "Chưa giao")
 			</td>
 			<td class="col-4">
-				@Html.DisplayFor(modelItem => item.DiaChiGiao)
+				@(String.IsNullOrEmpty(item.DiaChiGiao)? "Mua tại tiệm" : item.DiaChiGiao)
 			</td>
 			<td class="col-2">
 				@string.Format("{0:N0}", item.TongTien) đ

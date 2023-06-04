@@ -243,6 +243,15 @@
     <FunctionImport Name="sp_XemDanhGiaSP" ReturnType="Collection(BakeryStoreDBModel.sp_XemDanhGiaSP_Result)">
       <Parameter Name="masp" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_tongHoaDon">
+      <Parameter Name="mahd" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_popular" ReturnType="Collection(BakeryStoreDBModel.sp_popular_Result)">
+      <Parameter Name="fromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="toDate" Mode="In" Type="DateTime" />
+      <Parameter Name="rev" Mode="In" Type="Boolean" />
+      <Parameter Name="limit" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_ds_nguyenlieu_Result">
     <Property Type="String" Name="TenNguyenLieu" Nullable="true" MaxLength="50" />
@@ -636,5 +645,10 @@
     <Property Type="Int32" Name="SoSaoDanhGia" Nullable="true" />
     <Property Type="String" Name="NoiDungDanhGia" Nullable="true" MaxLength="500" />
     <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="sp_popular_Result">
+    <Property Type="Int32" Name="MaSP" Nullable="false" />
+    <Property Type="String" Name="TenSP" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="c" Nullable="true" />
   </ComplexType>
 </Schema>

@@ -360,6 +360,12 @@
           <Parameter Name="user" Type="varchar" Mode="In" />
           <Parameter Name="pass" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_popular" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fromDate" Type="datetime" Mode="In" />
+          <Parameter Name="toDate" Type="datetime" Mode="In" />
+          <Parameter Name="rev" Type="bit" Mode="In" />
+          <Parameter Name="limit" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_profilekhachhang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
@@ -394,6 +400,9 @@
           <Parameter Name="img" Type="varchar(max)" Mode="In" />
           <Parameter Name="maloai" Type="int" Mode="In" />
           <Parameter Name="sl" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_tongHoaDon" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="mahd" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_update_gioHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="maKH" Type="int" Mode="In" />
@@ -729,7 +738,16 @@
             <Parameter Name="tinhtrang" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="sp_XemDanhGiaSP" ReturnType="Collection(BakeryStoreDBModel.sp_XemDanhGiaSP_Result)">
-            <Parameter Name="masp" Mode="In" Type="Int32" />
+          <Parameter Name="masp" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tongHoaDon">
+          <Parameter Name="mahd" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_popular" ReturnType="Collection(BakeryStoreDBModel.sp_popular_Result)">
+            <Parameter Name="fromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="toDate" Mode="In" Type="DateTime" />
+            <Parameter Name="rev" Mode="In" Type="Boolean" />
+            <Parameter Name="limit" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_ds_nguyenlieu_Result">
@@ -1125,6 +1143,11 @@
           <Property Type="String" Name="NoiDungDanhGia" Nullable="true" MaxLength="500" />
           <Property Type="String" Name="TenKH" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="sp_popular_Result">
+          <Property Type="Int32" Name="MaSP" Nullable="false" />
+          <Property Type="String" Name="TenSP" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="c" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1484,6 +1507,16 @@
                 <ScalarProperty Name="SoSaoDanhGia" ColumnName="SoSaoDanhGia" />
                 <ScalarProperty Name="NoiDungDanhGia" ColumnName="NoiDungDanhGia" />
                 <ScalarProperty Name="TenKH" ColumnName="TenKH" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_tongHoaDon" FunctionName="BakeryStoreDBModel.Store.sp_tongHoaDon" />
+          <FunctionImportMapping FunctionImportName="sp_popular" FunctionName="BakeryStoreDBModel.Store.sp_popular">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BakeryStoreDBModel.sp_popular_Result">
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="TenSP" ColumnName="TenSP" />
+                <ScalarProperty Name="c" ColumnName="c" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
